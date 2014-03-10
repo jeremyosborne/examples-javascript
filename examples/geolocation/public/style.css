@@ -1,0 +1,22 @@
+body, html {
+    padding: 0;
+    margin: 0;
+    background-color: white;
+    font-family: Helvetica, Arial, sans-serif;
+}
+header h1 {
+    margin: 0;
+    background-color: black;
+    color: white;
+    padding: 1em;
+    text-align: right;
+}
+#loc {
+    width: 500px;
+    margin: 2em auto;
+    box-sizing: border-box;
+}
+#map-container {
+    width: 500px;
+    margin: 2em auto;
+}

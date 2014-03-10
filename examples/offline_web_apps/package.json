@@ -1,7 +1,7 @@
 {
   "name": "offline_web_apps",
   "version": "0.0.0",
-  "description": "[Offline web applications](http://www.whatwg.org/specs/web-apps/current-work/multipage/offline.html) is a browser functionality, but it needs a server to operate. We use [Node.js](http://nodejs.org) for the example:",
+  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
