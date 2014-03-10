@@ -1,0 +1,32 @@
+body, html {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#controls {
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    z-index: 1;
+
+    padding: 1em;
+    background-color: #ccc;
+}
+#controls h1 {
+    margin: 0;
+    font-size: 1em;
+}
+#controls button {
+    display: block;
+    width: 100%;
+    font-size: 2em;
+}
