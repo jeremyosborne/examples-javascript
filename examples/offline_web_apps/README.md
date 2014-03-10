@@ -3,7 +3,7 @@
 To run:
 
     npm install
-    npm server
+    node server
 
 * Navigate to localhost in a browser.
 * Recommend Chrome as the test browser and recommend opening the debug console to watch how application cache works.

@@ -11,7 +11,7 @@ window.onload = function() {
             img.src = "img/cardsuit_club.png";
         }
         else {
-            img.src = "img/cardsuit_spade.jpg";
+            img.src = "img/cardsuit_spade.png";
         }
     }, false);
 
