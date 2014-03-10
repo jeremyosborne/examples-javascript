@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Web Storage</title>
+        <link rel="stylesheet" href="style.css"/>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
+        <script src="code.js"></script>
+        <script id="todo-template" type="text/x-handlebars-template">
+{{#each todos}}
+<li class="todo">
+    <h1>Owner: {{who}}</h1>
+    <span>(assigned: {{when}})</span>
+    <div>
+        {{what}}
+    </div>
+</li>
+{{/each}}
+        </script>
+        <script id="notification-template" type="text/x-handlebars-template">
+<div class="notification">{{this}}</div>
+        </script>
+    </head>
+    <body>
+        <header>
+            <div id="notification-container"></div>
+            <h1>TODO lists</h1>
+        </header>
+        <section>
+            <form id="todo-submission" action="javascript:void(0)" novalidate>
+                <div>
+                    <label for="who">Who:</label>
+                    <input type="text" required placeholder="who" id="who"/>
+                    <span class="invalid"></span>
+                    <span class="valid"></span>
+                </div>
+                <div>
+                    <label for="what">What:</label>
+                    <textarea required placeholder="what to do" id="what"></textarea>
+                    <span class="invalid"></span>
+                    <span class="valid"></span>
+                </div>
+                <div>
+                    <label>Temp note? <input type="checkbox" id="temp"/></label>
+                </div>
+                <input type="submit" value="save to storage"/>
+                <input type="button" id="clear-storage" value="clear storage"/>
+            </form>
+            <div id="sessionStorage-todos" class="todo-list">
+                <h1>Less Important</h1>
+                <ul></ul>
+            </div>
+            <div id="localStorage-todos" class="todo-list">
+                <h1>More Important</h1>
+                <ul></ul>
+            </div>
+        </section>
+    </body>
+</html>
