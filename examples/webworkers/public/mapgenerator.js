@@ -1,9 +1,13 @@
+// Worker designed to generate a map of passable/unpassable terrain.
+
+// Send log messages back by message.
 var log = function(message) {
     postMessage({
         log: "(mapgenerator) "+(new Date())+": "+message
     });
 };
 
+// When the map is done being generated, pass it back in chunks of rows.
 var sendMap = function(map) {
     var delay = 50;
     var numRowsPerBatch = 50;
@@ -30,6 +34,7 @@ var sendMap = function(map) {
     sendMapRows();
 };
 
+// Generate a map, favoring passable terrain over unpassable terrain.
 var generateMap = function(width, height) {
     var w, h;
     var map = [];
@@ -37,14 +42,18 @@ var generateMap = function(width, height) {
     for (h = 0; h < height; h++) {
         map[h] = [];
         for (w = 0; w < width; w++) {
-            map[h][w] = (Math.random() > 0.40) ? 0 : 1;
+            map[h][w] = (Math.random() > 0.35) ? 0 : 1;
         }
     }
+    // Make the origin (upper left) and destination (lower right) of the
+    // map navigable.
     map[0][0] = 0;
     map[height-1][width-1] = 0;
     sendMap(map);
 };
 
+// Listen for messages passed to us. This needs to be global to the worker
+// (workers have their own global distinct from window).
 onmessage = function(event) {
     log("Starting map generation.");
 
