@@ -1,7 +1,33 @@
 var log = function(message) {
     postMessage({
-        log: "mapgenerator"+(new Date())+": "+message
+        log: "(mapgenerator) "+(new Date())+": "+message
     });
+};
+
+var sendMap = function(map) {
+    var delay = 50;
+    var numRowsPerBatch = 50;
+    var sendMapRows = function() {
+        var i, rows = [], row;
+        for (i = 0; i < numRowsPerBatch; i++) {
+            var row = map.shift();
+            if (row) {
+                rows.push(row);
+            }
+            else {
+                break;
+            }
+        }
+        if (rows.length > 0) {
+            postMessage({mapRows: rows});
+            setTimeout(sendMapRows, delay);
+        }
+        else {
+            postMessage({done: true});
+            log("Map generation done.");
+        }
+    };
+    sendMapRows();
 };
 
 var generateMap = function(width, height) {
@@ -16,7 +42,7 @@ var generateMap = function(width, height) {
     }
     map[0][0] = 0;
     map[height-1][width-1] = 0;
-    postMessage(map);
+    sendMap(map);
 };
 
 onmessage = function(event) {

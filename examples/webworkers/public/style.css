@@ -1,3 +1,8 @@
+h1 {
+    text-align: right;
+    padding: 1em;
+    font-family: Helvetica, Arial, sans-serif;
+}
 #field {
     display: block;
     background-color: #eee;

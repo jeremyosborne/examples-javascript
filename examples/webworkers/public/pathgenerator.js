@@ -1,6 +1,6 @@
 var log = function(message) {
     postMessage({
-        log: "pathGenerator"+(new Date())+": "+message
+        log: "(pathGenerator) "+(new Date())+": "+message
     });
 };
 
@@ -10,7 +10,8 @@ var generatePath = function(map) {
     var pather = new AStar(map);
     var path = pather.find_path([0, 0], [map[0].length-1, map.length-1]);
 
-    postMessage(path);
+    postMessage({path: path});
+    log("Path generation done.");
 };
 
 onmessage = function(event) {
