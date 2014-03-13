@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dust Templates</title>
+        <link href="style.css" rel="stylesheet"/>
+        <script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/dustjs-linkedin/2.0.0/dust-full.min.js"></script>
+        <!-- Need this library to get the helpers, otherwise helpers silently fail.
+             Library isn't hosted on a CDN, either. Ugh. -->
+        <script src="lib/dust-helpers.js" type="text/javascript"></script>
+        <script src="songs.js"></script>
+        <script src="code.js"></script>
+    </head>
+    <!--
+        Script tags: plain text, already hidden from view, doesn't execute
+        when given a non-javascript type.
+     -->
+    <script type="template" id="song-lyrics-template">
+{!
+    This template is a dust template, and the non-HTML markup located in
+    here is defined by the linkedin fork of dust. This is a dust comment
+    and will be removed from the code when this template is parsed.
+!}
+    {!
+       Moustache like syntax is used by dust.
+       A section reference to an element changes the context
+       to the value mapped to this property.
+       As songs is an array, this block will also run for each
+       element in the array.
+    !}
+    {#songs}
+        <article class="song">
+            <header>
+                {!
+                    This is a direct reference to the value of a property
+                    on our current context, which is the title of our song.
+                !}
+                <h2>{title}</h2>
+            </header>
+            <section class="lyrics">
+                {!
+                    Conditional check for arrays: empty array is considered
+                    falsey.
+                !}
+                {#lyrics}
+                    {!
+                        Dust has generic helpers that can be loaded.
+                    !}
+                    {@eq key=title value="Never Gonna Give You Up"}
+                        {!
+                            dot acts as a "current context" reference.
+                            We can also apply our own helper, as we do here.
+                        !}
+                <div class="line">{#censor}{.}{/censor}</div>
+                    {:else}
+                <div class="line">{.}</div>
+                    {/eq}
+                {:else}
+                {!
+                    conditionals can contain an else that fires if the
+                    initial logic check fails.
+                !}
+                <div class="silence">No lyrics, only silence.</div>
+                {/lyrics}
+            </section>
+        </article>
+    {/songs}
+    </script>
+    <body>
+        <header>
+            <h1>Lyrics</h1>
+        </header>
+        <div id="songs"></div>
+    </body>
+</html>

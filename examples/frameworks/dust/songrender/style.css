@@ -1,0 +1,48 @@
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+header h1 {
+    margin-top: 0;
+    padding: 0.7em;
+    text-align: right;
+    background-color: #333;
+    color: white;
+}
+
+header h2 {
+    margin-bottom: 0;
+    padding: 0.4em;
+    background-color: #aaa;
+    border-top-left-radius: 1em;
+    box-shadow: 2px 2px 1px #ccc;
+}
+
+#songs {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.song .lyrics {
+    text-align: center;
+}
+
+.lyrics div {
+    -moz-transition: all 1s linear;
+    -o-transition: all 1s linear;
+    -webkit-transition: all 1s linear;
+    transition: all 1s linear;
+}
+
+.lyrics .line:hover {
+    -moz-transform: scale(2);
+    -o-transform: scale(2);
+    -ms-transform: scale(2);
+    -webkit-transform: scale(2);
+    transition: scale(2);
+}
+
+.lyrics .silence:hover {
+    opacity: 0;
+}
