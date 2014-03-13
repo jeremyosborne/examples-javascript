@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>ECMAScript 5</title>
+        <script>
+(function() {
+    // We finally get a trim function, but it's
+    // a full trim, no right-only-trim or left-only-trim.
+    var s = "  dogs and cats living together   \n\r\t";
+    console.log("original length: " + s.length);
+    console.log(s.trim());
+    console.log("trimmed length: " + s.trim().length);
+})();
+        </script>
+    </head>
+    <body>
+        <header>
+            <h1>String type changes</h1>
+            <strong>(Please open up the code to walk through the examples.)</strong>
+        </header>
+    </body>
+</html>

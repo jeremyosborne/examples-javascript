@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>ECMAScript 6</title>
+        <script>
+(function() {
+    // Number static methods added in ECMAScript 6.
+    // At the time of this writing (Oct 2012) the support for this
+    // feature in browsers is limited.
+    // Current bleeding edge browsers supported: Firefox
+
+    console.log("Testing for the NaN value.");    
+    // Checking for the real NaN is easier.
+    // The following are both true.
+    console.log( isNaN(NaN) );
+    console.log( Number.isNaN(NaN) );
+
+    // However, the following only isNaN returns true,
+    // but since "abc" is not NaN, Number.isNaN returns false.
+    console.log( isNaN("abc") );
+    console.log( Number.isNaN("abc") );
+
+
+    console.log("isInteger test");
+    console.log(Number.isInteger(123));
+    console.log(Number.isInteger(123.0));
+    console.log(Number.isInteger("123"));
+
+
+    console.log("toInteger test");
+    console.log(Number.toInteger(777));
+    console.log(Number.toInteger(777.0));
+    console.log(Number.toInteger("777"));
+    // No octal conversion
+    console.log(Number.toInteger("0777"));
+    // Octal conversion
+    console.log("Above compared to parseInt: " + parseInt("0777"));
+
+})();
+        </script>
+    </head>
+    <body>
+        <header>
+            <h1>Number changes</h1>
+            <strong>(Please open up the code to walk through the examples.)</strong>
+        </header>
+    </body>
+</html>

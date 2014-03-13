@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>ECMAScript 5</title>
+        <script>
+(function() {
+    var o = {name: "dog"};
+    var o2 = {name: "cat"};
+    function test() { console.log(this.name); };
+    
+    // The bind function method returns a function (doesn't modify the original
+    // function) that has its "this" reference permanently bound to the object
+    // passed into bind.
+    var bound_test = test.bind(o);
+    
+    // bound_test will only ever reference o as this.
+    // All results should be dog.
+    // The original test function is not modified, just the returned,
+    // bound function.
+    bound_test();
+    bound_test.call(o2);
+    o2.meth = bound_test;
+    o2.meth();
+})();
+        </script>
+    </head>
+    <body>
+        <header>
+            <h1>Function type changes</h1>
+            <strong>(Please open up the code to walk through the examples.)</strong>
+        </header>
+    </body>
+</html>

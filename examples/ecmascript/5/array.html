@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>ECMAScript 5</title>
+        <script>
+(function() {
+
+    // Work with a simple array for all of these examples.
+    // NOTE: None of these functions will modify this
+    // original array.
+    var a = [1, 2, "dog"];
+    var results;
+    // For index tests.
+    var cat = {type: "cat"};
+    var a2 = [1, null, 2, cat, "dog", cat];
+
+    
+    
+    // Does every element obey our callback function,
+    // signified by a truthy or falsey return value.
+    results = a.every(function(value) {
+        return (typeof value == "string");
+    });
+    console.log(results);
+
+
+
+    // Do any elements obey our callback function,
+    // signified by a truthy or falsey return value.
+    results = a.some(function(value) {
+        return (typeof value == "string");
+    });
+    console.log(results);
+
+
+
+    // The elements that obey our callback function will be returned
+    // in a new array.
+    // The copy is a shallow copy; object elements will be referenced, not
+    // copied, per se.
+    results = a.filter(function(value) {
+        return (typeof value == "string");
+    });
+    console.log(results);
+
+
+
+    // Execute the callback for each element of the array.
+    // The original array is not purposefully modified (although the
+    // callback could choose to modify the array).
+    // There is no return value.
+    results = a.forEach(function(value) {
+        console.log(value);
+    });
+    // forEach will only return undefined.
+    console.log(results);
+
+
+
+    // Find the index of the element closest to the left (0th) index value.
+    // Return -1 if not found.
+    // Assume a "===" is done to find the element match.
+    // should be -1
+    console.log(a2.indexOf(undefined));
+    // should be 1
+    console.log(a2.indexOf(null));
+    // should be 3
+    console.log(a2.indexOf(cat));
+
+
+
+    // Find the index of the element closest to the right (length-1) index.
+    // Return -1 if not found.
+    // Assume a "===" is done to find the element match.
+    // should be 5
+    console.log(a2.lastIndexOf(cat));
+
+
+
+    // A previously and oddly difficult problem to solve in JavaScript
+    // has a long overdue, and simple, solution.
+    console.log(Array.isArray(a));
+
+
+    // Operate on all elements in the array, and return the results
+    // of the operation as elements in a new array.
+    results = a.map(function(value) {
+        return value + 1;
+    });
+    console.log(results);
+
+
+
+    // Operate over each element in the array, with the purpose of producing
+    // a summary of all elements in the array.
+    // Operation is from left to right.
+    results = a.reduce(function(prev, current) {
+        // prev is the 0th element and current is the 1st element on the first
+        // call.
+        return prev + current;
+    });
+    console.log(results);
+
+
+
+    // Operate over each element in the array, with the purpose of producing
+    // a summary of all elements in the array.
+    // Operation is from right to left.
+    results = a.reduceRight(function(prev, current) {
+        // prev is the nth element and current is the nth-1 element on the first
+        // call.
+        return prev + current;
+    });
+    console.log(results);
+    
+})();
+        </script>
+    </head>
+    <body>
+        <header>
+            <h1>Array type changes</h1>
+            <strong>(Please open up the code to walk through the examples.)</strong>
+        </header>
+    </body>
+</html>

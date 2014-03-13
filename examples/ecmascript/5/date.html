@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>ECMAScript 5</title>
+        <script>
+(function() {
+
+    // Date.now() is a static that returns the number of milliseconds since
+    // the epoch.
+    console.log(Date.now());
+    // The Date instance method toISOString() returns an ISO formatted
+    // date string.
+    console.log(new Date().toISOString());
+
+    // Additionally, the ISO string can be used to construct a date.
+    var iso = "2012-03-10T23:22:09.697Z";
+    console.log(new Date(iso));
+
+})();
+        </script>
+    </head>
+    <body>
+        <header>
+            <h1>Date type changes</h1>
+            <strong>(Please open up the code to walk through the examples.)</strong>
+        </header>
+    </body>
+</html>

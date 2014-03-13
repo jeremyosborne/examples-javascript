@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>ECMAScript 5</title>
+        <style>
+body { font-size: 2em; font-family: monospace; }
+        </style>
+        <script>
+// Not recommended, but can also enforce strict mode in global scope.
+//"use strict";
+
+(function() {
+    // Enforce strict mode within our function "module".
+    "use strict";
+
+    // At the time of this writing, not all browsers will support
+    // all forms of strict mode, although most will at least error out on the 
+    // eval reassignment. 
+    
+    // Const has officially been removed in strict mode. 
+    const test = 42;
+    
+    undefined = 42;
+    console.log(undefined);
+    
+    NaN = 42;
+    console.log(NaN);
+    
+    Infinity = 42;
+    console.log(Infinity);
+    
+    eval = "blah";
+})();
+        </script>
+    </head>
+    <body>
+        <article>
+            <header>
+                <h1>Strict Mode</h1>
+                <strong>(Open up this file for an example of strict mode.)</strong>
+            </header>
+            <ul>
+                <li>No more implied global variables within functions.</li>
+                <li>this is not bound to the global object by function form.</li>
+                <li>apply and call do not default to the global object.</li>
+                <li>No with statement.</li>
+                <li>Setting a writeable: false property will throw.</li>
+                <li>Deleting a configurable: false property will throw.</li>
+                <li>Restrictions on eval.</li>
+                <li>eval and arguments are reserved.</li> 
+                <li>arguments not linked to parameters.</li>
+                <li>No more arguments.caller or arguments.callee.</li>
+                <li>No more octal literals.</li>
+                <li>Duplicate names in an object literal or function parameters are a syntax error.</li>
+            </ul>
+            <footer>
+                <small>
+                    <sup>*</sup><a href="http://www.slideshare.net/douglascrockford/level-7-ecmascript-5-the-new-parts">Thank you Douglas Crockford, from whom I totally plagiarized this slide.</a>
+                </small>
+            </footer>
+        </article>
+    </body>
+</html>
+    

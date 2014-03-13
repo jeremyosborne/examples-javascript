@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>ECMAScript 5</title>
+        <script>
+(function() {
+    // Our test object
+    var o = {
+        dog: "cat",
+        list: [1, 2, 3],
+        meth: function() {},
+    };
+    
+    // Serialize to a JSON string, according to JSON standard.
+    // Functions are not JSON and will be excluded (according to standard).
+    var out = JSON.stringify(o);
+    console.log(out);
+
+    // Unserialize back to a JavaScript object.
+    var back = JSON.parse(out);
+    console.log(back);
+    
+    // Attempting to parse a non-JSON object will return an error.
+    try {
+        var o2 = '{"dog":function(){}}';
+        JSON.parse(o2);
+    }
+    catch(e) {
+        console.log(e);
+    }
+
+})();
+        </script>
+    </head>
+    <body>
+        <header>
+            <h1>JSON Object</h1>
+            <strong>(Please open up the code to walk through the examples.)</strong>
+        </header>
+    </body>
+</html>

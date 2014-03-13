@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>ECMAScript 5 Lab</title>
+        <script>
+/*
+ * TODO #1:
+ * Progressively enhance your JavaScript experience by implementing a
+ * more robust (and more correct) ECMAScript 5 Array.prototype.forEach method.
+ *
+ * The Array.prototype.forEach method has the following signature:
+ *
+ *     Array.prototype.forEach = function(callback, thisArg) { ... };
+ *
+ * Where:
+ *     -> callback {function} the callback function to call on each element of
+ *        the array.
+ *     -> thisArg {object} if supplied, this object is used as the calling
+ *        context of the callback function.
+ *
+ * Procedures and checks to implement:
+ *     -> if callback is not callable (e.g. is not a function), throw a
+ *        TypeError.
+ *     -> if the callback is callable, it receives the following parameters
+ *
+ *        callback(arrayElement, currentIndex, arrayReference)
+ *
+ *        Where:
+ *            -> arrayElement {mixed} Reference to the current array element
+ *               being iterated over.
+ *            -> currentIndex {Number} Integer index value of the current
+ *               array element being iterated over.
+ *            -> arrayReference {Array} A reference to the array being
+ *               iterated over.
+ *
+ *        Additionally, if the thisArg is provided, set it as the calling
+ *        context of each call to the callback function.
+ *        (Hint: Look up the Function methods .call() and .apply() if you
+ *        are not familiar with them.)
+ */
+
+
+
+/*
+ * TODO #2:
+ * We need to be aware of one caveat when modifying the prototype of
+ * Functions and native types. The following test is easier to see in
+ * modern and old browsers alike.
+ *
+ * Implement a .devnull() noop method on the Object.prototype.
+ */
+
+
+
+/*
+ * TODO #3:
+ * Run the following test:
+ *
+ *     -> Build an object.
+ *     -> Iterate the object in a for-in loop.
+ *     -> Note the properties that show up.
+ *
+ * How can we prevent prototype added properties from showing up in a for-in
+ * loop? What is the consequence of preventing prototype properties from
+ * showing up in our for-in loops? (hint, look up the hasOwnProperty method
+ * and see how to implement as a protection for objects we iterate over.)
+ */
+
+
+        </script>
+    </head>
+    <body>
+        <h1>ECMAScript 5 Lab</h1>
+        <strong>(Please open up the code for the lab.)</strong>
+    </body>
+</html>

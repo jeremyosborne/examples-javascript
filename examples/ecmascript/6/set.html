@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>ECMAScript 6</title>
+        <script>
+(function() {
+    // New data types, like set, are being added in ECMAScript 6.
+    // At the time of this writing (Oct 2012) the support for this
+    // feature in browsers is limited.
+    // Current bleeding edge browsers supported: Firefox
+
+
+
+    var set = new Set();
+    set.add(42);
+    set.add("42");
+    console.log( "Contains the number 42: " + set.has(42) );
+    console.log( "Contains the string 42: " + set.has("42") );
+    console.log( "Set contains how many items? " + set.size() );
+    set.delete(42);
+    console.log( "Still contains the number 42: " + set.has(42) );
+
+
+
+    console.log("Compare with using an Object as a set-like object.");
+    var o = {};
+    o[42] = true;
+    o["42"] = true;
+    // This works due to type coercion...
+    console.log( 42 in o );
+    console.log( "42" in o );
+    //... however, the only keys actually supported in objects are converted
+    // to strings, and we only have 1 property actually set above.
+    console.log("Testing Object o for properties:")
+    for (var i in o) {
+        console.log("has property named " + i + " with typeof: " + typeof i);
+    }
+})();
+        </script>
+    </head>
+    <body>
+        <header>
+            <h1>set type</h1>
+            <strong>(Please open up the code to walk through the examples.)</strong>
+        </header>
+    </body>
+</html>

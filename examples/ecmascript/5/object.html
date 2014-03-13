@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>ECMAScript 5</title>
+        <script>
+(function() {
+    // Object.create offers another way of constructing JavaScript "instance"
+    // objects via a factory like interface.
+    // The following three statements are extremely similar.
+    var o1 = new Object();
+    var o2 = {};
+    var o3 = Object.create({});
+    // o4 is slightly different, see below.
+    var o4 = Object.create(null);
+    
+    // The Object.create method has a major advantage of allowing for the
+    // create of an associative array that has no connection to the Object
+    // prototype.
+    Object.prototype.cat = "Meow";
+    // o4.cat will be undefined, as it has no prototype reference.
+    console.log([o1.cat, o2.cat, o3.cat, o4.cat]);
+})();
+
+
+
+(function() {
+    // The first argument to object create is the prototype of the object.
+    // The object prototype is live, just like all prototypes.
+    var proto = {cat: "meow", dog: "bark"}
+    var o = Object.create(proto);
+    console.log(o.cat);
+    // Change the prototype...
+    proto.cat = "woof";
+    // ... if object does not have own property, object ref changes, too.
+    console.log(o.cat);
+})();
+
+
+
+(function() {
+    // The first argument to object create is the prototype of the object.
+    // The second argument to Object.create allows setting instance properties.
+    // We'll look at the new property descriptors in a different example.
+    var proto = {cat: "meow", dog: "bark"}
+    var o = Object.create(proto, {
+        cat: {
+            value: "bow wow wow",
+            writable: true,
+            enumerable: true,
+            configurable: true
+        }
+    });
+    console.log(o.cat);
+    // Change the prototype...
+    proto.cat = "woof";
+    // ... but this object has own property, so prototype ref is ignored.
+    console.log(o.cat);
+})();
+
+
+
+(function() {
+    // Ecmascript 5 gives us access to the property descriptor on objects.
+    // Finally, we can make our own "document.cookie" like getters and setters.
+    // (These examples deal with basic object property descriptors. The getters
+    // and setters, which are exclusive from basic properties, are in separate
+    // examples.)
+    // A basic object property can be writable, configurable, enumerable, and
+    // have a value.
+    // The can be set via the Object.create function or with Object.defineProperty.
+    var o = Object.create({}, {
+        cat: {
+            value: "meow",
+            // If we don't set the following, they default to false.
+            enumerable: true,
+            writable: true,
+            configurable: true
+        }
+    });
+    Object.defineProperty(o, "dog", { value: "woof" });
+    // We should only see the cat property enumerated in the for loop
+    console.log("Beginning enumeration check.");
+    for (var i in o) {
+        console.log(i);
+    }
+    // Cat should change (writable) , dog shouldn't (not writable). 
+    // Changing dog in strict mode will throw an error.
+    o.cat = "can haz";
+    o.dog = "didn't do it";
+    console.log([o.cat, o.dog]);
+
+
+
+    // Configurability means that we can change a property descriptor after
+    // it has been set the first time.
+    Object.defineProperty(o, "chicken", { value: "cluck" });
+    // This will not work for the "dog" property.
+    // This should throw an error, even when not in strict mode.
+    try {
+        Object.defineProperty(o, "chicken", { value: "can't haz cheezburger" });
+    }
+    catch(e) {
+        console.log(e);
+    }
+    
+    
+    // When working with objects, we can get an array of keys.
+    // As with all array ordering, the initial order can never be guaranteed,
+    // but arrays can be sorted.
+    // Only enumerable keys will be returned.
+    console.log(Object.keys(o));
+
+})();
+
+
+
+(function() {
+
+// Another way of using getter and setter attributes.
+var o = (function() {
+    var name = "42";
+
+    return Object.create({}, {
+        name: {
+            get: function() {
+                return name;
+            },
+            set: function(value) {
+                name = value;
+            }
+        }
+    });
+})();
+// the name property is very much treated as a property, not a function:
+console.log(o.name);
+o.name = "cat";
+console.log(o.name);
+
+})();
+
+
+(function() {
+
+    // Objects, once made, can have extensions prevented, can be sealed, and
+    // can be frozen.
+    var o = Object.create({}, {
+        cat: {
+            value: "meow",
+            // If we don't set the following, they default to false.
+            enumerable: true,
+            writable: true,
+            configurable: true
+        }
+    });
+    // preventExtensions prevents us from adding new properties to the object,
+    // and will throw an error in strict mode.
+    Object.preventExtensions(o);
+    o.dog = "woof";
+    // The following will be undefined.
+    console.log(o.dog);
+    // existing properties can still be modified, configured, and deleted.
+    o.cat = "meow meow";
+    console.log(o.cat);
+    
+    // seal will prevent objects from being configured.
+    // The following would throw an error in strict mode.
+    Object.seal(o);
+    delete o.cat;
+    console.log(o.cat);
+    
+    // At the final level, freeze will also prevent writing to existing properties.
+    Object.freeze(o);
+    o.cat = "woof woof woof";
+    console.log(o.cat);
+
+
+})();
+        </script>
+    </head>
+    <body>
+        <header>
+            <h1>Object.create</h1>
+            <strong>(Please open up the code to walk through the examples.)</strong>
+        </header>
+    </body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>ECMAScript 6</title>
+        <script>
+(function() {
+    // Default arguments will be available in ECMAScript 6.
+    // At the time of this writing (Oct 2012) the support for this
+    // feature in browsers is limited.
+    // Current bleeding edge browsers supported: Firefox
+    var f = function(a=1, b=2) {
+        console.log("a + b = " + (a + b));
+    };
+    
+    f();     // 3
+    f(3);    // 5
+    f(3, 5); // 8
+})();
+        </script>
+    </head>
+    <body>
+        <header>
+            <h1>Default arguments</h1>
+            <strong>(Please open up the code to walk through the examples.)</strong>
+        </header>
+    </body>
+</html>
