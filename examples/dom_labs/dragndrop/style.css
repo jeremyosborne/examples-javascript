@@ -1,0 +1,42 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+div {
+    min-height: 100px;
+    width: 100px;
+    border: 4px solid black;
+    text-align: center;
+    line-height: 100px;
+    vertical-align: middle;
+    
+    -moz-user-select: none; 
+    -webkit-user-select: none; 
+}
+
+.dragging {
+    box-shadow: 5px 5px 2px #ccc;
+}
+
+#drop1 {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+#drop2 {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.hovering {
+    box-shadow: inset 0 0 30px rgba(200, 0, 0, 0.5);
+}
