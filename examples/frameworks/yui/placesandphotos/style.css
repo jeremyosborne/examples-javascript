@@ -1,0 +1,146 @@
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    color: #333;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+a, a:visited, a:link, a:hover {
+    text-decoration: none;
+    color: #44D;
+}
+
+.hidden {
+    display: none !important;
+}
+
+body > h1 {
+    margin: 0;
+    padding: 1em;
+    text-align: right;
+    color: #555;
+    
+    box-shadow: 0 0.1em 0.1em rgba(180,180,180,0.9),
+        0 0.1em 0.2em rgba(180,180,180,0.5);
+}
+
+
+
+/* Fixed width, dual column layout for larger views. */
+#main {
+    width: 960px;
+    margin: 2em auto;
+    overflow: hidden;
+}
+#map {
+    width: 600px;
+    height: 400px;
+}
+#input-form {
+    width: 360px;
+    float: left;
+}
+#input-form form {
+    margin-bottom: 1em;
+}
+/* Affect a visual waiting symbol with a CSS animation or no animation.
+ * Leave the animation to the rendering engine on browsers that can handle
+ * it, and ignore animations on browsers that can't. */
+.form-waiting {
+    display: inline-block;
+    overflow: hidden;
+}
+.form-waiting .message {
+    display: inline-block;
+
+    width: 1em;
+    height: 1em;
+    background-color: #555;
+    border-radius: 50%;
+    
+    -webkit-animation-name: marquee;
+    -webkit-animation-duration: 0.7s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+
+    animation-name: marquee;
+    animation-duration: 0.7s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+@-webkit-keyframes marquee {
+    /* NOTE: Using ems instead of percents due to something wonkee whenever
+     * I load YUI JavaScript. I really can't figure out why, but when I
+     * load the library, the animation doesn't run. When I don't load the
+     * .js library, things work using percents. No matter. Em values it is.
+     */
+    from {
+        -webkit-transform: translateX(-1em);
+        transform: translateX(-1em)
+    }
+    to {
+        -webkit-transform: translateX(1em);
+        transform: translateX(1em)
+    }
+}
+@keyframes marquee {
+    from {
+        transform: translateX(-1em);
+    }
+    to {
+        transform: translateX(1em);
+    }
+}
+
+
+
+/* Go from a fixed width, dual column view to a flexible width, single
+ * column view when the browser or device is smaller. */
+@media only screen and (max-width: 860px) {
+    #main {
+        width: 90%;
+    }
+    #input-form, #map {
+        float: none;
+        margin: auto;
+    }
+    #map {
+        width: 100%;
+    }
+}
+
+
+
+
+
+#gallery {
+    background-color: black;
+}
+#gallery h2 {
+    color: white;
+    padding: 0.2em;
+}
+#gallery .slideshow-container {
+    max-width: 100%;
+    overflow: auto;
+}
+#gallery .slideshow {
+    white-space: nowrap;
+}
+#gallery .photo-container {
+    display: inline-block;
+    background-color: black;
+    width: 100%;
+    text-align: center;
+}
+#gallery .photo-container img {
+    max-width: 100%;
+}
+#gallery .photo-container .photo-title {
+    background-color: white;
+    padding: 0.3em;
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sortable List</title>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script>
+
+(function(exports) {
+
+    var SortableList = function(list) {
+        this.list = list;
+    };
+    SortableList.prototype.listTemplate = "<ul>";
+    SortableList.prototype.liTemplate = "<li>";
+    SortableList.prototype.sortFn = function(a, b) {
+        return a - b;
+    };
+    SortableList.prototype.isSorted = false;
+    SortableList.prototype.sort = function() {
+        if (this.isSorted == false) {
+            this.list.sort(this.sortFn);
+            this.isSorted = true;
+        }
+        else {
+            this.list.reverse();
+        }
+    };
+    SortableList.prototype.isRendered = false;
+    SortableList.prototype._compileTemplate = function() {
+        var template = this.liTemplate;
+        var ul = $(this.listTemplate);
+        var i;
+        for (i = 0; i < this.list.length; i++) {
+            ul.append( $(template).html(this.list[i]) );
+        }
+        return ul;
+    };
+    SortableList.prototype.render = function(container) {
+        var c = $(container);
+
+        c.empty().append(this._compileTemplate());
+
+        c.on("click", $.proxy(function(e) {
+            this.sort();
+            $(e.currentTarget).empty().append(this._compileTemplate());
+        }, this));
+
+        if (!c.parent().size()) {
+            // Not yet in the page.
+            c.appendTo("body");
+        }
+    };
+
+    exports.SortableList = SortableList;
+
+})(window);
+
+$(document).ready(function() {
+    var numbers = [];
+    var i;
+    var sortableList;
+    for (i = 0; i < 20; i++) {
+        // 20 random integers.
+        numbers.push(Math.ceil(Math.random() * 100));
+    }
+    sortableList = new SortableList(numbers);
+    sortableList.render("#numbers-here");
+
+});
+        </script>
+    </head>
+
+    <body>
+        <h1>Sortable List</h1>
+        <div id="numbers-here">
+
+        </div>
+    </body>
+</html>
+

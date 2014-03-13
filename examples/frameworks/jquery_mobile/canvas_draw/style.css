@@ -1,0 +1,49 @@
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+body, html {
+    margin: 0;
+    padding: 0;
+
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+#user-input {
+    text-align: center;
+}
+
+#canvas {
+    border: 1px solid black;
+}
+
+#notifications {
+    position: fixed;
+    top: 0;
+    left: 10%;
+    right: 10%;
+
+    /* Bump stacking order. */
+    z-index: 1;
+
+    padding: 5px 10px;
+
+    background-color: #bfbf00;
+    color: black;
+    border-bottom: 1px solid #ccc;
+
+    font-size: 1.5em;
+}
+
+
+
+@media screen and (min-width: 767px) {
+
+    #user-input input[type='button'] {
+        height: 4em;
+    }
+
+}

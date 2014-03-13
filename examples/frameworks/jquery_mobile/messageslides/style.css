@@ -1,0 +1,28 @@
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+#messages {
+    height: 20em;
+    line-height: 20em;
+}
+#messages li {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000px;
+    backface-visibility: hidden;
+    perspective: 1000px;
+
+    -webkit-user-select: none;
+    user-select: none;
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Image loader</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0-rc2/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="style.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <noscript>
+            <div class="warning">
+This page is not designed to work without JavaScript.
+            </div>
+        </noscript>
+        <header id="page-header">
+            <h1>Image loader</h1>
+        </header>
+        <section id="page-body">
+            <ul id="image-list"></ul>
+        </section>
+        <footer id="page-footer">
+            Use this code as you wish.
+        </footer>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script>
+$(document).ready(function() {
+    // Initialize the list with a delegated event.
+    $("#image-list").on("click", "li", function(e) {
+        // Stop the default link behavior if link was clicked.
+        e.preventDefault();
+        $("<img>")
+            .attr("src", $(this).find("a").attr("href"))
+            .on("load", function() {
+                $(this).appendTo("body");
+            })
+            .on("error", function() {
+                alert("oops, error loading image:" + this.src);
+            });
+    });
+
+    // Build the list on the page.
+    var buildImageList = function(urls) {
+        var ul = $("#image-list").empty();
+
+        $.each(urls, function(i, value) {
+            $("<a>")
+                .html(value)
+                .attr("href", value)
+                .wrap("<li>")
+                .parent()
+                .appendTo(ul);
+        });
+    };
+
+    $.ajax({
+        url: "http://bro.jeremyosborne.com/api/imgbro",
+        dataType: "json",
+        success: function(json) {
+            buildImageList(json.urls);
+        },
+        failure: function(jqxhr) {
+            alert("error. please see the console output");
+            console.log(jqxhr);
+        }
+    });
+});
+        </script>
+    </body>
+</html>
+

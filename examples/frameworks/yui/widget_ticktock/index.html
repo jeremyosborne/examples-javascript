@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Tick Tock</title>
+        <link href="css/page.css" rel="stylesheet"/>
+        <link href="css/clock-style.css" rel="stylesheet"/>
+        <script src="http://yui.yahooapis.com/3.9.1/build/yui/yui-min.js"></script>
+        <script>
+YUI({
+    modules: {
+        clock: {
+            fullpath: './js/clock.js',
+            requires: [ 'node', 'base', 'widget' ]
+        },
+        countdown: {
+            fullpath: './js/countdown.js',
+            requires: [ 'node', 'clock' ]
+        }
+    }
+}).use("node", "clock", "countdown", function(Y) {
+
+    var clock = new Y.Clock();
+    clock.render('#clock');
+    clock.start();
+    clock.on("tick", function() {
+        var message = this.getSeconds() % 2 == 0 ? "tick" : "tock";
+        Y.one("#clock-message").setHTML(message);
+    });
+    
+    var countdown = new Y.Countdown({seconds: 10});
+    countdown.render('#alarm');
+    countdown.start();
+    countdown.on("alarm", function() {
+        Y.one("#alarm-message").setHTML("...with the time that is given us.");
+        this.hide();
+    });
+    countdown.after("visibleChange", function() {
+        Y.one("body").append("<footer><small>For Whom The Bell Tolls</small></footer>")
+    });
+});
+        </script>
+    </head>
+    <body>
+        <h1 class="banner">All we have to decide is what to do...</h1>
+
+        <div class="content">
+            <h2 id="clock-message">tick</h2>
+            <div id="clock"></div>
+    
+            <h2 id="alarm-message">...</h2>
+            <div id="alarm"></div>
+        </div>
+    </body>
+</html>

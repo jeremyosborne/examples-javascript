@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Chat</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0-rc2/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="style.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <noscript>
+            <div class="warning">
+                This page needs JavaScript.
+            </div>
+        </noscript>
+        <header id="page-header">
+            <h1>Chat</h1>
+        </header>
+        <section id="page-body">
+            <form action="javascript:void(0);" id="message-form" class="form-inline">
+                <label class="sr-only">Username:</label>
+                <input type="text" name="user" placeholder="username" require/>
+                <label class="sr-only">Message:</label>
+                <input type="text" name="message" placeholder="message" require/>
+                <input type="submit"/>
+            </form>
+            <ul class="message-history">
+                <li class="message-container">
+                    loading history...
+                </li>
+            </ul>
+        </section>
+        <footer id="page-footer">
+            Use this code as you wish.
+        </footer>
+        <script id="message-template" type="text/x-handlebars-template">
+            <li class="message-container">
+<span class="date">{{prettyDate date}}</span><span class="user">{{user}}</span><span class="message">{{message}}</span>
+            </li>
+        </script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.1.0/moment.min.js"></script>
+        <script src="notifications.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>
+

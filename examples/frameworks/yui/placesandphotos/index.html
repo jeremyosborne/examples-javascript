@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Places and Photos</title>
+
+        <!-- Mobile device normalization. -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- CSS for our various needs. -->
+        <link href="http://yui.yahooapis.com/3.10.1/build/cssnormalize/cssnormalize-min.css" rel="stylesheet">
+        <link href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" rel="stylesheet" />
+        <link href="style.css" rel="stylesheet"/>
+
+        <!-- Handlebars template for marker popup bubble. -->
+        <script id="located-popup-template" type="text/x-handlebars-template">
+<div class="located-popup">
+    <div class="located-popup-name">
+    {{name}}{{#if admin1}}, {{admin1}}{{/if}}{{#if country}}, {{country}}{{/if}}
+    </div>
+    <a class="search-for-photos" href="javascript:void(0)" data-latitude="{{latitude}}" data-longitude="{{longitude}}">Find Photos Nearby</a>
+</div>
+        </script>
+
+        <!-- Handlebars template for the datatable caption. -->
+        <script id="located-table-caption-template" type="text/x-handlebars-template">
+{{#if places}}{{places.length}}{{else}}no{{/if}} locations found for <strong>{{location}}</strong>
+        </script>
+        
+        <!-- Handlebars template for the flickr url. -->
+        <script id="located-photo-url-template" type="text/x-handlebars-template">
+http://farm{{farm}}.staticflickr.com/{{server}}/{{id}}_{{secret}}.jpg
+        </script>
+        
+        <script id="located-photogallery-template" type="text/x-handlebars-template">
+{{#if photos}}
+<h2>Photos near {{location}}</h2>
+<div class="slideshow-container">
+    <div class="slideshow">
+        {{#each photos}}
+        <div class="photo-container">
+            <img src='{{url}}' alt='{{title}}' data-photo-id="{{id}}"/>
+            <div class="photo-title">{{title}}</div>
+        </div>
+        {{/each}}
+    </div>
+</div>
+{{else}}
+<h2>Sorry, no photos near {{location}}</h2>
+{{/if}}
+        </script>
+    </head>
+    <body class="yui3-skin-sam">
+        <h1>Places and Photos</h1>
+        <div id="main">
+            <div id="input-form">
+                <form novalidate action="javascript:void(0);">
+                    <input type="search" id="location" name="location"
+                        placeholder="amsterdam"/>
+                    <input type="submit" value="find locations"/>
+                    <!-- Our waiting symbol, effected by unhiding it. -->
+                    <span class="form-waiting hidden"><span class="message">&nbsp;</span></span>
+                </form>
+                <!-- YUI Datatable view container for locations found. -->
+                <div id="location-list"></div>
+            </div>
+            <!-- Slippy map container. -->
+            <div id="map"></div>
+            <!-- Photo gallery container. -->
+            <div id="gallery"></div>
+        </div>
+        <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+        <script src="http://yui.yahooapis.com/3.10.2/build/yui/yui-min.js"></script>
+        <script src="code.js"></script>
+    </body>
+</html>
