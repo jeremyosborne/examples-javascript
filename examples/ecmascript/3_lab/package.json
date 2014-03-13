@@ -1,0 +1,12 @@
+{
+    "name": "javascriptProgramming-foundations-lab",
+    "description": "Lab for testing some JavaScript foundation.",
+    "dependencies": {},
+    "devDependencies": {
+        "nodeunit": "~0.8.x"
+    },
+    "private": true,
+    "scripts": {
+        "test": "node_modules/nodeunit/bin/nodeunit test/"
+    }
+}
