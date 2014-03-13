@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Message in a bottle</title>
+        <link href="style.css" rel="stylesheet"/>
+        <script src="code.js"></script>
+        <script type="template" id="template">
+<div class="bottle">
+    <div class="bottle-top"></div>
+    <div class="bottle-neck"></div>
+    <div class="bottle-body">
+        <div class="bottle-message">{{message}}</div>
+    </div>
+</div>
+        </script>
+    </head>
+    <body>
+        <div id="sizer"></div>
+        <form action="javascript:void(0)">
+            <input type="text"
+                id="message" 
+                placeholder="your message here" />
+            <input type="submit" value="send the message"/>
+        </form>
+    </body>
+</html>
