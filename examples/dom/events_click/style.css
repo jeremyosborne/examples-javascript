@@ -1,0 +1,62 @@
+body {
+    background-color: white;
+    color: black;
+    
+    font-size: 20px;
+    font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+}
+p {
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    font-size: 28px;
+    
+    text-align: center;
+}
+table {
+    margin: 0 auto;
+    
+    border-collapse: collapse;
+    border: 1px #333 solid;
+    background-image: -moz-linear-gradient(19% 75% 90deg,#ababab, #c9c9c9, #c7c7c7 100%);
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ABABAB), to(#C9C9C9));
+    -moz-box-shadow: 3px 3px 6px #ccc;
+    -webkit-box-shadow: 3px 3px 6px #ccc;
+    box-shadow: 3px 3px 6px #ccc;
+}
+th, td {
+    padding: 10px;
+    border: 1px #666 dotted;
+    text-align: center;
+    font-size: 24px;
+    height: 35px;
+}
+th {
+    font-family: Calibri, "Times New Roman", Times, serif;
+    background: #dedede;
+    color: #fff;
+    background-image: -moz-linear-gradient(bottom, #0b2a55 0%, #0b2a55 47%, #264268 49%, #687b95 100%);
+    background-image: -webkit-gradient(linear, 0% 100%, 0% 0%, from(#0B2A55), to(#687B95), color-stop(.4,#0B2A55));
+}
+
+#free {
+    background-color: #B00;
+    color:#fff;
+}
+
+#footer {
+    text-align: center;
+}
+
+.marker {
+    background-color: #876ed7;
+    /* Place a blue dot in the center of the table cell. */
+    background: -moz-radial-gradient(
+            50% 50%, circle, #200772 25px, #876ed7 26px
+        );
+    background-image: -webkit-gradient(
+            radial, 50% 50%, 25, 50% 50%, 26, from(#200772), to(#876ed7)
+        );
+    color: white;
+}

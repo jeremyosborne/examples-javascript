@@ -1,0 +1,58 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+h1 {
+    color: white;
+    background-color: #333;
+    background-image: -webkit-linear-gradient(-45deg, white, black);
+    background-image: -moz-linear-gradient(-45deg, white, black);
+    background-image: -o-linear-gradient(-45deg, white, black);
+    background-image: linear-gradient(135deg, white, black);
+    text-align: right;
+    padding: 1em;
+    margin: 0;
+}
+
+form {
+    width: 60%;
+    min-width: 400px;
+    margin: 3em auto;
+    border: 1px solid #ccc;
+    padding: 1em;
+    box-shadow: 0.5em 0.5em 0.5em #888;
+}
+
+input, label, .invalid-message {
+    -moz-transition: 0.5s linear;
+    -o-transition: 0.5s linear;
+    -webkit-transition: 0.5s linear;
+    transition: 0.5s linear;
+}
+
+label, .invalid-message {
+    padding: 0.4em;
+}
+
+input.invalid {
+    background-color: #dbf970;
+	border: 2px #990021 inset;
+}
+
+label.invalid {
+    background-color: #dbf970;
+	color: #990021;
+}
+
+.invalid-message {
+    opacity: 0;
+}
+
+label.invalid + .invalid-message {
+    opacity: 1;
+    background-color: #dbf970;
+    color: #990021;
+    display: inline;
+}
