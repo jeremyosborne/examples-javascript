@@ -1,0 +1,10 @@
+.lyric {
+    text-align: center;
+    margin: 0;
+    font-family: sans-serif;
+    
+    /* We want things to fade in. */
+    opacity: 0;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+}
