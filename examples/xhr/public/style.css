@@ -1,0 +1,38 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    
+    background-color: #D2A95F;
+}
+
+#header {
+    color: #021B47;
+    background-color: #6C4500;
+    padding: 1em;
+    margin: 0;
+    font-family: sans-serif;
+    text-align: center;
+}
+
+ul {
+    width: 80%;
+    padding: 0;
+    margin: 1em auto;
+    list-style: none;
+    
+    font-size: 2em;
+}
+
+.preview-window {
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    overflow: hidden;
+    padding: 0.5em;
+
+    background-color: #FFE473;
+    border: 2px solid #A68600;
+    
+    box-shadow: 2px 2px 2px #BFA430;
+    border-radius: 5px;
+}
