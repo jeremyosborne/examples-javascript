@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>viewport dimensions</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="style.css" rel="stylesheet"/>
+        <script src="code.js"></script>
+    </head>
+
+    <body>
+        <article>
+            <header>
+                	<h1>Dimensions</h1>
+            </header>
+            <section>
+                <h1>Device Resolution (device independent pixels)</h1>
+                <div>Width: <span id="screen-width"></span></div>
+                <div>Height: <span id="screen-height"></span></div>
+            </section>
+            <section>
+                <h1>Layout Viewport (CSS Pixels)</h1>
+                <div>Width: <span id="layout-width"></span></div>
+                <div>Height: <span id="layout-height"></span></div>
+            </section>
+            <section>
+                <h1>Visual Viewport (CSS Pixels)</h1>
+                <div>Width: <span id="visual-width"></span></div>
+                <div>Height: <span id="visual-height"></span></div>
+            </section>
+            <section>
+                <h1>HTML Element (CSS Pixels)</h1>
+                <div>Width: <span id="html-width"></span></div>
+                <div>Height: <span id="html-height"></span></div>
+            </section>
+            <section>
+                <h1>Current Zoom Level (for Mobile)</h1>
+                <div>Scale: <span id="zoom-scale"></span></div>
+            </section>
+        </article>
+        <div id="abs-sized">Absolutely sized box</div>
+        <div id="rel-sized">Relatively sized box</div>
+    </body>
+</html>

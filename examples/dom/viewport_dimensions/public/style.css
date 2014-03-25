@@ -1,0 +1,24 @@
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+}
+html {
+    border: 1px solid #f00;
+
+    width: 100%;
+    height: 100%;
+}
+#abs-sized {
+    background-color: #ff9473;
+    width: 160px;
+}
+#rel-sized {
+    background-color: #a62800;
+    width: 50%;
+    color: white;
+}

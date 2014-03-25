@@ -1,0 +1,19 @@
+body, html {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    background-color: black;
+}
+#to-be-rotated {
+    width: 200px;
+    height: 200px;
+
+    position: relative;
+    top: 50%;
+    margin: -100px auto 0 auto;
+
+    background-color: white;
+}
