@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drag and Drop</title>
+    <style>
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family:sans-serif;
+}
+#target {
+    height:400px;
+    width:400px;
+    border:1px solid #000;
+    padding:5px 5px 5px 5px;
+}
+    </style>
+</head>
+
+<body>
+  <h3>Click and double click</h3>
+  <div id="target">
+  </div>
+    <script>
+/**
+ * A function that correctly applies a click and dblclick event to
+ * an element, and that differentiates clicks from dblclicks.
+ * Rules:
+ * Have closure variables keep timings to detect when the first click
+ * happened.
+ * Set a timeout of some kind that fires a normal click event if a
+ * second click doesn't happen in 300ms.
+ * Fire a dblclick if the second click arrives before 300ms.
+ * @param el {DOMElement} The element to listen for click and double
+ * click events.
+ * @param [click] {Function} Optional click listener. Listener
+ * will be called with el as the this arg and will be passed the
+ * event object of the click.
+ * @param [dblclick] {Function} Optional dblclick listener. Listener
+ * will be called with el as the this arg and will be passed the
+ * event object of the click.
+ */
+var clickDblclick = function(el, click, dblclick) {
+    var threshold = 300;
+    var timeoutId = null;
+    el.onclick = function(e) {
+        if (!timeoutId) {
+            timeoutId = setTimeout(function() {
+                if (typeof click == "function") {
+                    click.call(el, e);
+                }
+                timeoutId = null;
+            }, threshold);
+        }
+        else {
+            clearTimeout(timeoutId);
+            timeoutId = null;
+            if (typeof dblclick == "function") {
+                dblclick.call(el, e);
+            }
+        }
+    };
+};
+/*
+ * TODO: Apply the function you made above to the target and
+ * turn the background red on a click and green on a dblclick.
+ */
+var el = document.querySelector("#target");
+clickDblclick(el, function() {
+    this.style.backgroundColor = "red";
+}, function() {
+    this.style.backgroundColor = "green";
+});
+    </script>
+</body>
+</html>
+
+
+

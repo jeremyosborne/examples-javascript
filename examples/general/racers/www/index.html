@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>A day at the races</title>
+        <link href="css/normalize.css" rel="stylesheet"/>
+        <link href="css/style.css" rel="stylesheet"/>
+        <script id="race-entries-template" type="text/x-handlebars-template">
+{{#each raceEntries}}
+<div class="race-entry">
+    <div class="race-car" style="margin-left:{{distanceTraveled}}px; background-color:{{#get racer data='carColor'}}{{/get}};">
+        <div class="wheel-rear"></div>
+        <div class="driver-number">{{#get racer data='number'}}{{/get}}</div>
+        <div class="wheel-fore"></div>
+    </div>
+</div>
+{{/each}}
+        </script>
+    </head>
+    <body>
+        <div id="racetrack"></div>
+        <script src="js/racers.js"></script>
+    </body>
+</html>

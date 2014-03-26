@@ -1,0 +1,81 @@
+* {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body, html {
+    background-color: gray;
+}
+
+.race-entry {
+    height: 100px;
+    line-height: 100px;
+    border: 1px solid black;
+}
+.race-car {
+    display: inline-block;
+    vertical-align: middle;
+    width: 80px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    position: relative;
+    background-color: red;
+    border-radius: 50% 50% 0 0;
+}
+.driver-number {
+    display: inline-block;
+    vertical-align: middle;
+}
+.wheel-fore {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    right: 0;
+    bottom: -12px;
+    background-color: black;
+    border-radius: 50%;
+}
+.wheel-rear {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    left: 0;
+    bottom: -12px;
+    background-color: black;
+    border-radius: 50%;
+}
+
+.standings {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    
+    background-color: rgba(120, 120, 120, 0.6);
+}
+.standings caption {
+    background-color: white;
+    padding: 1em;
+}
+.standings table {
+    background-color: white;
+    border: 5px solid white;
+    margin: 3em auto;
+}
+.standings td {
+    padding: 0.2em;
+}
+.standings td:nth-child(2), .standings td:nth-child(3) {
+    text-align: center;
+}
+.standings tbody tr:nth-child(even) {
+    background-color: lightgray;
+}
+.standings tfoot .notification {
+    font-size: 80%;
+    text-align: center;
+    background-color: black;
+    color: white;
+}
