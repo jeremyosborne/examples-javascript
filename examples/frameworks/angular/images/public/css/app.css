@@ -1,0 +1,12 @@
+#image-viewer {
+    color: white;
+    height: 400px;
+    line-height: 400px;
+    vertical-align: middle;
+    background-color: black;
+    text-align: center;
+}
+#image-viewer img {
+    max-height: 100%;
+    max-width: 100%;
+}

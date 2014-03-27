@@ -1,0 +1,38 @@
+#page-header h1 {
+    margin: 0;
+    text-align: center;
+    padding: 1em;
+
+    font-family: Helvetica, Verdana, Arial, sans-serif;
+    font-size: 4em;
+    letter-spacing: 0.1em;
+}
+#page-body {
+    width: 70%;
+    max-width: 768px;
+    margin: 2em auto;
+}
+#page-footer {
+    padding: 1em;
+    font-size: 0.8em;
+    color: #aaa;
+    text-align: center;
+}
+/* Tablet(ish) view. */
+@media only screen and (max-width: 960px) {
+    #page-header h1 {
+        padding: 0.7em;
+    }
+    #page-body {
+        width: 85%;
+    }
+}
+/* Mobile(ish) view. */
+@media only screen and (max-width: 500px) {
+    #page-header h1 {
+        padding: 0.4em;
+    }
+    #page-body {
+        width: 98%;
+    }
+}

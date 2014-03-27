@@ -1,0 +1,39 @@
+#login-form {
+    text-align: center;
+}
+
+.message-container {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    border-bottom: 1px solid #ccc;
+}
+.message-container .profile {
+    display: inline-block;
+    width: 20%;
+    padding: 0.6em;
+    text-align: right;
+    vertical-align: middle;
+}
+.message-container .date {
+    font-size: 75%;
+    color: #888;
+}
+.message-container .message {
+    display: inline-block;
+    width: 80%;
+    vertical-align: middle;
+}
+
+#chat-form .form-group.message-group {
+    width: 80%;
+}
+#chat-form .form-group.message-group input {
+    width: 100%;
+}
+#chat-form .form-group.submit-group {
+    width: 20%;
+}
+#chat-form .form-group.submit-group input {
+    width: 100%;
+}

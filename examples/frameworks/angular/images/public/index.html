@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en-US" ng-app="app">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Images</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0-rc2/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="css/examplestyle.css" rel="stylesheet"/>
+        <link href="css/app.css" rel="stylesheet"/>
+        <script src="http://code.angularjs.org/1.2.10/angular.min.js"></script>
+        <script src="http://code.angularjs.org/1.2.10/angular-route.min.js"></script>
+        <script src="js/app.js"></script>
+    </head>
+    <body>
+        <header id="page-header">
+            <h1>Images</h1>
+        </header>
+        <section id="page-body" ng-controller="ImageController">
+            <ul>
+                <li ng-repeat="url in urls"><a href="imgproxy?url={{url.encoded}}">{{url.name}}</a></li>
+            </ul>
+            <div id="image-viewer" ng-view></div>
+        </section>
+    </body>
+</html>
+

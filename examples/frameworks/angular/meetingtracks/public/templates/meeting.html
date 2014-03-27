@@ -1,0 +1,7 @@
+<div class="meeting-column">
+    <h2>Meeting Details</h2>
+    <ul class="list-unstyled">
+        <li ng-repeat="session in meeting.sessions" class="appear"><a ui-sref="meetings.meeting.session({ sessionId: session.id })">{{session.title}}</a></li>
+    </ul>
+</div>
+<div ui-view></div>

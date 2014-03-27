@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en-US" ng-app>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Notepad</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0-rc2/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="stylesheets/examplestyle.css" rel="stylesheet"/>
+        <script src="http://code.angularjs.org/1.2.10/angular.min.js"></script>
+    </head>
+    <body>
+        <noscript>
+            <div class="warning">
+This page is not designed to work without JavaScript.
+            </div>
+        </noscript>
+        <header id="page-header">
+            <h1>Notepad</h1>
+        </header>
+        <section id="page-body">
+            <div ng-controller="NotepadController">
+                <!-- The ng-submit callback here references a function on $scope. -->
+                <form ng-submit="newNote()">
+                    <!-- ng-model is a reference to a scope attribute.
+                         Dotted notation creates parent objects implicitly
+                         if they don't exist.
+                    -->
+                    <input type="text" name="newNote" ng-model="noteForm.text" placeholder="New note"/>
+                    <input type="submit"/>
+                </form>
+                <ul>
+                    <li ng-repeat="note in notes">{{note}}</li>
+                </ul>
+            </div>
+        </section>
+        <footer id="page-footer">
+            Use this code as you wish.
+        </footer>
+        <script>
+var NotepadController = function ($scope, $timeout) {
+    $scope.notes = [
+        "Wax on, wax off.",
+        "Sand the floor.",
+        "Paint the house.",
+    ];
+
+    $timeout(function() {
+        $scope.notes.push("Paint the fence.");
+    }, 1000);
+
+
+
+    // Scope functions are available as event callbacks.
+    // Since this happens within an angular action context, views are
+    // automagically updated.
+    $scope.newNote = function() {
+        if ($scope.noteForm.text) {
+            $scope.notes.push($scope.noteForm.text);
+        }
+    };
+};
+        </script>
+    </body>
+</html>
+

@@ -1,0 +1,20 @@
+<p>Welcome to the chatroom {{profile.name}}.</p>
+<form id="chat-form" class="form-inline" ng-submit="chat()">
+    <input ng-model="profile.name" name="user" type="hidden"/>
+    <div class="form-group message-group">
+        <label class="sr-only">Message</label>
+        <input ng-model="message" name="message" type="text" placeholder="message (hit enter to submit)"/>
+    </div><!--
+    --><div class="form-group submit-group">
+        <input type="submit" class="btn btn-default" value="send"/>
+    </div>
+</form>
+<ul>
+    <li ng-repeat="message in history" class="message-container">
+        <div class="profile">
+            <div class="user">{{message.user}}</div>
+            <div class="date">{{message.date}}</div>
+        </div><!--
+        --><div class="message">{{message.message}}</div>
+    </li>
+</ul>

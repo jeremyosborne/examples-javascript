@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en-US" ng-app>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Notepad</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0-rc2/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="stylesheets/examplestyle.css" rel="stylesheet"/>
+        <script src="http://code.angularjs.org/1.2.10/angular.min.js"></script>
+    </head>
+    <body>
+        <noscript>
+            <div class="warning">
+This page is not designed to work without JavaScript.
+            </div>
+        </noscript>
+        <header id="page-header">
+            <h1>Notepad</h1>
+        </header>
+        <section id="page-body">
+            <div ng-controller="NotepadController">
+                <ul>
+                    <li ng-repeat="note in notes">{{note}}</li>
+                </ul>
+            </div>
+        </section>
+        <footer id="page-footer">
+            Use this code as you wish.
+        </footer>
+        <script>
+var NotepadController = function ($scope) {
+    $scope.notes = [
+        "Wax on, wax off.",
+        "Sand the floor.",
+        "Paint the house.",
+    ];
+
+    // Changes to the scope are not autopropagated outside of Angular calls...
+    setTimeout(function() {
+        // No change...
+        $scope.notes.push("Paint the fence.");
+        // ...unless we force the change...
+        $scope.$apply();
+        // ...or we embrace the Angular way.
+    }, 500);
+};
+        </script>
+    </body>
+</html>
+

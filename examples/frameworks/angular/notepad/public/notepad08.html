@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-US" ng-app="app">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Notepad</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0-rc2/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="stylesheets/examplestyle.css" rel="stylesheet"/>
+        <script src="http://code.angularjs.org/1.2.10/angular.min.js"></script>
+    </head>
+    <body>
+        <noscript>
+            <div class="warning">
+This page is not designed to work without JavaScript.
+            </div>
+        </noscript>
+        <header id="page-header">
+            <h1>Notepad</h1>
+        </header>
+        <section id="page-body">
+            <div ng-controller="NotepadController">
+                <form ng-submit="newNote()">
+                    <input type="text" name="newNote" ng-model="noteForm.text" placeholder="New note"
+                        ng-disabled="{{noteForm.posting}}"/>
+                    <input type="submit"
+                        ng-disabled="{{noteForm.posting}}"/>
+                </form>
+                <ul ng-attr-style="{{notes && 'display:block;' || 'display:none;' }}">
+                    <!-- Add example directive.
+                    -->
+                    <li ng-repeat="note in notes"><example-decoration></example-decoration> {{note}}</li>
+                </ul>
+            </div>
+        </section>
+        <footer id="page-footer">
+            Use this code as you wish.
+        </footer>
+        <script>
+var app = angular.module('app', []);
+
+app.controller("NotepadController", function ($scope, $timeout, $http) {
+    $http.get('/api')
+        .success(function(data, status, headers, config) {
+            $scope.notes = data;
+        })
+        .error(function(data, status, headers, config) {
+            console.log("Something bad happened:", data);
+        });
+
+    $scope.newNote = function() {
+        if ($scope.noteForm.text && !$scope.noteForm.posting) {
+            $scope.noteForm.posting = true;
+            $timeout(function() {
+                $http.post('/api', {note: $scope.noteForm.text})
+                    .success(function(data, status, headers, config) {
+                        $scope.notes = data;
+                        $scope.noteForm.text = "";
+                    })
+                    .error(function(data, status, headers, config) {
+                        console.log("Something bad happened:", data);
+                    })
+                    ["finally"](function() {
+                        $scope.noteForm.posting = false;
+                    });
+            }, 2000);
+        }
+    };
+});
+
+// 'example' acts as fictitious namespace.
+app.directive('exampleDecoration', function () {
+    return {
+        // Bound only to element.
+        restrict: 'E',
+        // Better to place template in different file.
+        template: "<span>{{decoration ? '&#9829;' : '&#920;'}}</span>",
+        // Build our element.
+        link: function (scope, elem, attrs) {
+            console.log("in directive our scope is:", scope);
+            // Some decoration indicator.
+            scope.decoration = Math.random() > 0.5 ? true : false;
+        }
+    };
+});
+        </script>
+    </body>
+</html>
+

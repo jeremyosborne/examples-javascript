@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en-US" ng-app="app">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Notepad</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0-rc2/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="stylesheets/examplestyle.css" rel="stylesheet"/>
+        <script src="http://code.angularjs.org/1.2.10/angular.min.js"></script>
+    </head>
+    <body>
+        <noscript>
+            <div class="warning">
+This page is not designed to work without JavaScript.
+            </div>
+        </noscript>
+        <header id="page-header">
+            <h1>Notepad</h1>
+        </header>
+        <section id="page-body">
+            <div ng-controller="NotepadController">
+                <form ng-submit="newNote()">
+                    <input type="text" name="newNote" ng-model="noteForm.text" placeholder="New note"/>
+                    <input type="submit"/>
+                </form>
+                <ul>
+                    <li ng-repeat="note in notes">{{note}}</li>
+                </ul>
+            </div>
+        </section>
+        <footer id="page-footer">
+            Use this code as you wish.
+        </footer>
+        <script>
+var app = angular.module('app', []);
+
+// Add the $http service.
+app.controller("NotepadController", function ($scope, $timeout, $http) {
+    // Remove the hard coded notes and the $timeout.
+    // Replace with an initial call to the server.
+    $http.get('/api')
+        .success(function(data, status, headers, config) {
+            // Data should already be a JSON object.
+            $scope.notes = data;
+        })
+        .error(function(data, status, headers, config) {
+            console.log("Something bad happened:", data);
+        });
+
+    $scope.newNote = function() {
+        // Make a call to the server when saving.
+        if ($scope.noteForm.text) {
+            $http.post('/api', {note: $scope.noteForm.text})
+                .success(function(data, status, headers, config) {
+                    // Data should be our list of notes, updated.
+                    $scope.notes = data;
+                    // Erase the old note.
+                    $scope.noteForm.text = "";
+                })
+                .error(function(data, status, headers, config) {
+                    console.log("Something bad happened:", data);
+                });
+        }
+    };
+});
+        </script>
+    </body>
+</html>
+
