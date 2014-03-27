@@ -1,7 +1,11 @@
-Assuming you have [Node.js](http://nodejs.org) installed:
+Serve the files in `public/`. Some ways to single line serve the files:
 
-    npm install
-    node server
+node
+
+    npm install -g node-static
+    static -p 8000 public
+
+[Other single line web servers](https://gist.github.com/willurd/5720255).
 
 * Open the browser to localhost and the correct port.
 * Grab an image from your computer.

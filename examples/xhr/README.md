@@ -1,8 +1,8 @@
-Assuming you have [Node.js](http://nodejs.org) installed:
+Serve the files in `public/`. Some ways to single line serve the files:
 
-    npm install
-    node server
+node
 
-Open the browser to localhost:port.
+    npm install -g node-static
+    static -p 8000 public
 
-The server acts as a document server only.
+[Other single line web servers](https://gist.github.com/willurd/5720255).

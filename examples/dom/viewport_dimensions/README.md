@@ -1,5 +1,8 @@
+Serve the files in `public/`. Some ways to single line serve the files:
 
-    npm init
-    node server.js
+node
 
-Serve files to allow access to devices.
+    npm install -g node-static
+    static -p 8000 public
+
+[Other single line web servers](https://gist.github.com/willurd/5720255).
