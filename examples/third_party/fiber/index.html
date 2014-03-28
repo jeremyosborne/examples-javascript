@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Example Stuff</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style>
+/* This really belongs in a separate stylesheet, but so much easier to include here as part of the template. */
+/* Assumes top of page. */
+#page-header h1 {
+    margin: 0;
+    text-align: center;
+    padding: 1em;
+
+    font-family: Helvetica, Verdana, Arial, sans-serif;
+    font-size: 4em;
+    letter-spacing: 0.1em;
+}
+
+/* Assume the content body of the page. */
+#page-body {
+    width: 70%;
+    max-width: 768px;
+    margin: 2em auto;
+}
+
+/* Assume bottom of page. */
+#page-footer {
+    padding: 1em;
+    font-size: 0.8em;
+    color: #aaa;
+    text-align: center;
+}
+
+
+
+/* Tablet(ish) view. */
+@media only screen and (max-width: 960px) {
+    #page-header h1 {
+        padding: 0.7em;
+    }
+    #page-body {
+        width: 85%;
+    }
+}
+
+
+/* Mobile(ish) view. */
+@media only screen and (max-width: 500px) {
+    #page-header h1 {
+        padding: 0.4em;
+    }
+    #page-body {
+        width: 98%;
+    }
+}
+        </style>
+    </head>
+    <body>
+        <noscript>
+            <div class="warning">
+This page is not designed to work without JavaScript.
+            </div>
+        </noscript>
+        <header id="page-header">
+            <h1>Please look at the console.</h1>
+        </header>
+        <section id="page-body">
+        </section>
+        <footer id="page-footer">
+            Use this code as you wish.
+        </footer>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/fiber/1.0.5/fiber.min.js"></script>
+        <script src="code.js"></script>
+    </body>
+</html>
+
