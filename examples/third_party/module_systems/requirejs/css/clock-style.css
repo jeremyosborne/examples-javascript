@@ -1,0 +1,14 @@
+.time {
+    padding: .25em;
+    vertical-align: middle;
+
+    display: inline-block;
+
+    background: #eee;
+    background: -moz-linear-gradient(top, #f7f7f7, #e5e5e5);
+    background: -webkit-linear-gradient(top, #f7f7f7, #e5e5e5);
+    background: -o-linear-gradient(top, #f7f7f7, #e5e5e5);
+    background: linear-gradient(to bottom, #f7f7f7, #e5e5e5);
+
+    font: 3em/1.2 monospace;
+}
