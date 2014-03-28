@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Tick Tock</title>
+        <link href="css/page.css" rel="stylesheet"/>
+        <link href="css/clock-style.css" rel="stylesheet"/>
+        <script src="http://yui.yahooapis.com/3.15.0/build/yui/yui-min.js"></script>
+        <!--
+        <script src="js/clock.js"></script>
+        <script src="js/countdown.js"></script>
+        -->
+        <script>
+YUI({
+    modules: {
+        clock: {
+            fullpath: './js/clock.js'
+        },
+        countdown: {
+            fullpath: './js/countdown.js'
+        }
+    }
+}).use("clock", "countdown", function(Y) {
+    var clock = new Y.Clock();
+    clock.render('clock');
+    clock.start();
+    clock.ontick = function() {
+        // The 'this' in the statement below points to the Clock instance.
+        var message = this.getSeconds() % 2 == 0 ? "tick" : "tock";
+        document.querySelector("#clock-message").innerHTML = message;
+    };
+
+    var countdown = new Y.Countdown(10);
+    countdown.render('alarm');
+    countdown.start();
+    countdown.onalarm = function() {
+        document.querySelector("#alarm-message").innerHTML = "...with the time that is given us.";
+    };
+});
+        </script>
+    </head>
+    <body>
+        <h1 class="banner">All we have to decide is what to do...</h1>
+
+        <div class="content">
+            <h2 id="clock-message">tick</h2>
+            <div id="clock"></div>
+
+            <h2 id="alarm-message">...</h2>
+            <div id="alarm"></div>
+        </div>
+    </body>
+</html>
