@@ -1,0 +1,94 @@
+[
+    {
+        "name": "Demon Oil",
+        "reagents": ["Brimstone", "Corpse Ash"]
+    },
+    {
+        "name": "Charm Cloud",
+        "reagents": ["Ambergris", "Dwarvish Mellowleaf"]
+    },
+    {
+        "name": "Flask of Toxic Aura",
+        "reagents": ["Black-Spotted Shroom", "Sulfur"]
+    },
+    {
+        "name": "Detox Serum",
+        "reagents": ["Belladonna", "Spider Silk"]
+    },
+    {
+        "name": "Healing Elixir",
+        "reagents": ["Willow Bark", "Sulfur"]
+    },
+    {
+        "name": "Invisibility",
+        "reagents": ["Ectoplasm", "Noximander Venom"]
+    },
+    {
+        "name": "Leatherskin",
+        "reagents": ["Brimstone", "Raven's Heart"]
+    },
+    {
+        "name": "Mana Potion",
+        "reagents": ["Mandrake Root", "Ambergris"]
+    },
+    {
+        "name": "Potion of Cat's Eyes",
+        "reagents": ["Brimstone", "Noximander Venom"]
+    },
+    {
+        "name": "Potion of Cure Ailment",
+        "reagents": ["Willowbark", "Wormleaf"]
+    },
+    {
+        "name": "Potion of Fortified Mana",
+        "reagents": ["Dried Brainstem", "Raven's Heart"]
+    },
+    {
+        "name": "Potion of Greater Protection",
+        "reagents": ["Anise", "Wormleaf"]
+    },
+    {
+        "name": "Potion of Haste",
+        "reagents": ["Dried Brainsteam", "Mercury"]
+    },
+    {
+        "name": "Potion of Keensight",
+        "reagents": ["Dwarvish Mellowleaf", "Mandrake Root"]
+    },
+    {
+        "name": "Potion of Nimbleness",
+        "reagents": ["Mercury", "Stinkroot"]
+    },
+    {
+        "name": "Potion of Ogre Strength",
+        "reagents": ["Anise", "Spider Silk"]
+    },
+    {
+        "name": "Potion of Stoneskin",
+        "reagents": ["Black-Spotted Shroom", "Stinkroot"]
+    },
+    {
+        "name": "Armor Bonus",
+        "reagents": ["Ectoplasm", "Ambergris"]
+    },
+    {
+        "name": "ToHit Bonus",
+        "reagents": ["Mercury", "Auricflax"]
+    },
+    {
+        "name": "Damage Bonus",
+        "reagents": ["Ambergris", "Auricflax"]
+    },
+    {
+        "name": "Lantern Refill",
+        "reagents": ["Cotton Wick", "Lamp Oil"]
+    },
+    {
+        "name": "Potion of Predator Sight",
+        "reagents": ["Corpse Ash", "Stinkroot"]
+    },
+    {
+        "name": "Potion of Restoration",
+        "reagents": ["Anise", "Willow Bark"]
+    }
+]

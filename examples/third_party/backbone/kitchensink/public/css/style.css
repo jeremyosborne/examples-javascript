@@ -1,0 +1,45 @@
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+
+    font-family: Helvetica, Verdana, Arial, sans-serif;
+}
+
+header > h1 {
+    text-align: right;
+    padding: 1em;
+    margin: 0;
+}
+
+#main {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.items-table {
+    float: left;
+    width: 50%;
+    border-collapse: collapse;
+    border: 3px solid black;
+}
+
+.items-table th, .items-table td {
+    border: 1px solid black;
+    padding: 0.5em;
+}
+
+.item-row.hover {
+    background-color: #bbb;
+}
+
+.item-detail {
+    padding: 1em;
+    float: left;
+    width: 50%;
+}
