@@ -1,0 +1,19 @@
+{
+  "name": "words_on_a_webpage",
+  "version": "0.0.0",
+  "description": "tdd test",
+  "main": "app.js",
+  "author": "",
+  "license": "BSD",
+  "devDependencies": {
+    "mocha": "~1.14.0"
+  },
+  "scripts": {
+    "test": "node node_modules/mocha/bin/mocha --reporter=spec --async-only --ui=tdd ./test/*"
+  },
+  "dependencies": {
+    "request": "~2.27.0",
+    "cheerio": "~0.12.4",
+    "q": "~0.9.7"
+  }
+}
