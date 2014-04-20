@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Chat</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="css/style.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <noscript>
+            <div class="warning">
+                This page needs JavaScript.
+            </div>
+        </noscript>
+        <header id="page-header">
+            <h1>Chat</h1>
+        </header>
+
+        <script type="text/template" id="chat-history-template">
+{% if (!models.length) { %}
+<div class='loading'>loading chat history</div>
+{% } else { %}
+    {% _.each(models, function(model) { %}
+    <div class='chat-message'>
+        <div class='user'>{{model.user}}</div><!--
+        --><div class='date'>{% print(new Date(model.date)) %}</div><!--
+        --><p class='message'>{{model.message}}</p>
+    </div>
+    {% }); %}
+{% } %}
+        </script>
+        <script data-main="js/app.js" src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.11/require.js"></script>
+    </body>
+</html>
