@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html ng-app="searchboxExample">
+    <head>
+        <meta charset="utf-8">
+        <title>searchbox example</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <div ng-controller="SearchboxController">
+            <h1>searchbox</h1>
+            <searchbox placeholder="type stuff here..." sb-interface="sb1"></searchbox>
+            <div>selected items</div>
+            <ul>
+                <li ng-repeat="item in selected">{{item.label}}</li>
+            </ul>
+        </div>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-sanitize.js"></script>
+        <script src="searchbox.js"></script>
+        <script>
+angular.module("searchboxExample", ["ngSanitize", "searchbox"])
+.controller("SearchboxController", function($scope, $timeout) {
+    // Nothing to do with the searchbox, results of clicked items.
+    $scope.selected = [];
+
+    $scope.sb1 = {
+        searchTerm: "",
+        searchList: [],
+        search: function() {
+            console.log("Search performed on:", $scope.sb1.searchTerm);
+            while (this.searchList.length) {
+                this.searchList.pop();
+            }
+            if ($scope.sb1.searchTerm) {
+                for (var i = 0; i < 3; i++) {
+                    this.searchList.push({
+                        label: i + ": " + $scope.sb1.searchTerm + " (searched)"
+                    });
+                }
+            }
+        },
+        throttledSearch: function() {
+            console.log("Typing is happening:", $scope.sb1.searchTerm);
+            while (this.searchList.length) {
+                this.searchList.pop();
+            }
+            if ($scope.sb1.searchTerm) {
+                for (var i = 0; i < 3; i++) {
+                    this.searchList.push({
+                        label: i + ": " + $scope.sb1.searchTerm
+                    });
+                }
+            }
+        },
+        select: function(item) {
+            console.log("This item got selected:", item);
+
+            // Empty the search List and do something with this element.
+            this.searchTerm = "";
+            while (this.searchList.length) {
+                this.searchList.pop();
+            }
+            // Outside of this object.
+            $scope.selected.push(item);
+        }
+    };
+
+
+    // Modify the searchTerm and reflect in the dropdown.
+    $timeout(function() {
+        $scope.sb1.searchTerm = "BOOO 5 seconds have passed.";
+    }, 5000);
+});
+        </script>
+    </body>
+</html>
