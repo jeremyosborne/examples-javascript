@@ -1,9 +1,9 @@
 <div class="searchbox">
     <form class="searchbox-form">
-        <input type="search" ng-model="searchTerm" ng-attr-placeholder="{{placeholder || 'search...'}}"/>
+        <input type="search" class="searchbox-input" ng-model="searchTerm" ng-attr-placeholder="{{placeholder || 'search...'}}"/>
         <button type="submit" style="display:none;">search</button>
     </form>
     <ul class="searchbox-dropdown" ng-show="showDropdown">
-        <li class="searchbox-dropdown-item" ng-repeat="searchCandidate in searchList" ng-click="selectItem(searchCandidate)" ng-bind-html="highlight(label(searchCandidate))"></li>
+        <li class="searchbox-dropdown-item" ng-repeat="searchCandidate in searchList" ng-click="selectItem(searchCandidate)" ng-bind-html="formatItem(searchCandidate)"></li>
     </ul>
 </div>

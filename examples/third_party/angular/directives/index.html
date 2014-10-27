@@ -12,7 +12,7 @@
             <searchbox placeholder="type stuff here..."
                 search-term="state.searchTerm" search-list="state.searchList"
                 search="search()" throttled-search="throttledSearch()"
-                select="select(item)"></searchbox>
+                select="select(item)" format="format(item)"></searchbox>
             <div>selected items</div>
             <ul>
                 <li ng-repeat="item in selected">{{item.label}}</li>
@@ -23,13 +23,14 @@
         <script src="searchbox.js"></script>
         <script>
 angular.module("searchboxExample", ["ngSanitize", "searchbox"])
-.controller("SearchboxController", function($scope, $timeout) {
+.controller("SearchboxController", ["$scope", "$timeout", "$sce", function($scope, $timeout, $sce) {
     // Nothing to do with the searchbox, results of clicked items.
     $scope.selected = [];
 
     $scope.state = {};
     $scope.state.searchTerm = "";
     $scope.state.searchList = [];
+
     $scope.search = function() {
         console.log("Search performed on:", $scope.state.searchTerm);
         while ($scope.state.searchList.length) {
@@ -43,6 +44,7 @@ angular.module("searchboxExample", ["ngSanitize", "searchbox"])
             }
         }
     };
+
     $scope.throttledSearch = function() {
         console.log("Typing is happening:", $scope.state.searchTerm);
         while ($scope.state.searchList.length) {
@@ -56,6 +58,7 @@ angular.module("searchboxExample", ["ngSanitize", "searchbox"])
             }
         }
     };
+
     $scope.select = function(item) {
         if (item) {
             console.log("Selected item:", item);
@@ -69,12 +72,24 @@ angular.module("searchboxExample", ["ngSanitize", "searchbox"])
         }
     };
 
+    // Passed the label string in the dropdown.
+    $scope.format = function(item) {
+        var s = item.label;
+        var match = s.toLowerCase().indexOf($scope.state.searchTerm.toLowerCase());
+        if (match > -1) {
+            var termLen = $scope.state.searchTerm.length;
+            // injext wrapper.
+            s = s.slice(0, match) + "<strong>" + s.slice(match, match + termLen) + "</strong>" + s.slice(match + termLen);
+        }
+        return $sce.trustAsHtml(s);
+    };
 
+    // Uncomment for...
     // Modify the searchTerm and reflect in the dropdown.
-    $timeout(function() {
-        $scope.state.searchTerm = "BOOO 5 seconds have passed.";
-    }, 5000);
-});
+    // $timeout(function() {
+    //     $scope.state.searchTerm = "BOOO 5 seconds have passed.";
+    // }, 5000);
+}]);
         </script>
     </body>
 </html>
