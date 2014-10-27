@@ -1,17 +1,16 @@
 // Generic searchbox.
 //
-// Following methods to be provided on sbInterface
-// * sbInterface.throttledSearch -> called while typing.
-// * sbInterface.search -> called on form submit or return key.
-// * sbInterace.select -> called on a click on the item in the list.
-// * sbInterface.label -> called on each item in searchList to generate
-// the label for the dropdown.
-// * sbInterface.highlight -> function passed the display string and
-// which can be used to decorate the string displayed in the dropdown.
+// Following methods to be provided:
+// * throttledSearch -> called while typing.
+// * search -> called on form submit or return key.
+// * select -> called on a click on the item in the list.
+// * format -> passed each line item object in the drop down for
+//   formatting. Should return a string or an $sce object.
 //
-// Communicates with:
-// * sbInterface.searchList -> candidates to display in the dropdown.
-// * sbInterface.searchTerm -> either hard set during drop-down plus return
+// Following data to be shared:
+// * placeholder -> what's shown in the input of the placeholder.
+// * searchList -> candidates to display in the dropdown.
+// * searchTerm -> either hard set during drop-down plus return
 // or on a simple submit.
 angular
 .module("searchbox", [])
