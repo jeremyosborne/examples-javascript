@@ -25,36 +25,33 @@ angular
         scope: {
             // dropped into the input placeholder.
             placeholder: "@",
-            sbInterface: "="
+            searchList: "=",
+			searchTerm: "=",
+
+			throttledSearch: "&",
+			search: "&",
+			select: "&",
         },
 		link: function(scope, element) {
             scope.showDropdown = false;
-            scope.$watchCollection("sbInterface.searchList", function() {
-                var slist = scope.sbInterface.searchList || [];
-                scope.searchList = slist;
+            scope.$watchCollection("searchList", function() {
                 // Update dropdown list visibility.
-                scope.showDropdown = slist.length;
+				if (scope.searchList) {
+                	scope.showDropdown = scope.searchList.length;
+				}
             });
 
-            scope.searchTerm = scope.sbInterface.searchTerm;
-            scope.$watch("sbInterface.searchTerm", function() {
-                scope.searchTerm = scope.sbInterface.searchTerm;
-            });
             scope.$watch("searchTerm", function() {
                 // Update the search term.
-                scope.sbInterface.searchTerm = scope.searchTerm;
                 scope.throttledSearch();
             });
 
-            scope.throttledSearch = scope.sbInterface.throttledSearch || function() {};
-            scope.search = scope.sbInterface.search || function() {};
-            scope.select = scope.sbInterface.select || function() {};
-
-            scope.label = scope.sbInterface.label || function(item) {
+            scope.label = function(item) {
                 return item.label;
             };
+
             // Passed the label string in the dropdown.
-            scope.highlight = scope.sbInterface.highlight || function(s) {
+            scope.highlight = function(s) {
                 var match = s.toLowerCase().indexOf(scope.searchTerm.toLowerCase());
                 if (match > -1) {
                     var termLen = scope.searchTerm.length;
@@ -64,10 +61,15 @@ angular
                 return $sce.trustAsHtml(s);
             };
 
+			scope.selectItem = function(item) {
+				// Allow passing of object by parameter name. Much nice,
+				// much better, much avoidance of scope apply timing updates.
+				scope.select({item: item});
+			};
+
             element.find("form").on('submit', function(ev) {
                 ev.preventDefault();
                 // Update the search term.
-                scope.sbInterface.searchTerm = scope.searchTerm;
                 scope.search();
                 // This can happen outside of the digest, reflect changes in
                 // view.

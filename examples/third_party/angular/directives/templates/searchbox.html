@@ -4,6 +4,6 @@
         <button type="submit" style="display:none;">search</button>
     </form>
     <ul class="searchbox-dropdown" ng-show="showDropdown">
-        <li class="searchbox-dropdown-item" ng-repeat="searchCandidate in searchList" ng-click="select(searchCandidate)" ng-bind-html="highlight(label(searchCandidate))"></li>
+        <li class="searchbox-dropdown-item" ng-repeat="searchCandidate in searchList" ng-click="selectItem(searchCandidate)" ng-bind-html="highlight(label(searchCandidate))"></li>
     </ul>
 </div>
