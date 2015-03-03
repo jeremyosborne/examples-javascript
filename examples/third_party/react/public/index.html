@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>react test</title>
+        <script src="/jquery/dist/jquery.js"></script>
+        <script src="/react/react-with-addons.js"></script>
+        <script src="/js/JSXTransformer.js"></script>
+    </head>
+    <body>
+        <h1 id="header">React Stuff</h1>
+        <div id="page"></div>
+        <script type="text/jsx">
+var question = {
+    q: "What color is the sky?",
+    a: [
+        "brown",
+        "purple",
+        "what's the sky?",
+    ]
+};
+
+var Answer = React.createClass({
+    getInitialState: function() {
+        return {
+            data: ""
+        };
+    },
+    componentDidMount: function() {
+        this.setState({data: this.props.data});
+    },
+    click: function() {
+        this.setState({data: "WRONG!"});
+    },
+    render:  function() {
+        return (
+            <li className="answer" onClick={this.click}>{this.state.data}</li>
+        );
+    }
+});
+
+var Question = React.createClass({
+    render: function() {
+        var answers = this.props.data.a.map(function (a) {
+            return (
+                <Answer data={a}/>
+            );
+        });
+        // Components need one root element.
+        // Watch out for keyword collisions (className vs. class in JSX).
+        return (
+            <div className="question">
+                <h2>{this.props.data.q}</h2>
+                <ul className="answers">
+                    {answers}
+                </ul>
+            </div>
+        );
+    }
+});
+
+React.render(
+    <Question data={question}></Question>,
+    document.getElementById("page")
+);
+        </script>
+    </body>
+</html>
