@@ -6,6 +6,15 @@
         <script src="/jquery/dist/jquery.js"></script>
         <script src="/react/react-with-addons.js"></script>
         <script src="/js/JSXTransformer.js"></script>
+        <style>
+.answerContent {
+    transition: 3s;
+}
+.answer.wrong .answerContent{
+    font-size: 500%;
+    transform: rotate(1800deg);
+}
+        </style>
     </head>
     <body>
         <h1 id="header">React Stuff</h1>
@@ -30,11 +39,19 @@ var Answer = React.createClass({
         this.setState({data: this.props.data});
     },
     click: function() {
-        this.setState({data: "WRONG!"});
+        this.setState({
+            data: "WRONG!",
+            wrong: true,
+        });
     },
     render:  function() {
+        console.log(this.state.wrong);
+        var classes = React.addons.classSet({
+            answer: true,
+            wrong: this.state.wrong,
+        });
         return (
-            <li className="answer" onClick={this.click}>{this.state.data}</li>
+            <li className={classes} onClick={this.click}><span className="answerContent">{this.state.data}</span></li>
         );
     }
 });
@@ -43,7 +60,7 @@ var Question = React.createClass({
     render: function() {
         var answers = this.props.data.a.map(function (a) {
             return (
-                <Answer data={a}/>
+                <Answer key={a} data={a}/>
             );
         });
         // Components need one root element.
