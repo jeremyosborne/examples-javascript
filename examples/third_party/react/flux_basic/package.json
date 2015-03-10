@@ -1,0 +1,12 @@
+{
+  "name": "flux_basic",
+  "version": "1.0.0",
+  "description": "practice with flux",
+  "main": "index.js",
+  "scripts": {},
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "flux": "^2.0.1"
+  }
+}
