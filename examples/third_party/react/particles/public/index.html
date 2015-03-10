@@ -7,79 +7,132 @@
         <script src="/react/react-with-addons.js"></script>
         <script src="/js/JSXTransformer.js"></script>
         <style>
-.answerContent {
-    transition: 3s;
+html, body, #page {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
-.answer.wrong .answerContent{
-    font-size: 500%;
-    transform: rotate(1800deg);
+
+.world {
+    position: relative;
+    height: 100%;
+}
+
+.particle {
+    position: absolute;
+    height: 5px;
+    width: 5px;
+    background-color: black;
 }
         </style>
     </head>
     <body>
-        <h1 id="header">React Stuff</h1>
         <div id="page"></div>
         <script type="text/jsx">
-var question = {
-    q: "What color is the sky?",
-    a: [
-        "brown",
-        "purple",
-        "what's the sky?",
-    ]
-};
 
-var Answer = React.createClass({
+var Particle = React.createClass({
+    // getInitialState: function() {
+    //     return {
+    //         x: 50,
+    //         y: 50,
+    //     };
+    // },
+    // componentDidMount: function() {
+    //     if (this.props.x) {
+    //         this.setState({"x": this.props.x});
+    //     }
+    //     if (this.props.y) {
+    //         this.setState({"y": this.props.y});
+    //     }
+    // },
+    render:  function() {
+        var classes = React.addons.classSet({
+            particle: true,
+        });
+        var position = {
+            // top: this.state.y + "px",
+            // left: this.state.x + "px",
+            top: this.props.y + "px",
+            left: this.props.x + "px",
+        };
+
+        return (
+            <div className={classes} style={position}></div>
+        );
+    }
+});
+
+
+
+// Sort of mimic Flux, minus the separation of store and actions.
+var particleStore = {
+    particles: [],
+    particleId: 0,
+    add: function(x, y) {
+        this.particles.push({
+            x: x,
+            y: y,
+            id: this.particleId++,
+        });
+        this.sendUpdate();
+    },
+    sendUpdate: function() {
+        $(this).trigger("particles", [this.particles]);
+    }
+};
+setInterval(function() {
+    if (particleStore.particles.length) {
+        particleStore.particles = particleStore.particles.map(function(p) {
+            p.y += 5;
+            return p;
+        });
+        particleStore.sendUpdate();
+    }
+}, 20);
+
+
+
+var World = React.createClass({
     getInitialState: function() {
+        $(particleStore).on("particles", this.updateParticles);
         return {
-            data: ""
+            particles: []
         };
     },
-    componentDidMount: function() {
-        this.setState({data: this.props.data});
+    click: function(ev) {
+        particleStore.add(ev.pageX, ev.pageY);
     },
-    click: function() {
+    updateParticles: function(e, particles) {
         this.setState({
-            data: "WRONG!",
-            wrong: true,
+            "particles": particles
         });
     },
-    render:  function() {
-        console.log(this.state.wrong);
-        var classes = React.addons.classSet({
-            answer: true,
-            wrong: this.state.wrong,
-        });
-        return (
-            <li className={classes} onClick={this.click}><span className="answerContent">{this.state.data}</span></li>
-        );
-    }
-});
-
-var Question = React.createClass({
     render: function() {
-        var answers = this.props.data.a.map(function (a) {
+        var particles = this.state.particles.map(function(p) {
             return (
-                <Answer key={a} data={a}/>
+                <Particle x={p.x} y={p.y} key={p.id}></Particle>
             );
         });
-        // Components need one root element.
-        // Watch out for keyword collisions (className vs. class in JSX).
         return (
-            <div className="question">
-                <h2>{this.props.data.q}</h2>
-                <ul className="answers">
-                    {answers}
-                </ul>
+            <div className="world" onClick={this.click}>
+                {particles}
             </div>
         );
-    }
+    },
 });
 
-React.render(
-    <Question data={question}></Question>,
+
+
+var particle = React.render(
+    <World></World>,
     document.getElementById("page")
 );
+
+
+
+// setInterval(function() {
+//     particle.setState({"y": 10 + particle.state.y});
+// }, 20);
         </script>
     </body>
 </html>
