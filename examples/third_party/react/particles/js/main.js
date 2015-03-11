@@ -1,29 +1,7 @@
 
-var React = require("../bower_components/react/react-with-addons.js");
+var React = require("react/addons");
 var EventEmitter = require("events").EventEmitter;
 var objectAssign = require("object-assign");
-
-var Particle = React.createClass({
-    propTypes: {
-        x: React.PropTypes.number.isRequired,
-        y: React.PropTypes.number.isRequired,
-    },
-    render:  function() {
-        var classes = React.addons.classSet({
-            particle: true,
-        });
-        var position = {
-            // top: this.state.y + "px",
-            // left: this.state.x + "px",
-            top: this.props.y + "px",
-            left: this.props.x + "px",
-        };
-
-        return (
-            <div className={classes} style={position}></div>
-        );
-    }
-});
 
 
 
@@ -55,6 +33,32 @@ setInterval(function() {
 
 
 
+var Particle = React.createClass({
+    propTypes: {
+        x: React.PropTypes.number.isRequired,
+        y: React.PropTypes.number.isRequired,
+    },
+    render:  function() {
+        var classes = React.addons.classSet({
+            particle: true,
+        });
+        var position = {
+            // top: this.state.y + "px",
+            // left: this.state.x + "px",
+            top: this.props.y + "px",
+            left: this.props.x + "px",
+        };
+
+        return (
+            /* jshint ignore:start */
+            <div className={classes} style={position}></div>
+            /* jshint ignore:end */
+        );
+    }
+});
+
+
+
 var World = React.createClass({
     getInitialState: function() {
         particleStore.on("particles", this.updateParticles);
@@ -73,19 +77,25 @@ var World = React.createClass({
     render: function() {
         var particles = this.state.particles.map(function(p) {
             return (
+                /* jshint ignore:start */
                 <Particle x={p.x} y={p.y} key={p.id}></Particle>
+                /* jshint ignore:end */
             );
         });
         return (
+            /* jshint ignore:start */
             <div className="world" onClick={this.click}>
                 {particles}
             </div>
+            /* jshint ignore:end */
         );
     },
 });
 
 
 React.render(
+    /* jshint ignore:start */
     <World></World>,
+    /* jshint ignore:end */
     document.getElementById("page")
 );
