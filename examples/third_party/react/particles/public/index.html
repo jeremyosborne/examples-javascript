@@ -3,9 +3,6 @@
     <head>
         <meta charset="utf-8"/>
         <title>react test</title>
-        <script src="/jquery/dist/jquery.js"></script>
-        <script src="/react/react-with-addons.js"></script>
-        <script src="/js/JSXTransformer.js"></script>
         <style>
 html, body, #page {
     height: 100%;
@@ -28,111 +25,6 @@ html, body, #page {
     </head>
     <body>
         <div id="page"></div>
-        <script type="text/jsx">
-
-var Particle = React.createClass({
-    // getInitialState: function() {
-    //     return {
-    //         x: 50,
-    //         y: 50,
-    //     };
-    // },
-    // componentDidMount: function() {
-    //     if (this.props.x) {
-    //         this.setState({"x": this.props.x});
-    //     }
-    //     if (this.props.y) {
-    //         this.setState({"y": this.props.y});
-    //     }
-    // },
-    render:  function() {
-        var classes = React.addons.classSet({
-            particle: true,
-        });
-        var position = {
-            // top: this.state.y + "px",
-            // left: this.state.x + "px",
-            top: this.props.y + "px",
-            left: this.props.x + "px",
-        };
-
-        return (
-            <div className={classes} style={position}></div>
-        );
-    }
-});
-
-
-
-// Sort of mimic Flux, minus the separation of store and actions.
-var particleStore = {
-    particles: [],
-    particleId: 0,
-    add: function(x, y) {
-        this.particles.push({
-            x: x,
-            y: y,
-            id: this.particleId++,
-        });
-        this.sendUpdate();
-    },
-    sendUpdate: function() {
-        $(this).trigger("particles", [this.particles]);
-    }
-};
-setInterval(function() {
-    if (particleStore.particles.length) {
-        particleStore.particles = particleStore.particles.map(function(p) {
-            p.y += 5;
-            return p;
-        });
-        particleStore.sendUpdate();
-    }
-}, 20);
-
-
-
-var World = React.createClass({
-    getInitialState: function() {
-        $(particleStore).on("particles", this.updateParticles);
-        return {
-            particles: []
-        };
-    },
-    click: function(ev) {
-        particleStore.add(ev.pageX, ev.pageY);
-    },
-    updateParticles: function(e, particles) {
-        this.setState({
-            "particles": particles
-        });
-    },
-    render: function() {
-        var particles = this.state.particles.map(function(p) {
-            return (
-                <Particle x={p.x} y={p.y} key={p.id}></Particle>
-            );
-        });
-        return (
-            <div className="world" onClick={this.click}>
-                {particles}
-            </div>
-        );
-    },
-});
-
-
-
-var particle = React.render(
-    <World></World>,
-    document.getElementById("page")
-);
-
-
-
-// setInterval(function() {
-//     particle.setState({"y": 10 + particle.state.y});
-// }, 20);
-        </script>
+        <script src="app.js"></script>
     </body>
 </html>

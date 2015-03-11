@@ -4,11 +4,24 @@
   "description": "practice",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node_modules/.bin/watchify -v -o public/app.js js/main.js"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "express": "^4.12.2"
+  },
+  "devDependencies": {
+    "browserify": "^9.0.3",
+    "envify": "^3.3.0",
+    "reactify": "^1.0.0",
+    "watchify": "^2.4.0",
+    "object-assign": "^2.0.0"
+  },
+  "browserify": {
+    "transform": [
+      "reactify",
+      "envify"
+    ]
   }
 }
