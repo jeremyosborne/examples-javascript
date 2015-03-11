@@ -1,7 +1,11 @@
+/* jshint undef:true, node:true, browser:true */
 
 var React = require("react/addons");
 var EventEmitter = require("events").EventEmitter;
 var objectAssign = require("object-assign");
+var Dispatcher = require('flux').Dispatcher;
+
+var dispatcher = new Dispatcher();
 
 
 
@@ -9,27 +13,90 @@ var objectAssign = require("object-assign");
 var particleStore = objectAssign({}, EventEmitter.prototype, {
     particles: [],
     particleId: 0,
-    add: function(x, y) {
-        this.particles.push({
-            x: x,
-            y: y,
-            id: this.particleId++,
-        });
-        this.sendUpdate();
+    dimensions: {
+        w: 0,
+        h: 0,
     },
-    sendUpdate: function() {
-        this.emit("particles", this.particles);
+    init: function() {
+        dispatcher.register(this.dispatchCallback.bind(this));
+    },
+    dispatchCallback: function(action) {
+        var self = this;
+        var i;
+
+        if (action.type == "PARTICLE") {
+            this.particles.push({
+                x: action.x,
+                y: action.y,
+                id: this.particleId++,
+            });
+            this.sendChange();
+        } else if (action.type == "TICK") {
+            // We're cheating a bit.
+            this.particles = this.particles.filter(function(p) {
+                p.y += 5;
+                // If particles do more than fall, change this test.
+                return p.y < self.dimensions.h;
+            });
+            if (this.particles.length) {
+                this.sendChange();
+            }
+        } else if (action.type == "SCREEN_SIZE") {
+            this.dimensions.w = action.width;
+            this.dimensions.h = action.height;
+        }
+    },
+    sendChange: function() {
+        this.emit("particles:change", this.particles);
     }
 });
-setInterval(function() {
-    if (particleStore.particles.length) {
-        particleStore.particles = particleStore.particles.map(function(p) {
-            p.y += 5;
-            return p;
+particleStore.init();
+
+
+
+var particleAction = {
+    add: function(x, y) {
+        dispatcher.dispatch({
+            type: "PARTICLE",
+            x: x,
+            y: y,
         });
-        particleStore.sendUpdate();
+    },
+};
+
+
+
+// Should be called on screen size changes.
+var screenSizeAction = {
+    set: function(w, h) {
+        dispatcher.dispatch({
+            type: "SCREEN_SIZE",
+            width: w || window.innerWidth,
+            height: h || window.innerHeight,
+        });
     }
-}, 20);
+};
+// Initialize
+screenSizeAction.set();
+
+
+
+// Ticks happen for animation.
+(function() {
+    var prevTime = Date.now();
+
+    setInterval(function() {
+        var currentTime = Date.now();
+
+        dispatcher.dispatch({
+            type: "TICK",
+            delta: currentTime - prevTime
+        });
+
+        prevTime = currentTime;
+
+    }, 20);
+})();
 
 
 
@@ -61,13 +128,13 @@ var Particle = React.createClass({
 
 var World = React.createClass({
     getInitialState: function() {
-        particleStore.on("particles", this.updateParticles);
+        particleStore.on("particles:change", this.updateParticles);
         return {
             particles: []
         };
     },
     click: function(ev) {
-        particleStore.add(ev.pageX, ev.pageY);
+        particleAction.add(ev.pageX, ev.pageY);
     },
     updateParticles: function(particles) {
         this.setState({
