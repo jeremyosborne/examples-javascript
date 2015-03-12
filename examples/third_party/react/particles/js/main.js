@@ -1,5 +1,6 @@
 /* jshint undef:true, node:true, browser:true */
 
+var classNames = require("classnames");
 var React = require("react/addons");
 var EventEmitter = require("events").EventEmitter;
 var objectAssign = require("object-assign");
@@ -14,8 +15,8 @@ var particleStore = objectAssign({}, EventEmitter.prototype, {
     particles: [],
     particleId: 0,
     dimensions: {
-        w: 0,
-        h: 0,
+        width: 0,
+        height: 0,
     },
     init: function() {
         dispatcher.register(this.dispatchCallback.bind(this));
@@ -24,26 +25,28 @@ var particleStore = objectAssign({}, EventEmitter.prototype, {
         var self = this;
         var i;
 
-        if (action.type == "PARTICLE") {
-            this.particles.push({
-                x: action.x,
-                y: action.y,
-                id: this.particleId++,
-            });
+        if (action.type == "PARTICLE_ADD") {
+            // The action is the particle.
+            action.particle.id = this.particleId++;
+            this.particles.push(action.particle);
             this.sendChange();
         } else if (action.type == "TICK") {
             // We're cheating a bit.
+            // Handle velocity change and particle depth.
             this.particles = this.particles.filter(function(p) {
-                p.y += 5;
+                // Change velocity (fake gravity).
+                p.dy += 0.5;
+                // change position
+                p.x += p.dx;
+                p.y += p.dy;
                 // If particles do more than fall, change this test.
-                return p.y < self.dimensions.h;
+                return p.x < self.dimensions.width && p.x > 0 &&
+                    p.y < self.dimensions.height && p.y > 0;
             });
-            if (this.particles.length) {
-                this.sendChange();
-            }
+            this.sendChange();
         } else if (action.type == "SCREEN_SIZE") {
-            this.dimensions.w = action.width;
-            this.dimensions.h = action.height;
+            this.dimensions.width = action.width;
+            this.dimensions.height = action.height;
         }
     },
     sendChange: function() {
@@ -55,13 +58,25 @@ particleStore.init();
 
 
 var particleAction = {
-    add: function(x, y) {
+    add: function(x, y, dx, dy) {
         dispatcher.dispatch({
-            type: "PARTICLE",
-            x: x,
-            y: y,
+            type: "PARTICLE_ADD",
+            particle: {
+                x: x,
+                y: y,
+                dx: dx,
+                dy: dy,
+            }
         });
     },
+};
+var explosionAction = {
+    add: function(x, y) {
+        for (var i = 0; i < 9; i++) {
+            // x, y, dx, dy
+            particleAction.add(x, y, (i%3 - 1) * 5, (Math.floor(i/3 % 3) - 1) * 5);
+        }
+    }
 };
 
 
@@ -106,7 +121,7 @@ var Particle = React.createClass({
         y: React.PropTypes.number.isRequired,
     },
     render:  function() {
-        var classes = React.addons.classSet({
+        var classes = classNames({
             particle: true,
         });
         var position = {
@@ -134,7 +149,7 @@ var World = React.createClass({
         };
     },
     click: function(ev) {
-        particleAction.add(ev.pageX, ev.pageY);
+        explosionAction.add(ev.pageX, ev.pageY);
     },
     updateParticles: function(particles) {
         this.setState({
