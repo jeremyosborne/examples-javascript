@@ -7,13 +7,13 @@
 (function() {
     var o = {name: "dog"};
     var o2 = {name: "cat"};
-    function test() { console.log(this.name); };
-    
+    var test = function() { console.log(this.name); };
+
     // The bind function method returns a function (doesn't modify the original
     // function) that has its "this" reference permanently bound to the object
     // passed into bind.
     var bound_test = test.bind(o);
-    
+
     // bound_test will only ever reference o as this.
     // All results should be dog.
     // The original test function is not modified, just the returned,
@@ -22,6 +22,28 @@
     bound_test.call(o2);
     o2.meth = bound_test;
     o2.meth();
+
+
+    // Note to future self:
+    // After some experiments, the bind function is finicky and seems to be
+    // less tolerant of "function objects" as I've become used to in other
+    // JavaScript code where I make use of functions-as-objects.
+    // Note the weird (to me) behavior below.
+    var f = function() {
+        console.log("this.prototype", this.prototype);
+        //console.log("this.prototype.constructor", this.prototype.contructor);
+        console.log("this is:", this.toString());
+        console.log("this.name is:", this.name);
+        this.name = "internal name.";
+    };
+    f.prototype.name = "my name is f.prototype.name.";
+    f.name = "my name is f().";
+    var g = f.bind(f);
+    g.name = "my name is g().";
+    console.log("static call g():");
+    g();
+    console.log("new g()");
+    new g();
 })();
         </script>
     </head>
