@@ -1,0 +1,14 @@
+{
+  "name": "basic",
+  "version": "0.0.1",
+  "description": "phaser basics",
+  "author": "Jeremy Osborne",
+  "license": "ISC",
+  "scripts": {
+      "start": "node node_modules/.bin/gulp"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-connect": "^2.2.0"
+  }
+}
