@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html lang="en-US">
-    <head>
-        <meta charset="UTF-8"/>
-        <title>ECMAScript 3</title>
-        <script>
 // JavaScript does not (yet) include a class syntax, although at the time
 // of this writing a class syntax has been proposed in ECMAScript 6.
 
@@ -25,7 +19,7 @@ console.log( typeof Function );
 // vs. the non-first-letter camelCase usually used in JavaScript.
 var Robot = function() {
     this.rusty = true;
-    
+
     this.isRusty = function() {
         return this.rusty;
     };
@@ -60,7 +54,7 @@ var Terminator = function() {
     // We can explicitly enforce instance properties provided through the
     // constructor.
     Robot.call(this);
-    
+
     // Change our own terminator specific properties.
     this.rusty = false;
 };
@@ -84,12 +78,3 @@ console.log( "arnold instanceof Object: " + (arnold instanceof Object) );
 // What are we not instances of?
 console.log( "arnold instanceof Function: " + (arnold instanceof Function) );
 console.log( "arnold instanceof Array: " + (arnold instanceof Array) );
-        </script>
-    </head>
-    <body>
-        <header>
-            <h1>Classes in the classless JavaScript</h1>
-            <strong>(Please open up the code to walk through the examples.)</strong>
-        </header>
-    </body>
-</html>
