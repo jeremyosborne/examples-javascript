@@ -1,9 +1,19 @@
 /* jshint unused:true, undef:true, browser:true */
 /* global Phaser:false */
 
+// TODO:
+// Make a piece of confetti with graphics.
+// Collide the expanding and contracing explosion with the pig.
+// Make confetti particle and emitters.
+// Make expanding/contracting explosion. (Graphics plus tween).
+
+
 var Title = function() {};
 Title.prototype = Object.create(Phaser.State);
 Title.prototype.preload = function() {
+    // Load all items for this game. In other games, might want to load
+    // state specific items in respective stages.
+
     // WebGL doesn't like file:// protocol, need a server.
     this.game.load.image('pig', 'assets/sprites/pig.png');
 
@@ -32,6 +42,16 @@ Title.prototype.create = function() {
 // Play state.
 var Play = function() {};
 Play.prototype = Object.create(Phaser.State);
+Play.prototype.preload = function() {
+    // Note: I feel like I'm doing something wrong. I've tried to add the
+    // bitmapData to the cache, but can't seem to make the loader obey and
+    // there isn't a load.bitmapdata option.
+
+    // create a new bitmap data object
+    this.confetti = game.add.bitmapData(10, 10, "confetti");
+    // Can access canvas context wtih .ctx if needed.
+    this.confetti.fill(255, 255, 255, 1);
+};
 Play.prototype.create = function() {
     // To make the sprite move we need to enable Arcade Physics
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -51,6 +71,13 @@ Play.prototype.create = function() {
     this.game.input.onDown.add(function() {
         // Simple immediate sound play.
         game.sound.play("explosion", true);
+
+        // use the bitmap data as the texture for the sprite
+        var confetti = game.add.sprite(this.game.input.x, this.game.input.y, this.confetti);
+        //confetti.tint = "0xFF0000";
+        // Docs are simple sounding, but tint seems forgiving.
+        confetti.tint = Phaser.Color.getRandomColor();
+
     }.bind(this));
 };
 Play.prototype.update = function() {
