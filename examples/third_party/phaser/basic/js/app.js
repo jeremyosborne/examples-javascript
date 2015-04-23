@@ -1,55 +1,14 @@
 /* jshint unused:true, undef:true, browser:true */
 /* global Phaser:false */
 
-// var preload = function() {
-//     // You can fill the preloader with as many assets as your game requires
-//
-//     // Here we are loading an image. The first parameter is the unique
-//     // string by which we'll identify the image later in our code.
-//     // The second parameter is the URL of the image (relative)
-//     // WebGL doesn't like file:// protocol, need a server.
-//     game.load.image('pig', 'assets/sprites/pig.png');
-// };
-
-//var sprite;
-// var create = function() {
-//     // To make the sprite move we need to enable Arcade Physics
-//     game.physics.startSystem(Phaser.Physics.ARCADE);
-//
-//     sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'pig');
-//     sprite.anchor.set(0.5);
-//
-//     // And enable the Sprite to have a physics body:
-//     game.physics.arcade.enable(sprite);
-// };
-
-// var update = function() {
-//     // If the sprite is > 8px away from the pointer then let's move to it
-//     if (game.physics.arcade.distanceToPointer(sprite, game.input.activePointer) > 8) {
-//         // Make the object seek to the active pointer (mouse or touch).
-//         game.physics.arcade.moveToPointer(sprite, 300);
-//     } else {
-//         // Otherwise turn off velocity because we're close enough to the pointer
-//         sprite.body.velocity.set(0);
-//     }
-// };
-
-// var render = function() {
-// 	game.debug.inputInfo(32, 32);
-// };
-
-
-
 var Title = function() {};
 Title.prototype = Object.create(Phaser.State);
 Title.prototype.preload = function() {
-    // You can fill the preloader with as many assets as your game requires
-
-    // Here we are loading an image. The first parameter is the unique
-    // string by which we'll identify the image later in our code.
-    // The second parameter is the URL of the image (relative)
     // WebGL doesn't like file:// protocol, need a server.
     this.game.load.image('pig', 'assets/sprites/pig.png');
+
+    // Audio has some decoding helpers. See docs.
+    this.game.load.audio('explosion', 'assets/sounds/explosion.wav');
 };
 Title.prototype.create = function() {
     this.titleText = this.game.add.text(this.game.world.centerX, this.game.world.centerY,
@@ -69,18 +28,10 @@ Title.prototype.create = function() {
 };
 
 
+
 // Play state.
 var Play = function() {};
 Play.prototype = Object.create(Phaser.State);
-// Play.prototype.preload = function() {
-//     // You can fill the preloader with as many assets as your game requires
-//
-//     // Here we are loading an image. The first parameter is the unique
-//     // string by which we'll identify the image later in our code.
-//     // The second parameter is the URL of the image (relative)
-//     // WebGL doesn't like file:// protocol, need a server.
-//     this.game.load.image('pig', 'assets/sprites/pig.png');
-// };
 Play.prototype.create = function() {
     // To make the sprite move we need to enable Arcade Physics
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -96,6 +47,11 @@ Play.prototype.create = function() {
 
     // And enable the Sprite to have a physics body:
     this.game.physics.arcade.enable(this.sprite);
+
+    this.game.input.onDown.add(function() {
+        // Simple immediate sound play.
+        game.sound.play("explosion", true);
+    }.bind(this));
 };
 Play.prototype.update = function() {
     // If the sprite is > 8px away from the pointer then let's move to it
@@ -121,13 +77,6 @@ var game = new Phaser.Game(
     Phaser.AUTO,
     // What element do we want to use as the parent.
     document.querySelector(".game-container")
-    // Single game state callbacks.
-    // ,{
-    //     preload: preload,
-    //     create: create,
-    //     update: update,
-    //     render: render,
-    // }
 );
 
 
