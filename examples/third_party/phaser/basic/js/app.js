@@ -2,10 +2,10 @@
 /* global Phaser:false */
 
 // TODO:
-// Make a piece of confetti with graphics.
-// Collide the expanding and contracing explosion with the pig.
-// Make confetti particle and emitters.
 // Make expanding/contracting explosion. (Graphics plus tween).
+// Collide explosion with the pig.
+// Make confetti and emitters.
+
 
 
 var Title = function() {};
@@ -74,9 +74,20 @@ Play.prototype.create = function() {
 
         // use the bitmap data as the texture for the sprite
         var confetti = game.add.sprite(this.game.input.x, this.game.input.y, this.confetti);
+        // TODO: Handle this emitters, not as individiual sprites.
+        game.physics.enable(confetti, Phaser.Physics.ARCADE);
         //confetti.tint = "0xFF0000";
         // Docs are simple sounding, but tint seems forgiving.
         confetti.tint = Phaser.Color.getRandomColor();
+        confetti.body.gravity.set(0, 180);
+
+        // TODO: Let the particle manager/emitter handle this.
+        confetti.checkWorldBounds = true;
+        confetti.outOfBoundsKill = true;
+        // Diagnostics. It works :)
+        confetti.events.onOutOfBounds.add(function() {
+            console.log("out of bounds confetti");
+        });
 
     }.bind(this));
 };
