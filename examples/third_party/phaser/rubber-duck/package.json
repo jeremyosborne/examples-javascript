@@ -1,7 +1,7 @@
 {
-  "name": "basic",
+  "name": "phaser-rubber-duck",
   "version": "0.0.1",
-  "description": "phaser basics",
+  "description": "phaser rubber duck",
   "author": "Jeremy Osborne",
   "license": "ISC",
   "scripts": {

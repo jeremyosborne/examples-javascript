@@ -4,7 +4,7 @@
 // TODO:
 // Make expanding/contracting explosion. (Graphics plus tween).
 // Collide explosion with the pig.
-// Make confetti and emitters.
+// Make the emitter emit random colored confetti.
 
 
 
@@ -23,11 +23,11 @@ Title.prototype.preload = function() {
 Title.prototype.create = function() {
     this.titleText = this.game.add.text(this.game.world.centerX, this.game.world.centerY,
         "Pig In Space", {
-
+        // These seem like canvas stylings, not CSS stylings.
         fill: "#ffffff",
 		font: "bold 42px Arial",
 	});
-    // Anchor is how the text is centered over the placement point.
+    // Anchor is how the text is centered relative to the placement point.
     this.titleText.anchor.set(0.5);
 
     this.game.input.onDown.add(function() {
@@ -68,26 +68,37 @@ Play.prototype.create = function() {
     // And enable the Sprite to have a physics body:
     this.game.physics.arcade.enable(this.sprite);
 
-    this.game.input.onDown.add(function() {
+    this.emitter = game.add.emitter(0, 0, 100);
+    this.emitter.makeParticles(this.confetti);
+    this.emitter.gravity = 200;
+
+
+    this.game.input.onDown.add(function(pointer) {
         // Simple immediate sound play.
         game.sound.play("explosion", true);
 
         // use the bitmap data as the texture for the sprite
-        var confetti = game.add.sprite(this.game.input.x, this.game.input.y, this.confetti);
-        // TODO: Handle this emitters, not as individiual sprites.
-        game.physics.enable(confetti, Phaser.Physics.ARCADE);
+        //var confetti = game.add.sprite(this.game.input.x, this.game.input.y, this.confetti);
+        //game.physics.enable(confetti, Phaser.Physics.ARCADE);
         //confetti.tint = "0xFF0000";
-        // Docs are simple sounding, but tint seems forgiving.
-        confetti.tint = Phaser.Color.getRandomColor();
-        confetti.body.gravity.set(0, 180);
+        // Tint seems forgiving.
+        //confetti.tint = Phaser.Color.getRandomColor();
+        //confetti.body.gravity.set(0, 180);
 
-        // TODO: Let the particle manager/emitter handle this.
-        confetti.checkWorldBounds = true;
-        confetti.outOfBoundsKill = true;
+        this.emitter.x = pointer.x;
+        this.emitter.y = pointer.y;
+        //  The first parameter sets the effect to "explode" which means all particles are emitted at once
+            //  The second gives each particle a 2000ms lifespan
+            //  The third is ignored when using burst/explode mode
+            //  The final parameter (10) is how many particles will be emitted in this single burst
+        this.emitter.start(true, 2000, null, 10);
+
+        // confetti.checkWorldBounds = true;
+        // confetti.outOfBoundsKill = true;
         // Diagnostics. It works :)
-        confetti.events.onOutOfBounds.add(function() {
-            console.log("out of bounds confetti");
-        });
+        // confetti.events.onOutOfBounds.add(function() {
+        //     console.log("out of bounds confetti");
+        // });
 
     }.bind(this));
 };
