@@ -1,9 +1,6 @@
 /* jshint unused:true, undef:true, browser:true */
 /* global Phaser:false */
 
-// TODO:
-// Collide explosion with the pig.
-
 
 
 var Flak = function(position) {
@@ -53,9 +50,28 @@ Flak.init = function(game) {
     spriteImage.circle(7, 7, 7, "#ff0000");
     // Seems the default babckground is transparent.
     //spriteImage.fill(0, 0, 0, 0);
-    Flak.prototype.spriteImage = spriteImage;
 
-    Flak.prototype.game = game;
+    this.prototype.spriteImage = spriteImage;
+    this.prototype.game = game;
+};
+
+
+
+var Pig = function(position) {
+    Phaser.Sprite.call(this, this.game, position.x, position.y, 'pig');
+    // Center flak over pointer.
+    this.anchor.setTo(0.5, 0.5);
+    // For collisions.
+    this.game.physics.arcade.enable(this);
+    this.game.add.existing(this);
+};
+Pig.prototype = Object.create(Phaser.Sprite.prototype);
+// Set during init, reference to game.
+Pig.prototype.game = null;
+Pig.init = function(game) {
+    // WebGL doesn't like file:// protocol, need a server.
+    game.load.image('pig', 'assets/sprites/pig.png');
+    this.prototype.game = game;
 };
 
 
@@ -89,9 +105,6 @@ Play.prototype.preload = function() {
     // Happens before other state states. Good place to load things for this
     // state.
 
-    // WebGL doesn't like file:// protocol, need a server.
-    this.game.load.image('pig', 'assets/sprites/pig.png');
-
     // Audio has some decoding helpers. See docs.
     this.game.load.audio('explosion', 'assets/sounds/explosion.wav');
 
@@ -105,11 +118,10 @@ Play.prototype.preload = function() {
     this.confetti.fill(255, 255, 255, 1);
 
     // Groups for watching flak.
-    this.flak = game.add.group();
-
-    // Flak needs to be initialized. This isn't Phaser's fault, this is how I'm
-    // using it.
+    this.flak = this.game.add.group();
+    // Some things need initialization. This isn't Phaser's fault.
     Flak.init(this.game);
+    Pig.init(this.game);
 };
 Play.prototype.create = function() {
     // To make the sprite move we need to enable Arcade Physics
@@ -120,16 +132,21 @@ Play.prototype.create = function() {
 		font: "bold 16px Arial",
 	});
 
-    this.hitText = this.game.add.text(this.game.width - 64, this.game.height - 32, "HIT!", {
+    this.hitText = this.game.add.text(this.game.width - 64, this.game.height - 32, "PIG HIT!", {
         fill: "#ffffff",
         font: "bold 16px Arial",
     });
 
     // Pig sprite.
-    this.sprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'pig');
-    this.sprite.anchor.set(0.5);
+    //this.sprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'pig');
+    //this.sprite.anchor.set(0.5);
     // Enable the Sprite to have a physics body:
-    this.game.physics.arcade.enable(this.sprite);
+    //this.game.physics.arcade.enable(this.sprite);
+    // Version 2.
+    this.pig = new Pig({
+        x: this.game.world.centerX,
+        y: this.game.world.centerY,
+    });
 
     this.emitter = game.add.emitter(0, 0, 100);
     this.emitter.makeParticles(this.confetti);
@@ -182,19 +199,19 @@ Play.prototype.create = function() {
 };
 Play.prototype.update = function() {
     // If the sprite is > 8px away from the pointer then let's move to it
-    if (this.game.physics.arcade.distanceToPointer(this.sprite, this.game.input.activePointer) > 8) {
+    if (this.game.physics.arcade.distanceToPointer(this.pig, this.game.input.activePointer) > 8) {
         // Make the object seek to the active pointer (mouse or touch).
-        this.game.physics.arcade.moveToPointer(this.sprite, 150);
+        this.game.physics.arcade.moveToPointer(this.pig, 150);
     } else {
         // Otherwise turn off velocity because we're close enough to the pointer
-        this.sprite.body.velocity.set(0);
+        this.pig.body.velocity.set(0);
     }
 
     this.hitText.visible = false;
     // As we don't need to exchange any velocities or motion we can the 'overlap'
     // check instead of 'collide'
     // arguments to callback are swapped from input.
-    game.physics.arcade.overlap(this.flak, this.sprite, function(/*sprite, flak*/) {
+    game.physics.arcade.overlap(this.flak, this.pig, function(/*sprite, flak*/) {
         this.hitText.visible = true;
     }.bind(this));
 
