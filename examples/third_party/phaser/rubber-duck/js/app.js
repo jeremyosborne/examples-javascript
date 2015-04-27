@@ -4,7 +4,10 @@
 
 
 var Flak = function(position) {
-    Phaser.Sprite.call(this, this.game, position.x, position.y, this.spriteImage);
+    //Phaser.Sprite.call(this, this.game, position.x, position.y, this.spriteImage);
+    // Trying out cache.
+    Phaser.Sprite.call(this, this.game, position.x, position.y, game.cache.getBitmapData("flak"));
+
     // Center flak over pointer.
     this.anchor.setTo(0.5, 0.5);
     // For collisions.
@@ -46,12 +49,15 @@ Flak.prototype.game = null;
 // Call before using flak instances.
 Flak.init = function(game) {
     // width, height, key
-    var spriteImage = game.add.bitmapData(14, 14, "flak");
+    var spriteImage = game.add.bitmapData(14, 14);
     spriteImage.circle(7, 7, 7, "#ff0000");
-    // Seems the default babckground is transparent.
+    // Seems the default background is transparent as it should be.
     //spriteImage.fill(0, 0, 0, 0);
 
-    this.prototype.spriteImage = spriteImage;
+    // try out cache for bit map data.
+    game.cache.addBitmapData("flak", spriteImage);
+
+    //this.prototype.spriteImage = spriteImage;
     this.prototype.game = game;
 };
 
@@ -113,9 +119,15 @@ Play.prototype.preload = function() {
     // there isn't a load.bitmapdata option.
     // ---
     // create a new bitmap data object
-    this.confetti = game.add.bitmapData(10, 10, "confetti");
+    //this.confetti = game.add.bitmapData(10, 10, "confetti");
     // Can access canvas context wtih .ctx if needed.
-    this.confetti.fill(255, 255, 255, 1);
+    //this.confetti.fill(255, 255, 255, 1);
+
+    // trying out the cache. when naming bitmap data, gotta set the "save in
+    // cache" flag to true, otherwise naming is sort of pointless.
+    var confetti = game.add.bitmapData(10, 10, "confetti", true);
+    confetti.fill(255, 255, 255, 1);
+
 
     // Groups for watching flak.
     this.flak = this.game.add.group();
@@ -149,7 +161,9 @@ Play.prototype.create = function() {
     });
 
     this.emitter = game.add.emitter(0, 0, 100);
-    this.emitter.makeParticles(this.confetti);
+    //this.emitter.makeParticles(this.confetti);
+    // try out cache.
+    this.emitter.makeParticles(game.cache.getBitmapData("confetti"));
     // TODO: Need to find a better way to add bitmap data with customer colors
     // to the emitter, or maybe just make the random colors onload... whatever.
     this.emitter.forEach(function(p) {
