@@ -48,8 +48,9 @@ Flak.prototype.spriteImage = null;
 Flak.prototype.game = null;
 // Call before using flak instances.
 Flak.init = function(game) {
-    var spriteImage = game.add.bitmapData(30, 30, "flak");
-    spriteImage.circle(15, 15, 7, "#ff0000");
+    // width, height, key
+    var spriteImage = game.add.bitmapData(14, 14, "flak");
+    spriteImage.circle(7, 7, 7, "#ff0000");
     // Seems the default babckground is transparent.
     //spriteImage.fill(0, 0, 0, 0);
     Flak.prototype.spriteImage = spriteImage;
@@ -103,7 +104,11 @@ Play.prototype.preload = function() {
     // Can access canvas context wtih .ctx if needed.
     this.confetti.fill(255, 255, 255, 1);
 
-    // Flak needs to be initialized.
+    // Groups for watching flak.
+    this.flak = game.add.group();
+
+    // Flak needs to be initialized. This isn't Phaser's fault, this is how I'm
+    // using it.
     Flak.init(this.game);
 };
 Play.prototype.create = function() {
@@ -115,10 +120,14 @@ Play.prototype.create = function() {
 		font: "bold 16px Arial",
 	});
 
+    this.hitText = this.game.add.text(this.game.width - 64, this.game.height - 32, "HIT!", {
+        fill: "#ffffff",
+        font: "bold 16px Arial",
+    });
+
     // Pig sprite.
     this.sprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'pig');
     this.sprite.anchor.set(0.5);
-
     // Enable the Sprite to have a physics body:
     this.game.physics.arcade.enable(this.sprite);
 
@@ -160,7 +169,7 @@ Play.prototype.create = function() {
 
 
         // Todo need to keep track of Flak.
-        new Flak(pointer);
+        this.flak.add(new Flak(pointer));
 
         // confetti.checkWorldBounds = true;
         // confetti.outOfBoundsKill = true;
@@ -175,11 +184,19 @@ Play.prototype.update = function() {
     // If the sprite is > 8px away from the pointer then let's move to it
     if (this.game.physics.arcade.distanceToPointer(this.sprite, this.game.input.activePointer) > 8) {
         // Make the object seek to the active pointer (mouse or touch).
-        this.game.physics.arcade.moveToPointer(this.sprite, 300);
+        this.game.physics.arcade.moveToPointer(this.sprite, 150);
     } else {
         // Otherwise turn off velocity because we're close enough to the pointer
         this.sprite.body.velocity.set(0);
     }
+
+    this.hitText.visible = false;
+    // As we don't need to exchange any velocities or motion we can the 'overlap'
+    // check instead of 'collide'
+    // arguments to callback are swapped from input.
+    game.physics.arcade.overlap(this.flak, this.sprite, function(/*sprite, flak*/) {
+        this.hitText.visible = true;
+    }.bind(this));
 
     this.timerText.text = "Time: " + Date.now();
 };
