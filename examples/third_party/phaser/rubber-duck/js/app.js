@@ -3,7 +3,6 @@
 
 // TODO:
 // Collide explosion with the pig.
-// Make the emitter emit random colored confetti.
 
 
 
@@ -60,18 +59,9 @@ Flak.init = function(game) {
 
 
 
+// Excuse to have more than one screen.
 var Title = function() {};
 Title.prototype = Object.create(Phaser.State);
-Title.prototype.preload = function() {
-    // Load all items for this game. In other games, might want to load
-    // state specific items in respective stages.
-
-    // WebGL doesn't like file:// protocol, need a server.
-    this.game.load.image('pig', 'assets/sprites/pig.png');
-
-    // Audio has some decoding helpers. See docs.
-    this.game.load.audio('explosion', 'assets/sounds/explosion.wav');
-};
 Title.prototype.create = function() {
     this.titleText = this.game.add.text(this.game.world.centerX, this.game.world.centerY,
         "Pig In Space", {
@@ -95,6 +85,15 @@ Title.prototype.create = function() {
 var Play = function() {};
 Play.prototype = Object.create(Phaser.State);
 Play.prototype.preload = function() {
+    // Happens before other state states. Good place to load things for this
+    // state.
+
+    // WebGL doesn't like file:// protocol, need a server.
+    this.game.load.image('pig', 'assets/sprites/pig.png');
+
+    // Audio has some decoding helpers. See docs.
+    this.game.load.audio('explosion', 'assets/sounds/explosion.wav');
+
     // Note: I feel like I'm doing something wrong. I've tried to add the
     // bitmapData to the cache, but can't seem to make the loader obey and
     // there isn't a load.bitmapdata option.
@@ -198,6 +197,7 @@ Play.prototype.render = function() {
 };
 
 
+
 var game = new Phaser.Game(
     // String dimensions are considered percentages of parent container.
     "100", "100",
@@ -206,6 +206,7 @@ var game = new Phaser.Game(
     // What element do we want to use as the parent.
     document.querySelector(".game-container")
 );
+
 
 
 // Move to multiple states.
