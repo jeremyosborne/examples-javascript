@@ -2,28 +2,26 @@
 /* global Phaser:false */
 
 // TODO:
-// Make expanding/contracting explosion. (Graphics plus tween).
 // Collide explosion with the pig.
 // Make the emitter emit random colored confetti.
 
 
 
-var Flak = function(game, position) {
-    //  We call the Phaser.Sprite passing in the game reference
-    //  We're giving it a random X/Y position here, just for the sake of this demo - you could also pass the x/y in the constructor
-    Phaser.Sprite.call(this, game, position.x, position.y, this.spriteImage);
+var Flak = function(position) {
+    Phaser.Sprite.call(this, this.game, position.x, position.y, this.spriteImage);
+    // Center flak over pointer.
     this.anchor.setTo(0.5, 0.5);
-    game.physics.arcade.enable(this);
-    game.add.existing(this);
+    // For collisions.
+    this.game.physics.arcade.enable(this);
+    this.game.add.existing(this);
 };
 Flak.prototype = Object.create(Phaser.Sprite.prototype);
 // Expanding outward unless this is true.
 Flak.prototype.imploding = false;
 // Pixels per frame.
-Flak.prototype.sizeChangeVelocity = 20;
+Flak.prototype.sizeChangeVelocity = 5;
 // How many pixels big before we implode.
-// TODO: Look into how phaser handles scaling. Scaling seems off on my high rez screen.
-Flak.prototype.maxSize = 600;
+Flak.prototype.maxSize = 100;
 Flak.prototype.update = function() {
     //  Automatically called by World.update
     // Increase the size of the sprite.
@@ -45,12 +43,19 @@ Flak.prototype.update = function() {
         }
     }
 };
+// Reference to sprite shared by all Flak instances. Initialized during init.
+Flak.prototype.spriteImage = null;
+// Reference to game instance using flak. Initialized during init.
+Flak.prototype.game = null;
 // Call before using flak instances.
 Flak.init = function(game) {
     var spriteImage = game.add.bitmapData(30, 30, "flak");
-    spriteImage.circle(15, 15, 1, "#ff0000");
-    spriteImage.fill(0, 0, 0, 0);
+    spriteImage.circle(15, 15, 7, "#ff0000");
+    // Seems the default babckground is transparent.
+    //spriteImage.fill(0, 0, 0, 0);
     Flak.prototype.spriteImage = spriteImage;
+
+    Flak.prototype.game = game;
 };
 
 
@@ -99,7 +104,6 @@ Play.prototype.preload = function() {
     // Can access canvas context wtih .ctx if needed.
     this.confetti.fill(255, 255, 255, 1);
 
-
     // Flak needs to be initialized.
     Flak.init(this.game);
 };
@@ -116,13 +120,18 @@ Play.prototype.create = function() {
     this.sprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'pig');
     this.sprite.anchor.set(0.5);
 
-    // And enable the Sprite to have a physics body:
+    // Enable the Sprite to have a physics body:
     this.game.physics.arcade.enable(this.sprite);
 
     this.emitter = game.add.emitter(0, 0, 100);
     this.emitter.makeParticles(this.confetti);
+    // TODO: Need to find a better way to add bitmap data with customer colors
+    // to the emitter, or maybe just make the random colors onload... whatever.
+    this.emitter.forEach(function(p) {
+        // Iterate each particle.
+        p.tint = Phaser.Color.getRandomColor();
+    });
     this.emitter.gravity = 200;
-
 
     this.game.input.onDown.add(function(pointer) {
         // Simple immediate sound play.
@@ -143,9 +152,16 @@ Play.prototype.create = function() {
         //  The third is ignored when using burst/explode mode
         //  The final parameter (10) is how many particles will be emitted in this single burst
         this.emitter.start(true, 2000, null, 10);
+        // Better to do this above.
+        //this.emitter.forEachExists(function(p) {
+            //console.log("A particle:", p);
+            // WARNING: this modifies all confetti in existence.
+            //p.tint = Phaser.Color.getRandomColor();
+        //});
+
 
         // Todo need to keep track of Flak.
-        new Flak(game, pointer);
+        new Flak(pointer);
 
         // confetti.checkWorldBounds = true;
         // confetti.outOfBoundsKill = true;
