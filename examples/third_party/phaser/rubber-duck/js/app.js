@@ -110,7 +110,6 @@ PigSplosion.prototype.boom = function(x, y) {
     // The final parameter (10) is how many particles will be emitted in this single burst
     this.start(true, 2000, null, 10);
 };
-// This pattern is okay, I'm sticking with it because I tried it out earlier.
 // Set during init, reference to game.
 PigSplosion.prototype.game = null;
 // This pattern is okay, I'm sticking with it because I tried it out earlier.
@@ -120,6 +119,47 @@ PigSplosion.init = function(game) {
     var confetti = game.add.bitmapData(10, 10, "confetti", true);
     confetti.fill(255, 255, 255, 1);
 
+    this.prototype.game = game;
+};
+
+
+
+var Countdown = function(x, y) {
+    Phaser.Text.call(this, this.game, x, y, "", {
+        fill: "#ffffff",
+		font: "bold 16px Arial",
+	});
+
+    this.game.add.existing(this);
+    // Assume when it's created we start the countdown and there's no appreciable
+    // delay.
+    //this.timeStart = Date.now();
+
+    // Timers should handle paused state gracefully.
+    // Creating it this way didn't work.
+    //this.timer = new Phaser.Timer(this.game);
+    // Creating it this way did.
+    this.timer = this.game.time.create();
+    this.timer.add(this.timeLimit, function() {
+        this.isDone = true;
+    }.bind(this));
+    this.timer.start();
+};
+Countdown.prototype = Object.create(Phaser.Text.prototype);
+// Milliseconds.
+Countdown.prototype.timeLimit = 15000;
+Countdown.prototype.isDone = false;
+// Generated once live.
+Countdown.prototype.prefix = "Time Left: ";
+Countdown.prototype.update = function() {
+    // This doesn't account for paused time.
+    //this.timeRemaining = Math.ceil((this.timeLimit - (Date.now() - this.timeStart)) / 1000);
+    //this.text = this.prefix + this.timeRemaining;
+
+    this.text = this.prefix + Math.ceil(this.timer.duration / 1000);
+};
+Countdown.prototype.game = null;
+Countdown.init = function(game) {
     this.prototype.game = game;
 };
 
@@ -141,7 +181,7 @@ Title.prototype.create = function() {
     this.game.input.onDown.add(function() {
         // console.log("click on game world");
         // This event listener gets purged when we transition to "play" state.
-        this.game.state.start("play", true);
+        this.game.state.start("play");
     }.bind(this));
 };
 
@@ -178,15 +218,18 @@ Play.prototype.preload = function() {
     Flak.init(this.game);
     Pig.init(this.game);
     PigSplosion.init(this.game);
+    Countdown.init(this.game);
 };
 Play.prototype.create = function() {
     // To make the sprite move we need to enable Arcade Physics
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    this.timerText = this.game.add.text(32, this.game.height - 32, "-", {
-        fill: "#ffffff",
-		font: "bold 16px Arial",
-	});
+    // this.timerText = this.game.add.text(32, this.game.height - 32, "-", {
+    //     fill: "#ffffff",
+	// 	font: "bold 16px Arial",
+	// });
+
+    this.countdown = new Countdown(32, this.game.height - 32);
 
     this.hitText = this.game.add.text(this.game.width - 64, this.game.height - 32, "PIG HIT!", {
         fill: "#ffffff",
@@ -286,7 +329,13 @@ Play.prototype.update = function() {
 
     }.bind(this));
 
-    this.timerText.text = "Time: " + Date.now();
+    if (this.countdown.isDone) {
+        // It's done, we're done.
+        game.state.start("end");
+    }
+
+    // Managed in the countdown.
+    //this.timerText.text = "Time: " + Date.now();
 };
 Play.prototype.render = function() {
     // Info about input params are positioning offset.
@@ -299,6 +348,23 @@ Play.prototype.render = function() {
     //-----
     // Num entities registered in the game.
     //console.log(game.world.children.length);
+};
+
+
+
+var End = function() {};
+End.prototype = Object.create(Phaser.State);
+End.prototype.create = function() {
+    this.titleText = this.game.add.text(this.game.world.centerX, this.game.world.centerY,
+        "Click to play again", {
+        fill: "#ffffff",
+		font: "bold 42px Arial",
+	});
+    this.titleText.anchor.set(0.5);
+
+    this.game.input.onDown.add(function() {
+        this.game.state.start("play", true);
+    }.bind(this));
 };
 
 
@@ -316,4 +382,5 @@ var game = new Phaser.Game(
 
 game.state.add("title", Title);
 game.state.add("play", Play);
+game.state.add("end", End);
 game.state.start("title");
