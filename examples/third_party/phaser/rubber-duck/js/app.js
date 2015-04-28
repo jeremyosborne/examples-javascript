@@ -6,7 +6,7 @@
 var Flak = function(position) {
     //Phaser.Sprite.call(this, this.game, position.x, position.y, this.spriteImage);
     // Trying out cache.
-    Phaser.Sprite.call(this, this.game, position.x, position.y, game.cache.getBitmapData("flak"));
+    Phaser.Sprite.call(this, this.game, position.x, position.y, this.game.cache.getBitmapData("flak"));
 
     // Center flak over pointer.
     this.anchor.setTo(0.5, 0.5);
@@ -64,14 +64,22 @@ Flak.init = function(game) {
 
 
 var Pig = function(position) {
-    Phaser.Sprite.call(this, this.game, position.x, position.y, 'pig');
+    position = position || {};
+    Phaser.Sprite.call(this, this.game, position.x || 0, position.y || 0, 'pig');
     // Center flak over pointer.
     this.anchor.setTo(0.5, 0.5);
     // For collisions.
     this.game.physics.arcade.enable(this);
     this.game.add.existing(this);
+
+    this.randomCorner();
 };
 Pig.prototype = Object.create(Phaser.Sprite.prototype);
+Pig.prototype.randomCorner = function() {
+    // Put the pig in one of the corners of the game and start again.
+    this.x = Phaser.Utils.chanceRoll() ? 0 : this.game.world.width;
+    this.y = Phaser.Utils.chanceRoll() ? 0 : this.game.world.height;
+};
 // Set during init, reference to game.
 Pig.prototype.game = null;
 Pig.init = function(game) {
@@ -84,7 +92,7 @@ Pig.init = function(game) {
 
 var PigSplosion = function() {
     Phaser.Particles.Arcade.Emitter.call(this, this.game, 0, 0, 100);
-    this.makeParticles(game.cache.getBitmapData("confetti"));
+    this.makeParticles(this.game.cache.getBitmapData("confetti"));
     this.forEach(function(p) {
         // Give each piece of confetti a random tint.
         p.tint = Phaser.Color.getRandomColor();
@@ -133,7 +141,7 @@ Title.prototype.create = function() {
     this.game.input.onDown.add(function() {
         // console.log("click on game world");
         // This event listener gets purged when we transition to "play" state.
-        game.state.start("play", true);
+        this.game.state.start("play", true);
     }.bind(this));
 };
 
@@ -191,10 +199,12 @@ Play.prototype.create = function() {
     // Enable the Sprite to have a physics body:
     //this.game.physics.arcade.enable(this.sprite);
     // Version 2.
-    this.pig = new Pig({
-        x: this.game.world.centerX,
-        y: this.game.world.centerY,
-    });
+    // this.pig = new Pig({
+    //     x: this.game.world.centerX,
+    //     y: this.game.world.centerY,
+    // });
+    // Version 3: Pigs pick random locations by default.
+    this.pig = new Pig();
 
     //this.emitter = game.add.emitter(0, 0, 100);
     //this.emitter.makeParticles(this.confetti);
@@ -215,7 +225,7 @@ Play.prototype.create = function() {
         // for colliding with the pigs.
         this.flak.add(new Flak(pointer));
         // Play a sound along with the flak.
-        game.sound.play("explosion", true);
+        this.game.sound.play("explosion", true);
 
         // use the bitmap data as the texture for the sprite
         //var confetti = game.add.sprite(this.game.input.x, this.game.input.y, this.confetti);
@@ -270,8 +280,9 @@ Play.prototype.update = function() {
         // Remove and reset the pig to another location.
         this.pigSplosion.boom(pig.x, pig.y);
         // Put the pig in one of the corners of the game and start again.
-        pig.x = Phaser.Utils.chanceRoll() ? 0 : this.game.world.width;
-        pig.y = Phaser.Utils.chanceRoll() ? 0 : this.game.world.height;
+        //pig.x = Phaser.Utils.chanceRoll() ? 0 : this.game.world.width;
+        //pig.y = Phaser.Utils.chanceRoll() ? 0 : this.game.world.height;
+        pig.randomCorner();
 
     }.bind(this));
 
