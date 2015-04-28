@@ -20,7 +20,7 @@ Flak.prototype.imploding = false;
 // Pixels per frame.
 Flak.prototype.sizeChangeVelocity = 5;
 // How many pixels big before we implode.
-Flak.prototype.maxSize = 100;
+Flak.prototype.maxSize = 60;
 Flak.prototype.update = function() {
     //  Automatically called by World.update
     // Increase the size of the sprite.
@@ -82,6 +82,41 @@ Pig.init = function(game) {
 
 
 
+var PigSplosion = function() {
+    Phaser.Particles.Arcade.Emitter.call(this, this.game, 0, 0, 100);
+    this.makeParticles(game.cache.getBitmapData("confetti"));
+    this.forEach(function(p) {
+        // Give each piece of confetti a random tint.
+        p.tint = Phaser.Color.getRandomColor();
+    });
+    this.gravity = 200;
+};
+PigSplosion.prototype = Object.create(Phaser.Particles.Arcade.Emitter.prototype);
+PigSplosion.prototype.boom = function(x, y) {
+    // Position emitter to distribute particles.
+    this.x = x;
+    this.y = y;
+    // The first parameter sets the effect to "explode" which means all particles are emitted at once
+    // The second gives each particle a 2000ms lifespan
+    // The third is ignored when using burst/explode mode
+    // The final parameter (10) is how many particles will be emitted in this single burst
+    this.start(true, 2000, null, 10);
+};
+// This pattern is okay, I'm sticking with it because I tried it out earlier.
+// Set during init, reference to game.
+PigSplosion.prototype.game = null;
+// This pattern is okay, I'm sticking with it because I tried it out earlier.
+PigSplosion.init = function(game) {
+    game.load.audio('explosion', 'assets/sounds/explosion.wav');
+
+    var confetti = game.add.bitmapData(10, 10, "confetti", true);
+    confetti.fill(255, 255, 255, 1);
+
+    this.prototype.game = game;
+};
+
+
+
 // Excuse to have more than one screen.
 var Title = function() {};
 Title.prototype = Object.create(Phaser.State);
@@ -112,7 +147,7 @@ Play.prototype.preload = function() {
     // state.
 
     // Audio has some decoding helpers. See docs.
-    this.game.load.audio('explosion', 'assets/sounds/explosion.wav');
+    //this.game.load.audio('explosion', 'assets/sounds/explosion.wav');
 
     // Note: I feel like I'm doing something wrong. I've tried to add the
     // bitmapData to the cache, but can't seem to make the loader obey and
@@ -125,8 +160,8 @@ Play.prototype.preload = function() {
 
     // trying out the cache. when naming bitmap data, gotta set the "save in
     // cache" flag to true, otherwise naming is sort of pointless.
-    var confetti = game.add.bitmapData(10, 10, "confetti", true);
-    confetti.fill(255, 255, 255, 1);
+    // var confetti = game.add.bitmapData(10, 10, "confetti", true);
+    // confetti.fill(255, 255, 255, 1);
 
 
     // Groups for watching flak.
@@ -134,6 +169,7 @@ Play.prototype.preload = function() {
     // Some things need initialization. This isn't Phaser's fault.
     Flak.init(this.game);
     Pig.init(this.game);
+    PigSplosion.init(this.game);
 };
 Play.prototype.create = function() {
     // To make the sprite move we need to enable Arcade Physics
@@ -160,20 +196,25 @@ Play.prototype.create = function() {
         y: this.game.world.centerY,
     });
 
-    this.emitter = game.add.emitter(0, 0, 100);
+    //this.emitter = game.add.emitter(0, 0, 100);
     //this.emitter.makeParticles(this.confetti);
     // try out cache.
-    this.emitter.makeParticles(game.cache.getBitmapData("confetti"));
-    // TODO: Need to find a better way to add bitmap data with customer colors
+    //this.emitter.makeParticles(game.cache.getBitmapData("confetti"));
+    // A better way to add bitmap data with customer colors
     // to the emitter, or maybe just make the random colors onload... whatever.
-    this.emitter.forEach(function(p) {
-        // Iterate each particle.
-        p.tint = Phaser.Color.getRandomColor();
-    });
-    this.emitter.gravity = 200;
+    // this.emitter.forEach(function(p) {
+    //     // Iterate each particle.
+    //     p.tint = Phaser.Color.getRandomColor();
+    // });
+    // this.emitter.gravity = 200;
+
+    this.pigSplosion = new PigSplosion();
 
     this.game.input.onDown.add(function(pointer) {
-        // Simple immediate sound play.
+        // Can have multiple flak on the screen, keep track of them
+        // for colliding with the pigs.
+        this.flak.add(new Flak(pointer));
+        // Play a sound along with the flak.
         game.sound.play("explosion", true);
 
         // use the bitmap data as the texture for the sprite
@@ -184,23 +225,19 @@ Play.prototype.create = function() {
         //confetti.tint = Phaser.Color.getRandomColor();
         //confetti.body.gravity.set(0, 180);
 
-        this.emitter.x = pointer.x;
-        this.emitter.y = pointer.y;
+        // this.emitter.x = pointer.x;
+        // this.emitter.y = pointer.y;
         //  The first parameter sets the effect to "explode" which means all particles are emitted at once
         //  The second gives each particle a 2000ms lifespan
         //  The third is ignored when using burst/explode mode
         //  The final parameter (10) is how many particles will be emitted in this single burst
-        this.emitter.start(true, 2000, null, 10);
+        // this.emitter.start(true, 2000, null, 10);
         // Better to do this above.
         //this.emitter.forEachExists(function(p) {
             //console.log("A particle:", p);
             // WARNING: this modifies all confetti in existence.
             //p.tint = Phaser.Color.getRandomColor();
         //});
-
-
-        // Todo need to keep track of Flak.
-        this.flak.add(new Flak(pointer));
 
         // confetti.checkWorldBounds = true;
         // confetti.outOfBoundsKill = true;
@@ -224,16 +261,25 @@ Play.prototype.update = function() {
     this.hitText.visible = false;
     // As we don't need to exchange any velocities or motion we can the 'overlap'
     // check instead of 'collide'
-    // arguments to callback are swapped from input.
-    game.physics.arcade.overlap(this.flak, this.pig, function(/*sprite, flak*/) {
+    // arguments to callback are swapped from input:
+    // first is pig colliding with group, and second is sprite collided with
+    // from flak.
+    game.physics.arcade.overlap(this.flak, this.pig, function(pig) {
         this.hitText.visible = true;
+
+        // Remove and reset the pig to another location.
+        this.pigSplosion.boom(pig.x, pig.y);
+        // Put the pig in one of the corners of the game and start again.
+        pig.x = Phaser.Utils.chanceRoll() ? 0 : this.game.world.width;
+        pig.y = Phaser.Utils.chanceRoll() ? 0 : this.game.world.height;
+
     }.bind(this));
 
     this.timerText.text = "Time: " + Date.now();
 };
 Play.prototype.render = function() {
     // Info about input params are positioning offset.
-	this.game.debug.inputInfo(32, 32);
+	//this.game.debug.inputInfo(32, 32);
     //this.game.debug.pointer();
     // Info about sprites.
     //game.debug.bodyInfo(sprite, 32, 32);
@@ -257,7 +303,6 @@ var game = new Phaser.Game(
 
 
 
-// Move to multiple states.
-game.state.add("play", Play);
 game.state.add("title", Title);
+game.state.add("play", Play);
 game.state.start("title");
