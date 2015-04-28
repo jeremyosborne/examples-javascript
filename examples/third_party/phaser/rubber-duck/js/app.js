@@ -165,6 +165,37 @@ Countdown.init = function(game) {
 
 
 
+var ScoreKeeper = function(x, y) {
+    Phaser.Text.call(this, this.game, x, y, "", {
+        fill: "#ffffff",
+		font: "bold 16px Arial",
+	});
+
+    this.game.add.existing(this);
+
+    if (localStorage.highScore) {
+        this.highScore = localStorage.highScore;
+    }
+};
+ScoreKeeper.prototype = Object.create(Phaser.Text.prototype);
+ScoreKeeper.prototype.game = null;
+ScoreKeeper.prototype.score = 0;
+ScoreKeeper.prototype.highScore = 0;
+ScoreKeeper.prototype.add = function(n) {
+    this.score += n;
+};
+ScoreKeeper.prototype.update = function() {
+    this.text = "Score: " + this.score + "\nHigh Score: " + this.highScore;
+};
+ScoreKeeper.prototype.save = function() {
+    localStorage.score = this.score;
+    localStorage.highScore = this.highScore;
+};
+ScoreKeeper.init = function(game) {
+    this.prototype.game = game;
+};
+
+
 // Excuse to have more than one screen.
 var Title = function() {};
 Title.prototype = Object.create(Phaser.State);
@@ -219,6 +250,7 @@ Play.prototype.preload = function() {
     Pig.init(this.game);
     PigSplosion.init(this.game);
     Countdown.init(this.game);
+    ScoreKeeper.init(this.game);
 };
 Play.prototype.create = function() {
     // To make the sprite move we need to enable Arcade Physics
@@ -231,10 +263,12 @@ Play.prototype.create = function() {
 
     this.countdown = new Countdown(32, this.game.height - 32);
 
-    this.hitText = this.game.add.text(this.game.width - 64, this.game.height - 32, "PIG HIT!", {
-        fill: "#ffffff",
-        font: "bold 16px Arial",
-    });
+    // this.hitText = this.game.add.text(this.game.width - 64, this.game.height - 32, "PIG HIT!", {
+    //     fill: "#ffffff",
+    //     font: "bold 16px Arial",
+    // });
+
+    this.scoreKeeper = new ScoreKeeper(32, 32);
 
     // Pig sprite.
     //this.sprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'pig');
@@ -311,14 +345,14 @@ Play.prototype.update = function() {
         this.pig.body.velocity.set(0);
     }
 
-    this.hitText.visible = false;
+    //this.hitText.visible = false;
     // As we don't need to exchange any velocities or motion we can the 'overlap'
     // check instead of 'collide'
     // arguments to callback are swapped from input:
     // first is pig colliding with group, and second is sprite collided with
     // from flak.
     game.physics.arcade.overlap(this.flak, this.pig, function(pig) {
-        this.hitText.visible = true;
+        //this.hitText.visible = true;
 
         // Remove and reset the pig to another location.
         this.pigSplosion.boom(pig.x, pig.y);
@@ -327,11 +361,16 @@ Play.prototype.update = function() {
         //pig.y = Phaser.Utils.chanceRoll() ? 0 : this.game.world.height;
         pig.randomCorner();
 
+        // And get a point.
+        this.scoreKeeper.add(1);
+
     }.bind(this));
 
     if (this.countdown.isDone) {
         // It's done, we're done.
         game.state.start("end");
+
+        this.scoreKeeper.save();
     }
 
     // Managed in the countdown.
@@ -355,10 +394,16 @@ Play.prototype.render = function() {
 var End = function() {};
 End.prototype = Object.create(Phaser.State);
 End.prototype.create = function() {
+    var text = "The End.\nClick to play again";
+    if (localStorage.score > localStorage.highScore) {
+        text = "You got the high score!\n" + text;
+        localStorage.highScore = localStorage.score;
+    }
     this.titleText = this.game.add.text(this.game.world.centerX, this.game.world.centerY,
-        "Click to play again", {
+        text, {
         fill: "#ffffff",
 		font: "bold 42px Arial",
+        align: "center",
 	});
     this.titleText.anchor.set(0.5);
 
