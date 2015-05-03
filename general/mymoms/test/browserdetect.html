@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>browserdetect test</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="lib/qunit.css" type="text/css" media="screen" />
+        <script src="lib/qunit.js"></script>
+        <script src="../src/browserdetect.js"></script>
+    </head>
+    <body>
+        <h1 id="qunit-header">browserdetect test</h1>
+
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        <div id="qunit-fixture">test markup, will be hidden</div>
+        <script>
+test("Sanity test for isIE.", function() {
+    // Make a guess as to whether or not we are in IE
+    // NOTE: I have only tested this on IE 8
+    if (navigator.userAgent.indexOf("MSIE") >= 0) {
+        strictEqual(isIE(), true, "We should test positive for IE.");
+    }
+    else {
+        strictEqual(isIE(), false, "We should test negative for IE.");
+    }
+});
+        </script>
+    </body>
+</html>

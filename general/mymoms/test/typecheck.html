@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>typecheck test</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="lib/qunit.css" type="text/css" media="screen" />
+        <script src="lib/qunit.js"></script>
+        <script src="../src/typecheck.js"></script>
+    </head>
+    <body>
+        <h1 id="qunit-header">typecheck test</h1>
+
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        <div id="qunit-fixture">test markup, will be hidden</div>
+        <script>
+test("Sanity test for isArray.", function() {
+    equal(isArray([]), true);
+    equal(isArray(new Array()), true);
+    equal(isArray([1, 2]), true);
+
+    equal(isArray({}), false);
+    equal(isArray(null), false);
+});
+
+test("Sanity test for isString.", function() {
+    equal(isString("hello world"), true);
+    equal(isString(""), true);
+    equal(isString(new String("blah")), true);
+
+    equal(isString({}), false);
+    equal(isString([]), false);
+    equal(isString(new Number('3')), false);
+});
+        </script>
+    </body>
+</html>

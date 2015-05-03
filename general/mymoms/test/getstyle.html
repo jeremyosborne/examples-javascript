@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>getstyle test</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="lib/qunit.css" type="text/css" media="screen" />
+        <script src="lib/qunit.js"></script>
+        <script src="../src/getstyle.js"></script>
+        <style>
+#tester {
+    color: #ffffff;
+    border: 1px solid black;
+}
+        </style>
+    </head>
+    <body>
+        <h1 id="qunit-header">cookies test</h1>
+
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        <div id="qunit-fixture">
+        <div id="tester" style="color:rgb(255, 0, 0);">
+            Hello world.
+        </div>
+        </div>
+        <script>
+test("Sanity test.", function() {
+        // Text color we expect
+    var el = document.getElementById("tester");
+
+    // On IE, this is "red", on w3c, this is rgb. Can't we all just get along?
+    // Doh! Even the RGB values are different. IE takes spaces out, w3c leaves
+    // the spaces in. Can't win. Color checks are a bad idea I guess.
+    // NOTE: This test fails on IE8 right (the only IE I keep on my system).
+    strictEqual(getStyle(el, "color"), "rgb(255, 0, 0)", 
+        "Expected current value of the text color to be the inline style.");
+    strictEqual(getStyle(el, "display"), "block",
+        "Expect the default block value for a div.");
+    strictEqual(getStyle(el, "border-bottom-width"), "1px", 
+        "Checks must be extremely explicit.");
+    ok(getStyle(el, "background-color"), 
+        "A background color will be available by default.");
+});
+        </script>
+    </body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ExtendedDate Test</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="lib/qunit.css" type="text/css" media="screen" />
+        <script src="lib/qunit.js"></script>
+        <script src="../src/extendeddate.js"></script>
+    </head>
+    <body>
+        <h1 id="qunit-header">ExtendedDate test</h1>
+
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        <div id="qunit-fixture">test markup, will be hidden</div>
+        <script>
+test("Sanity test for ExtendedDate.", function() {
+    ok(ExtendedDate() instanceof Date, "should always return date object.");
+    ok(ExtendedDate(new Date()) instanceof Date, "should always return date object.");
+});
+
+
+
+test("Sanity test for copy method.", function() {
+    var d = ExtendedDate(),
+        copy = d.copy();
+    
+    ok(d !== copy, "Copy returns a new instance");
+    ok(d.toString() == copy.toString(), "Copy and original reference the same time.");    
+    ok(d.getTime() == copy.getTime(), "Copy and original reference the same time.");
+});
+
+
+
+test("Sanity test for dayDecrement", function() {
+    var now = ExtendedDate();
+    var d = ExtendedDate();
+    var previous = d.dayDecrement();
+    
+    ok(previous === d, "Returned object should be the same object.");
+    ok(d.getTime() < now.getTime(), "Decremented date is less than current date.");
+});
+
+
+
+test("Sanity test for dayIncrement", function() {
+    var now = ExtendedDate();
+    var d = ExtendedDate();
+    var next = d.dayIncrement();
+    
+    ok(next === d, "Returned object should be the same object.");
+    ok(d.getTime() > now.getTime(), "Incremented date is greater than current date.");
+});
+
+
+
+test("Sanity test for monthDecrement method.", function() {
+    var d = ExtendedDate(),
+        currentMonth = d.getMonth(),
+        currentYear = d.getFullYear(),
+        ref = d.monthDecrement();
+
+    // Handle month/year wrap around
+    if (d.getMonth() > currentMonth) {
+        equal(d.getMonth(), 11,
+                "Decrementing from January sets the month to December.");
+        ok(d.getFullYear() < currentYear,
+                "Decrementing from January decrements the year.");
+    }
+    else {
+        // Handle current year month decrements
+        ok(d.getMonth() < currentMonth,
+                "New month less than current month.");
+        ok(d.getFullYear() == currentYear,
+                "Changing month does not affect year.");
+    }
+
+    ok(ref === d, "Method returns reference to self.");
+});
+
+
+
+test("Sanity test for monthIncrement method", function() {
+    var d = ExtendedDate(),
+        currentMonth = d.getMonth(),
+        currentYear = d.getFullYear(),
+        ref = d.monthIncrement();
+
+    // Handle month/year wrap around
+    if (d.getMonth() < currentMonth) {
+        equal(d.getMonth(), 0,
+                "Incrementing from December sets the month to January.");
+        ok(d.getFullYear() > currentYear,
+                "Incrementing from December increments the year.");
+    }
+    else {
+        // Handle current year month decrements
+        ok(d.getMonth() > currentMonth,
+                "New month greater than current month.");
+        ok(d.getFullYear() == currentYear,
+                "Changing month does not affect year.");
+    }
+    
+    ok(ref === d, "Method returns reference to self.");
+});
+
+
+
+test("Sanity test for monthStartDay.", function() {
+    var d = ExtendedDate(),
+        day = d.monthStartDay();
+
+    ok(typeof day == "number", "Day should be a number.");
+    ok(day >= 0 && day <= 6, "Day should be between 0 and 6.");
+});
+
+
+
+test("Sanity test for monthEndDate.", function() {
+    var d = ExtendedDate(),
+        day = d.monthEndDate();
+
+    ok(typeof day == "number", "Day should be a number.");
+    ok(day >= 27 && day <= 31, "Day should be between 27 and 31.");
+});
+
+
+
+test("Sanity test for monthEndDay.", function() {
+    var d = ExtendedDate(),
+        day = d.monthEndDay();
+
+    ok(typeof day == "number", "Day should be a number.");
+    ok(day >= 0 && day <= 6, "Day should be between 0 and 6.");
+});
+
+
+
+test("Sanity test for weekDecrement", function() {
+    var d = ExtendedDate(),
+        now = new Date(),
+        ref = d.weekDecrement();
+    
+    ok(now.getTime() > d.getTime(), "Now should always be greater than the previous week.");
+    ok(ref === d, "Returned reference should point to self.");
+});
+
+
+
+test("Sanity test for weekIncrement", function() {
+    var d = ExtendedDate(),
+        now = new Date(),
+        ref = d.weekIncrement();
+    
+    ok(now.getTime() < d.getTime(), "Now should always be less than the next week.");
+    ok(ref === d, "Returned reference should point to self.");
+});
+
+
+
+test("Sanity test for isWithinWeek", function() {
+    var d = ExtendedDate(),
+        // Prevent the very bizarre condition that if we were testing late
+        // on saturday night, we might have two different nows for testing.
+        now = new Date(d.getTime());
+
+    ok(d.isWithinWeek(now), "now is within our week.");
+
+    d.weekIncrement();
+    ok(d.isWithinWeek(now) === false, "now is not within a future week.");
+    
+    d.weekDecrement();
+    d.weekDecrement();
+    ok(d.isWithinWeek(now) === false, "now is not within a past week.");    
+});
+
+
+
+test("Sanity test for weekStartDate", function() {
+    var d = ExtendedDate();
+
+    ok(d.weekStartDate().getDay() === 0, "Week should always start on a 0.");
+});
+
+
+
+test("Sanity test for weekEndDate", function() {
+    var d = ExtendedDate();
+
+    ok(d.weekEndDate().getDay() === 6, "Week should always end on a 6.");
+});
+
+
+
+test("Sanity test for isSameCalendarDate", function() {
+        // Should work on normal dates, too.
+    var d1 = ExtendedDate(),
+        d2 = new Date(d1.getTime());
+
+    d1.setHours(13);
+    d2.setHours(12);
+    
+    ok(d1.isSameCalendarDate(d2) === true, "Same calendar date even if not the same time.");
+    
+    // Test failure case.
+    d1.dayDecrement();
+    ok(d1.isSameCalendarDate(d2) === false, "Different calendar dates fails as expected.");    
+});
+
+
+
+test("Sanity test for toISOCalendarDate", function() {
+    var d = ExtendedDate(),
+        targetDate = "2012-12-21";
+    
+    d.setDate(21);
+    // JavaScript months == 0 - 11
+    d.setMonth(11);
+    d.setFullYear(2012);
+    
+    ok(d.toISOCalendarDate() === targetDate, "Correct ISO Calendar Date returned.");
+});
+
+
+
+//---------- DO THIS TEST LAST
+test("Sanity test for extending the native Date object", function() {
+    var d;
+
+    // Extend the native date prototype
+    ExtendedDate(Date.prototype);
+
+    // Use the new date
+    d = new Date();
+
+    ok(d.monthEndDate, "Instances of the native Date have been extended.");
+});
+        </script>
+    </body>
+</html>

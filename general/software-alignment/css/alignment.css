@@ -1,0 +1,131 @@
+/*
+ * Styling for the Software Alignment table.
+ */
+
+/* Page defaults. */
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 1em;
+    background-color: black;
+    color: white;
+    border: 0px solid #fff;
+}
+
+.banner {
+    /* width+display get rid of collapsing margin. */
+    width: 100%;
+    display: inline-block;
+    margin-top: 2em;
+    text-align: center;
+}
+
+/* Tabular display of project alignment types. */
+#software-alignment {
+    text-align: center;
+    vertical-align: middle;
+    margin-left: auto;
+    margin-right: auto;
+    border-spacing: 0;
+}
+
+/* General table cell styling. */
+#software-alignment td {
+    /* Add an invisible border that takes space to prevent "highlight jump"
+       when mousing over a table cell. */
+    border: 1px transparent solid;
+    padding: 0.3em;
+}
+/* Applied when the user is mousing over a table cell. */
+#software-alignment td.highlight {
+    border: 1px solid orange;
+    color: orange;
+}
+/* Applied when a user has selected a table cell. */
+#software-alignment td.selected {
+    border: 1px solid yellow;
+    color: yellow;
+}
+
+/*
+ * x-axis: level of (dis)organization.
+ * y-axis: level of activity, relative to project size.
+ * All styles attached to table cells (td).
+ */
+/* Upper left corner through upper right corner. */
+.lawful-xaxis.good-yaxis {
+    background-color: #104013;
+    border-radius: 1em 0 0 0;
+    -moz-border-radius: 1em 0 0 0;
+    -webkit-border-radius: 1em 0 0 0;
+}
+.neutral-xaxis.good-yaxis {
+    background-color: #005506;
+    opacity: 0.95;
+}
+.chaotic-xaxis.good-yaxis {
+    background-color: #18621D;
+    opacity: 0.9;
+    border-radius: 0 1em 0 0;
+    -moz-border-radius: 0 1em 0 0;
+    -webkit-border-radius: 0 1em 0 0;
+}
+/* Middle left through middle right row. */
+.lawful-xaxis.neutral-yaxis {
+    background-color: #503714;
+    opacity: 0.95;
+}
+.neutral-xaxis.neutral-yaxis {
+    background-color:#6B3F00;
+    opacity:0.9;
+}
+.chaotic-xaxis.neutral-yaxis {
+    background-color: #7C551f;
+    opacity: 0.85;
+}
+/* Lower left corner through lower right corner. */
+.lawful-xaxis.evil-yaxis {
+    background-color: #4E2014;
+    opacity: 0.9;
+    border-radius: 0 0 0 1em;
+    -moz-border-radius: 0 0 0 1em;
+    -webkit-border-radius: 0 0 0 1em;
+}
+.neutral-xaxis.evil-yaxis {
+    background-color: #681500;
+    opacity: 0.85;
+}
+.chaotic-xaxis.evil-yaxis {
+    background-color: #7C311F;
+    opacity: 0.80;
+    border-radius: 0 0 1em 0;
+    -moz-border-radius: 0 0 1em 0;
+    -webkit-border-radius: 0 0 1em 0;
+}
+
+/* Hide the description to start with. */
+#software-alignment-details {
+    display: none;
+    width: 70%;
+    margin-top: 2em;
+    margin-left: auto;
+    margin-right: auto;
+}
+#software-alignment-details > h2 {
+    margin: 0;
+}
+/* Modify the headings slighly to make them stand out. */
+.organization-level-heading, .project-monster-mascot, .activity-level-heading {
+    color: cyan;
+}
+
+/* Instuctional message. */
+#click-for-details-message {
+    margin-top: 2em;
+    text-align: center;
+}

@@ -1,0 +1,278 @@
+@import helpers
+
+// For the noscript warning.
+bgWarningColor = #a66919
+
+*
+    box-sizing: border-box
+
+body, html
+    margin: 0
+    padding: 0
+    height: 100%
+
+body
+    font-size: 1.2em
+    font-family: Georgia, "Times New Roman", Times, serif
+    line-height: 1.4
+    -webkit-font-smoothing: antialiased
+
+h1, h2, h3, h4, h5, h6
+    font-family: Helvetica, Arial, sans-serif
+    margin: 0
+    font-weight: normal
+    line-height: 1.1
+
+h1
+    font-size: 2em
+
+h2
+    font-size: 1.8em
+
+h3
+    font-size: 1.6em
+
+h4
+    font-size: 1.4em
+
+h5
+    font-size: 1.3em
+
+h6
+    font-size: 1.2em
+    
+a, a:visited, a:link, a:active
+    text-decoration: none
+
+a:hover
+    text-decoration: underline
+
+p
+    margin-top: 0
+
+noscript .warning
+    text-align: center
+    color: white
+    font-size: 2em
+    background-color: bgWarningColor
+    padding: 1em
+
+
+
+/*----------------------------------------------------------------------------
+  -------------------------------------------------------------- Page specific
+  ----------------------------------------------------------------------------*/
+@import 'nib'
+
+/* Some colors to work with...
+       http://colorschemedesigner.com/#5x41TtZnnw0w0cLtVwgZaMPhSyGriXlDejS-RCkNiPl
+   Plus an additional blue for the background: #4182bc */
+
+bgPrimaryColor = #4182bc
+
+body 
+    background-image: linear-gradient(top, bgPrimaryColor, #ffffff)
+    /* I could be wrong, but ever since I put perspective in, I've been
+       getting weird zoom problems on Chrome. Take out for now. */
+    /* perspective: 1000px; */
+    
+:focus
+    outline: none
+
+.hidden
+    display: none
+
+/* Warning to display about necessary compability. */
+.compatibility-warning
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    text-align: center
+    color: white
+    font-size: 2em
+    background-color: bgWarningColor
+    padding: 1em
+    z-index: 1
+
+
+#input-container
+    width: 80%
+    height: 100%
+    margin: 0.2em auto 0 auto
+
+// Stylus mixin for some standard values for the #human and #chicken elements.
+general-input-styling()
+    display: block
+    width: 100%
+    height: 20%
+    min-height: 2em
+    padding: 0.6em
+    font-size: 150%
+    border: 1px solid black
+    background-color: #fff
+    -webkit-appearance: none
+    overflow: auto
+
+#human
+    general-input-styling()
+    font-family: Georgia, "Times New Roman", Times, serif
+    resize: none
+
+#chicken
+    general-input-styling()
+    font-family: 'Reenie Beanie', cursive
+
+#speak, #stop-speaking
+    display: block
+    margin: 0 auto
+
+
+
+#background-pasture
+    position: absolute
+    bottom: 0
+    left: 0
+    right: 0
+    top: 70%
+    background-color: green
+    background-image: url(images/grass.png)
+    background-size: 15px 15px
+    border-radius: 20% 20% 0 0
+    border-top: 0.3em solid darkgreen
+
+
+
+/* All cows face to the right and pace to the right initially. */
+.cow
+    position: absolute
+    /* Cow image dimensions 452x292 */
+    width: 150px
+    height: 97px
+    background-image: url(images/cow.png)
+    background-size: 100% 100%
+    background-position: center center
+    background-repeat: no-repeat
+    animation-name: pacing-cow
+    animation-direction: linear
+    animation-iteration-count: infinite
+
+#background-cow-1
+    bottom: 8%
+    left: 28%
+    animation-duration: 120s
+
+#background-cow-2
+    bottom: 14%
+    left: 23%
+    animation-duration: 90s
+
+#background-cow-3
+    bottom: 20%
+    left: 34%
+    animation-duration: 75s
+    animation-delay: 5s
+
+
+/* Reminder to self: transform functions are applied in order, left to right.
+   Reminder to self: unlike almost EVERYWHERE else in CSS, a percentage value
+   of a translate method has nothing to do with the parent container, but
+   rather a percentage of the element being translated. WTF? */
+@keyframes pacing-cow
+    5%
+        transform: translateX(0%) rotateY(0deg) rotate(0deg)
+    8%
+        transform: translateX(40%) rotateY(0deg) rotate(7deg)
+    11%
+        transform: translateX(60%) rotateY(0deg) rotate(-2deg)
+    15%
+        transform: translateX(80%) rotateY(0deg) rotate(7deg)
+    19%
+        transform: translateX(100%) rotateY(0deg) rotate(0deg)
+    30%
+        transform: translateX(100%) rotateY(0deg) rotate(0deg)
+    33%
+        transform: translateX(100%) rotateY(180deg) rotate(0deg)
+    54%
+        transform: translateX(100%) rotateY(180deg) rotate(0deg)    
+    60%
+        transform: translateX(100%) rotateY(180deg) rotate(0deg)
+    63%
+        transform: translateX(60%) rotateY(180deg) rotate(7deg)
+    66%
+        transform: translateX(50%) rotateY(180deg) rotate(-2deg)
+    70%
+        transform: translateX(20%) rotateY(180deg) rotate(7deg)
+    74%
+        transform: translateX(0%) rotateY(180deg) rotate(-2deg)
+    90%
+        transform: translateX(0%) rotateY(180deg) rotate(0deg)
+    100%
+        transform: translateX(0%) rotateY(0deg) rotate(0deg)
+
+        
+        
+#background-tree
+    background-image: url(images/tree.png)
+    background-size: 100% 100%
+    background-position: center center
+    background-repeat: no-repeat
+    /* Original tree dimensions 100x100. */
+    height: 250px
+    width: 150px
+    position: absolute
+    /* Go the absolute positioning route in order to position lucy correctly
+       on top of the tree. */
+    left: 10px
+    bottom: 150px
+    
+#background-lucy-teh-chicken
+    background-image: url(images/lucy.png)
+    background-size: 100% 100%
+    background-position: center center
+    background-repeat: no-repeat
+    /* Original image dimensions: 1099x739 */
+    height: 74px
+    width: 110px
+    position: absolute
+    left: 10px
+    bottom: 380px
+    /* This is slower than the basic speed of a sound unit, which is 25ms,
+       but the browser seems to have problems updating at a 20-25ms pace. */
+    transition: all 50ms linear
+
+/* States for the chicken speaker. Set by JavaScript to give a minor amount
+   of animation to the chicken during translation time. */
+.bok
+    transform: rotate(-10deg)
+.cluck
+    transform: rotate(-20deg)
+.squak
+    transform: rotate(-5deg)
+.cockle
+    transform: rotate(-15deg)
+
+
+/* For shorter screens, get rid of the cows and the tree, and set lucy next to
+   her chicken-speak box. */
+@media only screen and (max-height: 650px)
+    .cow, #background-tree
+        display: none
+    #background-pasture
+        top: 90%
+    #background-lucy-teh-chicken
+        bottom: 7%
+    #human, #chicken
+        height: 35%
+
+/* For thinner screens, make sure lucy or the chicken speak box do not
+   overlap. */
+@media only screen and (max-width: 960px)
+    #input-container
+        width: auto
+        position: absolute
+        top: 0
+        right: 10px
+        left: 130px
+        bottom: 0
+        

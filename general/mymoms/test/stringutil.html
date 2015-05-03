@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>StringUtil Test</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="lib/qunit.css" type="text/css" media="screen" />
+        <script src="lib/qunit.js"></script>
+        <script src="../src/stringutil.js"></script>
+    </head>
+    <body>
+        <h1 id="qunit-header">StringUtil test</h1>
+
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        <div id="qunit-fixture">test markup, will be hidden</div>
+        <script>
+test("Sanity test for StringUtil.", function() {
+    ok(StringUtil, "Object exists.");
+});
+
+
+
+test("Sanity test for string trim functions.", function() {
+    var s = " hello world ";
+
+    equal(StringUtil.ltrim(s), "hello world ", "Removes preceding white space.");
+    equal(StringUtil.rtrim(s), " hello world", "Removes trailing white space.");
+    equal(StringUtil.trim(s), "hello world", "Removes all white space.");
+});
+
+
+
+test("Sanity test for parseIntoChunks", function() {
+    deepEqual(
+        StringUtil.parseIntoChunks("hello,   world! \r\n"),
+        ["hello,", "   ", "world!", " \r\n"],
+        "Each substring is the expected sequence of characters."
+    );
+});
+
+
+
+test("Sanity test for propToLabel", function() {
+    strictEqual(
+        StringUtil.propToLabel("testProp"),
+        "Test Prop",
+        "Handles a standard camel cased string."
+    );
+    strictEqual(
+        StringUtil.propToLabel("test_prop"),
+        "Test Prop",
+        "Handles underscores as separators in non camel cased strings."
+    );
+    strictEqual(
+        StringUtil.propToLabel("prop2name"),
+        "Prop 2 Name",
+        "Handles numbers as separators in non camel cased strings."
+    );
+    strictEqual(
+        StringUtil.propToLabel("innerHTML"),
+        "Inner HTML",
+        "Handles sequence of all lower case followed by all upper case."
+    );
+    strictEqual(
+        StringUtil.propToLabel("encodeURIComponent"),
+        "Encode URI Component",
+        "Handles a mixed upper cased and camel cased string."
+    );
+});
+
+test("Sanity test for encodeBase64", function() {
+    // Tests and expected results from Base64 article in Wikipedia
+    strictEqual(StringUtil.encodeBase64("leasure."), "bGVhc3VyZS4=");
+    strictEqual(StringUtil.encodeBase64("easure."), "ZWFzdXJlLg==");
+    strictEqual(StringUtil.encodeBase64("asure."), "YXN1cmUu");
+    strictEqual(StringUtil.encodeBase64("sure."), "c3VyZS4=");
+});
+
+
+test("Sanity test for enocodeBitChar method.", function() {
+        // One ASCII character (A = 1 UTF-8 byte = "01000001"),
+        // one Latin-1 character (ü = 2 UTF-8 bytes = "11000011 10111100")
+    var s = "Aü";
+
+    equal(typeof StringUtil.enocodeBitChar(s), "string",
+        "We return a string type");
+    equal(StringUtil.enocodeBitChar(s), "01000001",
+        "We only return the encoding for the first character.");
+});
+
+
+test("Sanity test for encodeBitArray method.", function() {
+        // One ASCII character (A = 1 UTF-8 byte = "01000001"),
+        // one Latin-1 character (ü = 2 UTF-8 bytes = "11000011 10111100")
+    var s = "Aü";
+
+    equal(StringUtil.encodeBitArray(s).length, 2,
+        "Two character string creates 2 UTF-8 byte strings.");
+    equal(StringUtil.encodeBitArray(s)[0], "01000001",
+        "Check first character.");
+    equal(StringUtil.encodeBitArray(s)[1], "11000011 10111100",
+        "Check second character.");
+});
+
+
+test("Sanity test for encodeWebFormPost.", function() {
+    equal(StringUtil.encodeWebFormPost({
+            Name: "Jonathan Doe",
+            Age: 23,
+            Formula: "a + b == 13%!"
+        }),
+        "Name=Jonathan+Doe&Age=23&Formula=a+%2B+b+%3D%3D+13%25%21",
+        "matches example given in wikipedia.");
+});
+        </script>
+    </body>
+</html>

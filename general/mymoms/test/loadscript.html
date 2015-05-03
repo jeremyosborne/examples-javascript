@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>loadScript test</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="lib/qunit.css" type="text/css" media="screen" />
+        <script src="lib/qunit.js"></script>
+        <script src="../src/loadscript.js"></script>
+    </head>
+    <body>
+        <h1 id="qunit-header">loadScript test</h1>
+
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        <div id="qunit-fixture">test markup, will be hidden</div>
+        <script>
+test("Sanity test.", function() {
+    strictEqual(window.klass, undefined, "test function not in memory.");
+
+    // pause testing until load is done
+    stop();
+    loadScript("../src/klass.js", function() {
+        // restarrt testing now that load is done
+        start();
+        strictEqual(typeof window.klass, "function", "file successfully loaded.");
+    });
+});
+        </script>
+    </body>
+</html>

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>simpledom test</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="lib/qunit.css" type="text/css" media="screen" />
+        <script src="lib/qunit.js"></script>
+        <script src="../src/simpledom.js"></script>
+    </head>
+    <body>
+        <h1 id="qunit-header">simpledom test</h1>
+
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        <!-- objects in qunit-fixture are automatically reset after each test() -->
+        <div id="qunit-fixture">
+            <div id="no-class">no class</div>
+            <div id="empty-class" class="">empty class</div>
+            <div id="one-class" class="hello">one class</div>
+            <div id="two-classes" class="hello world">two classes</div>
+            <div id="three-classes" class="hello world and-universe">three classes</div>
+        </div>
+        <script>
+/*
+ * Determine if an element has a particular class, following the DTD rules
+ * of the DOM class attribute.
+ * @param element {HTMLElement} DOM element on which to check for a class.
+ * @param className {string} The single class to check for.
+ * @return {boolean} true if the element has a class, or false if either
+ * the element does not have the class, the element does not exist, or
+ * if the element does not have a className property.
+ */
+function hasClassUtil(element, className) {
+        // Regular Expression reminder for tomorrow's debugging purposes:
+        // className is located at either the beginning the string
+        // or className has white space before it
+        // and
+        // className is located at the end of the string
+        // or has white space following it.
+        // Need to double escape special characters
+    var re = RegExp("(^|\\s)"+className+"(\\s|$)");
+
+    if (element && element.className) {
+        // only check if we have something to check.
+        return re.test(element.className);
+    }
+    else {
+        return false;
+    }
+}
+
+test("a$$ factory selector sanity test", function() {
+    var expectedNumberOfDivsOnPage = 7;
+
+    strictEqual(a$$("div").length,
+        expectedNumberOfDivsOnPage,
+        "Control check: expected number of divs on the page.");
+
+    strictEqual(a$$(window) !== window,
+        true,
+        "The window object is correctly wrapped in a$$.");
+});
+
+test("a$$ factory with html string sanity test", function() {
+    var expectedChildren = 5;
+
+    strictEqual(a$$("#qunit-fixture").findAll("div").length,
+        expectedChildren,
+        "Control check: expected number of nodes before starting test.");
+
+    a$$("#qunit-fixture")[0].appendChild(a$$("<div></div>")[0]);
+    strictEqual(a$$("#qunit-fixture").findAll("div").length,
+        expectedChildren + 1,
+        "Successfully added 1 child to pre-existing dom.");
+
+    strictEqual(a$$("<div></div>").length,
+        1,
+        "Successfully created 1 div.");
+
+    strictEqual(a$$("<div><div></div></div>").length,
+        1,
+        "Successfully created 1 div with a child.");
+
+    strictEqual(a$$("<div></div><div></div>").length,
+        2,
+        "Successfully created 2 sibling divs.");
+});
+
+test("a$$.append sanity tests.", function() {
+    var container = a$$("<div>test</div>"),
+        initialNumChildren = container[0].childNodes.length;
+
+    strictEqual(container.length,
+        1,
+        "Control check: expected number of nodes before starting test.");
+
+    container.append("");
+    strictEqual(container[0].childNodes.length,
+        initialNumChildren,
+        "Adding an empty string does not cause an error and does not increase number of children.");
+
+    container.append("<span></span>");
+    strictEqual(container.length,
+        1,
+        "container is still one element.");
+    strictEqual(container.findAll("span").length,
+        1,
+        "container contains 1 span element.");
+
+    container.append("<span></span>");
+    strictEqual(container.length,
+        1,
+        "container is still one element.");
+    strictEqual(container.findAll("span").length,
+        2,
+        "container contains 2 span elements.");
+
+    container.append(document.createElement("span"));
+    strictEqual(container.length,
+        1,
+        "container is still one element.");
+    strictEqual(container.findAll("span").length,
+        3,
+        "container contains 3 span elements, one added via document.createElement.");
+
+    container.append("hello world");
+    strictEqual(container.length,
+        1,
+        "container is still one element.");
+    strictEqual(container[0].childNodes.length,
+        5,
+        "container contains expected number of childNodes (text nodes + elements, even on W3C browsers).");
+});
+
+test("a$$.append with cloning sanity tests.", function() {
+    var container = a$$("<div></div>"),
+        initialNumChildren = container[0].childNodes.length;
+
+    strictEqual(container[0].childNodes.length,
+        initialNumChildren,
+        "Control check: expected number of nodes before starting test.");
+
+    container.append("", true);
+    strictEqual(container[0].childNodes.length,
+        initialNumChildren,
+        "Adding an empty string, even with cloning does not cause an error and does not increase number of children.");
+
+    container.append("<span></span><span></span>", true);
+    strictEqual(container[0].childNodes.length,
+        initialNumChildren + 2,
+        "Adding two spans with cloning increases children by 2.");
+
+    strictEqual(container.findAll("span").append("<div></div>", true).findAll("div").length,
+        2,
+        "Cloning one div onto each span should create 2 divs.");
+
+});
+
+
+
+test("a$$.classAdd sanity tests.", function() {
+    var noClassEl = document.getElementById("no-class");
+
+    strictEqual(noClassEl.className.length,
+        0,
+        "Sanity check: element has no classes.");
+
+    a$$(noClassEl).classSet("hello");
+    strictEqual(hasClassUtil(noClassEl, "hello"),
+        true,
+        "Element now has a class added to it.");
+
+    a$$(noClassEl).classSet("hello");
+    strictEqual(hasClassUtil(noClassEl, "hello"),
+        true,
+        "Can try to add a class multiple times without failure.");
+    strictEqual(noClassEl.className.split(" ").length,
+        1,
+        "Multiple attempts to add the same class result in only one class being added.");
+
+    a$$(noClassEl).classSet("world");
+    strictEqual(hasClassUtil(noClassEl, "world"),
+        true,
+        "Adding an additional class works.");
+    strictEqual(hasClassUtil(noClassEl, "hello"),
+        true,
+        "Adding a class does not delete previously added classes.");
+    strictEqual(noClassEl.className.split(" ").length,
+        2,
+        "Our element should now have two classes, determined by an independent check.");
+});
+
+
+
+
+test("a$$.classRemove sanity tests.", function() {
+    var threeClassEl = document.getElementById("three-classes");
+
+    strictEqual(threeClassEl.className.split(" ").length,
+        3,
+        "Sanity check: element has three classes.");
+
+    strictEqual(hasClassUtil(threeClassEl, "hello"),
+        true,
+        "Element has the hello class.");
+    a$$(threeClassEl).classRemove("hello");
+    strictEqual(hasClassUtil(threeClassEl, "hello"),
+        false,
+        "Element no longer has the hello class.");
+    strictEqual(threeClassEl.className.split(" ").length,
+        2,
+        "Element now has two classes.");
+
+    strictEqual(hasClassUtil(threeClassEl, "and-universe"),
+        true,
+        "Element has the class.");
+    a$$(threeClassEl).classRemove("and-universe");
+    strictEqual(hasClassUtil(threeClassEl, "and-universe"),
+        false,
+        "Element no longer has the class.");
+    strictEqual(threeClassEl.className.split(" ").length,
+        1,
+        "Element now has one class.");
+});
+
+
+
+test("a$$.empty sanity tests.", function() {
+    var fixture = a$$("#qunit-fixture");
+
+    strictEqual(fixture.findAll("div").length,
+        5,
+        "Control experiment: expected number of divs as children.");
+
+    strictEqual(fixture.empty().findAll("div").length,
+        0,
+        "0 divs as children of fixture element.");
+});
+
+
+
+test("a$$.on and a$$.off sanity tests.", function() {
+    strictEqual(a$$("#no-class")[0].onclick,
+        null,
+        "Control experiment, no click listener.");
+
+    a$$("#no-class").on("click", function() {});
+    strictEqual(typeof a$$("#no-class")[0].onclick,
+        "function",
+        "A function is attached to the click handler.");
+
+    a$$("#no-class").off("click");
+    strictEqual(a$$("#no-class")[0].onclick,
+        null,
+        "A function is removed from the click handler.");
+});
+
+
+test("a$$.on fixed event object sanity tests.", function() {
+    a$$("#no-class").on("click", function(e) {
+        // Called after the event fires, catch the tests up.
+        start();
+        ok(e.which, "The which property exists.");
+        ok(e.target, "The target property exists.");
+        ok(e.preventDefault, "The preventDefault method exists.");
+        ok(e.pageX === 0, "pageX is created correctly.");
+        ok(e.pageY === 0, "pageY is created correctly.");
+
+        var preventDefaultBehaves = true;
+        try {
+            e.preventDefault();
+        }
+        catch (err) {
+            if (err) {
+                preventDefaultBehaves = false;
+            }
+        }
+        ok(preventDefaultBehaves, "The preventDefault override doesn't throw an error.'")
+        
+        a$$("#no-class").off("click");
+    });
+
+    // Wait for the following async test to catch up
+    stop();
+    var event;
+    if (document.createEvent) {
+        // w3c
+        event = document.createEvent("HTMLEvents");
+        event.initEvent("click", true, true);
+    } else {
+        // IE
+        event = document.createEventObject();
+        event.eventType = "click";
+    }
+    event.srcElement = {};
+    event.keyCode = 13;
+    // Want to test to make sure we still have a pageX and a pageY
+    event.clientX = 0;
+    event.clientY = 0;
+    if (document.createEvent) {
+        // w3c
+        a$$("#no-class")[0].dispatchEvent(event);
+    } else {
+        // IE
+        a$$("#no-class")[0].fireEvent("on"+event.eventType, event);
+    }
+});
+
+
+test("a$$.find sanity tests.", function() {
+        // can anyone find me somebody to love?
+    var container = document.getElementById("qunit-fixture");
+
+    strictEqual(a$$(container).find("div").length,
+        1,
+        "only 1 item should ever be returned from find, even more are available.");
+
+    strictEqual(a$$(container).find("#no-class").length,
+        1,
+        "simple id selector works.");
+
+    strictEqual(a$$(container).find(".hello").length,
+        1,
+        "simple class selector works.");
+
+    strictEqual(a$$(container).find(".doesntexist").length,
+        0,
+        "a bad class should return nothing.");
+});
+
+
+
+
+test("a$$.findAll sanity tests.", function() {
+        // can anyone find me somebody to love?
+    var container = document.getElementById("qunit-fixture");
+
+    strictEqual(a$$(container).findAll("div").length,
+        5,
+        "Find all 5 divs.");
+
+// Fucking qunit appears to puke everytime I try to test the child selector
+// ">div".
+//    strictEqual(a$$(container).findAll(">div").length,
+//        5,
+//        "Find all 5 divs specified as children.");
+
+    strictEqual(a$$(container).findAll("#three-classes").length,
+        1,
+        "Find 1 div via id.");
+
+    strictEqual(a$$(container).findAll(".hello").length,
+        3,
+        "Find three divs with the hello class.");
+
+    strictEqual(a$$(container).findAll(".world").length,
+        2,
+        "Find two divs with the world class.");
+
+    strictEqual(a$$(container).findAll("asshole").length,
+        0,
+        "Find now asshole elements.");
+});
+
+
+
+test("a$$.hide and a$$.show sanity tests.", function() {
+    var threeClassEl = a$$("#three-classes");
+
+    strictEqual(threeClassEl[0].style.display,
+        "",
+        "Element style display rule is anticpated correctly.");
+
+    threeClassEl.hide();
+    strictEqual(threeClassEl[0].style.display,
+        "none",
+        "Element is now hidden via inline display.");
+
+    threeClassEl.show();
+    strictEqual(threeClassEl[0].style.display,
+        "",
+        "Element is now shown, assuming no inline display shows element.");
+});
+
+test("a$$.offset sanity tests.", function() {
+    // We need a couple of elements to test with.
+    // The first element is the positioning parent.
+    var container = document.createElement("container");
+    container.id = "offset-test-container";
+    container.style.position = "absolute";
+    container.style.top = "200px";
+    container.style.left = "100px";
+    document.body.appendChild(container);
+    
+    // The second element will not be positioned, and as an empty div should
+    // return an offset from a$$ that is the positioning of the container.
+    var contained = document.createElement("div");
+    contained.id = "offset-test-contained";
+    container.appendChild(contained);
+    
+    strictEqual(a$$("#offset-test-contained").offset().top,
+        200,
+        "Contained element has expected offset top of parent container.");
+
+    strictEqual(a$$("#offset-test-contained").offset().left,
+        100,
+        "Contained element has expected offset left of parent container.");
+    
+    // Sanity test
+    strictEqual(a$$("#blah-blah-blah-DOES-NOT-EXIST").offset().top,
+        undefined,
+        "Empty a$$ returns an object with undefined top property.");
+
+    strictEqual(a$$("#blah-blah-blah-DOES-NOT-EXIST").offset().top,
+        undefined,
+        "Empty a$$ returns an object with undefined left property.");
+    
+    // Remove our element from the page when we're done.
+    document.body.removeChild(container);
+});
+
+test("a$$.parent sanity tests.", function() {
+    var threeClassEl = a$$("#three-classes");
+
+    strictEqual(threeClassEl.parent().length,
+        1,
+        "Parent returns one element.");
+
+    strictEqual(threeClassEl.parent()[0].id,
+        "qunit-fixture",
+        "Parent is the qunit fixture.");
+
+    strictEqual(a$$("div").parent().length,
+        1,
+        "Parent should only ever return 1 element.");
+});
+
+
+
+test("a$$.remove sanity tests.", function() {
+    var fixture = a$$("#qunit-fixture");
+
+    strictEqual(fixture.findAll("div").length,
+        5,
+        "Control experiment: expected number of divs as children.");
+
+    strictEqual(fixture.findAll("div").remove().length,
+        5,
+        "5 divs removed and now available in simpledom.");
+
+    strictEqual(fixture.findAll("div").length,
+        0,
+        "No more divs in the qunit-fixture.");
+});
+
+
+
+test("a$$.styleSet sanity tests.", function() {
+    var threeClassEl = document.getElementById("three-classes");
+
+    strictEqual(threeClassEl.style.test,
+        undefined,
+        "there is no such thing as a 'test' style rule yet added.");
+
+    a$$(threeClassEl).styleSet("test");
+    strictEqual(threeClassEl.style.test,
+        "",
+        "styleSet is indiscriminate.");
+
+    a$$(threeClassEl).styleSet("display", "none");
+    strictEqual(threeClassEl.style.display,
+        "none",
+        "styleSet works.");
+});
+
+        </script>
+    </body>
+</html>

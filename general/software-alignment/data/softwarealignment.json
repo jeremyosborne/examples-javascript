@@ -1,0 +1,83 @@
+var details_data = {
+    "lawful-good":{
+        "organization-level": "formal",
+        "activity-level": "enhancements + bug fixes",
+        "monster-mascot": "Gold Dragon",
+        "monster-mascot-image": {
+            "url": "http://www.wizards.com/dnd/images/MM35_gallery/MM35_PG84.jpg"
+        },
+        "summary": "Formality, however frowned upon, when properly applied can allow for a grand level of coordinated activity among more than a handful of developers. A project in this state of development is exemplary of a group of people committed to a common goal. Rules may change just as code does, however all changes will have a purpose."
+    },
+    "neutral-good":{
+        "organization-level": "semiformal",
+        "activity-level": "enhancements + bug fixes",
+        "monster-mascot": "Human",
+        "monster-mascot-image": {
+            "url": "http://www.wizards.com/dnd/images/ph35_gallery/PHB35_PG51_WEB.jpg"
+        },        
+        "summary": "The software project has a high level of development and, whether because more people are getting involved in the development or whether because the project is getting community attention, various regular practices are forming. Examples of increased formality include version control rules strictly enforced, or a bug tracking system is replaces spreadsheets and emails and becomes the single source of truth."
+    },
+    "chaotic-good":{
+        "organization-level": "informal",
+        "activity-level": "enhancements + bug fixes",
+        "monster-mascot": "Pegasus",
+        "monster-mascot-image": {
+            "url": "http://www.wizards.com/dnd/images/MM35_gallery/MM35_PG207a.jpg"
+        },
+        "summary": "The software project has a high level of development but there is no cohesion. One build of the software might work, one build of the software might not. Developers might produce bugs, but they work as hard to fix the bugs as they do to add new features. The project has not yet adopted more formal standards and practices because the developers have not yet decided what standards and coding practices will help the project."
+    },
+    "lawful-neutral":{
+        "organization-level": "formal",
+        "activity-level": "tweaks or adjustments",
+        "monster-mascot": "Formian",
+        "monster-mascot-image": {
+            "url": "http://www.wizards.com/dnd/images/MM35_gallery/MM35_PG108.jpg"
+        },
+        "summary": "As time does not stand still for technology, most successful software projects will, at some point, be deemed legacy. The fact that a project makes it to a legacy state usually indicates a high level of distinction and honor, and many projects can live (in)famously for years (IE6) in a legacy type mode. Legacy projects can receive a lot of work from the project team, but usually no more than bug fixes are applied to the project code; releases are made only when necessary."
+    },
+    "neutral-neutral":{
+        "organization-level": "semiformal",
+        "activity-level": "tweaks or adjustments",
+        "monster-mascot": "Gelatinous Cube",
+        "monster-mascot-image": {
+            "url": "http://www.wizards.com/dnd/images/MM35_gallery/MM35_PG201.jpg"
+        },
+        "summary": "Much like an animal, your software project has some set boundaries, perhaps a selected environment in which it is perfect for. Perhaps due to time, resources, or managing parties, the project has neither a real future nor can it be left for dead. It does what it needs to do to survive: bug fixes one day, enhancements the next, and another day maybe a code structure changes. It's difficult to classify these projects as good or bad, and often they are deemed as necessary and hence many projects fall into this category without the team members realizing it."
+    },
+    "chaotic-neutral":{
+        "organization-level": "informal",
+        "activity-level": "tweaks or adjustments",
+        "monster-mascot": "Satyr",
+        "monster-mascot-image": {
+            "url": "http://www.wizards.com/dnd/images/MM35_gallery/MM35_PG220.jpg"
+        },
+        "summary": "Projects in this state are rarely public projects, and might be incredibly useful and even relatively complete. The perfect shell script for managing personal tasks; the perfect Craigslist scraping Perl script... but perfect here is usually the opinion of one. If the one disappears, this project will likely be too much work for any new developer to change or maintain."
+    },
+    "lawful-evil":{
+        "organization-level": "formal",
+        "activity-level": "no regular development",
+        "monster-mascot": "Kobold",
+        "monster-mascot-image": {
+            "url": "http://www.wizards.com/dnd/images/MM35_gallery/MM35_PG161b.jpg"
+        },
+        "summary": "Usually the sign of a project whose life has officially ended, a once successful project whose time has come and gone. How to tell a project was a formal project but no longer is maintained at all? If the code base were released to the public, the code could be picked up by smart software developers and development could, without too much pain and frustration, continue."
+    },
+    "neutral-evil":{
+        "organization-level": "semiformal",
+        "activity-level": "no regular development",
+        "monster-mascot": "Grell",
+        "monster-mascot-image": {
+            "url": "img/grell.jpg"
+        },
+        "summary": "Sometimes projects attempt to become more than a simple hack or experiment. Whether the idea to formalize a project is for good or ill, chances are the project went through a formalization process too soon, or witha group of people who weren't ready to spend the time or resources to pull together something that couldstand the test of time. Should the source code of this project be released and other developers were to attempt to resurrect this project, chances are they would be able to figure out where to pick things up."
+    },
+    "chaotic-evil":{
+        "organization-level": "informal",
+        "activity-level": "no regular development",
+        "monster-mascot": "Troll",
+        "monster-mascot-image": {
+            "url": "http://www.wizards.com/dnd/images/MM35_gallery/MM35_PG248a.jpg"
+        },
+        "summary": "The way life works, it's difficult to discern what a good idea is in the abstract without attempting to turn the good idea into a good reality. It is better to discover early that a project should be shot like a lame horse, sprinkled with holy water, and relegated to the recycle bin. Dead experimental projects aren't bad, and shouldn't always be forgotten. Sometimes these projects can shamble around in a state of undeath for years, and a saintly programmer might even lay hands on the skeletal code and, despite facing system shock, perform a successful resurrection."
+    }
+};

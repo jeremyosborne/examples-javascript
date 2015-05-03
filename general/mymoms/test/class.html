@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Class test</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="lib/qunit.css" type="text/css" media="screen" />
+        <script src="lib/qunit.js"></script>
+        <script src="../src/class.js"></script>
+    </head>
+    <body>
+        <h1 id="qunit-header">Class test</h1>
+
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        <!-- objects in qunit-fixture are automatically reset after each test() -->
+        <div id="qunit-fixture">
+        </div>
+        <script>
+
+test("Class sanity tests.", function() {
+
+    var Animal = Class({
+        mixin: {
+            isAnimal: true
+        }
+    });
+
+    var Chicken = Class({
+        init: function() {
+            this.isChicken = true;
+        }, 
+        parent: Animal
+    });
+
+    // Our test subjects.
+    var a = new Animal();
+    var c = new Chicken();
+
+    strictEqual(a.isAnimal,
+        true,
+        "Prototype properties are correctly defined.");
+    strictEqual(Animal.prototype.isAnimal,
+        true,
+        "Prototype properties are correctly available.");
+
+    strictEqual(Chicken.prototype.isAnimal,
+        true,
+        "Prototype properties are correctly available.")
+    strictEqual(c.isAnimal,
+        true,
+        "Prototype properties are correctly available.")
+    strictEqual(c.isChicken,
+        true,
+        "Prototype properties are correctly available.")
+
+    strictEqual(c instanceof Animal,
+        true,
+        "expected instanceof of results");
+    strictEqual(c instanceof Chicken,
+        true,
+        "expected instanceof of results");
+});
+
+
+
+test("Class simple mixin test.", function() {
+
+    var Animal = Class({
+        mixin: {
+            isAnimal: true
+        }
+    });
+    
+    var Fungus = Class({
+        parent: Animal,
+        mixin: {
+            isAnimal: false
+        }
+    });
+    
+    var f = new Fungus();
+    strictEqual(f.isAnimal,
+        false,
+        "Prototype properties are correctly defined.");
+    strictEqual(f.hasOwnProperty("isAnimal"),
+        false,
+        "Mixin properties copied to the prototype, not the instance."); 
+});
+
+
+
+test("Class multiple mixin test.", function() {
+
+    var Animal = Class({
+        mixin: {
+            isAnimal: true
+        }
+    });
+    
+    var Fungus = Class({
+        parent: Animal,
+        mixin: [{
+            isAnimal: true
+        }, {
+            isAnimal: false,
+            isFungus: true
+        }]
+    });
+    
+    var f = new Fungus();
+    strictEqual(f.isAnimal,
+        false,
+        "Prototype properties are correctly defined.");
+    strictEqual(f.hasOwnProperty("isAnimal"),
+        false,
+        "Mixin properties copied to the prototype, not the instance."); 
+    strictEqual(f.isFungus,
+        true,
+        "Mixin properties copied to the prototype, not the instance."); 
+});
+        </script>
+    </body>
+</html>

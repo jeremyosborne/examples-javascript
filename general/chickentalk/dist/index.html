@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Chicken Talk</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+        <link href='http://fonts.googleapis.com/css?family=Reenie+Beanie' rel='stylesheet'/>
+        <link href="style.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <noscript>
+            <div class="warning">
+This page won't work without JavaScript.
+            </div>
+        </noscript>
+        <div class="compatibility-warning hidden">
+            <p>
+This page will likely not work as expected for you. Please download and use a more capable browser. My two suggestions are:
+            </p>
+            <p>
+<a href="http://getfirefox.com">Firefox</a> | <a href="http://www.google.com/chrome/">Chrome</a>
+            </p>
+            <p>
+                <small>(Click this message to dismiss it.)</small>
+            </p>
+        </div>
+        <div id="input-container">
+        <textarea id="human" placeholder="message that should be translated to chicken..."></textarea>
+            <button id="speak">hear the chicken speak</button>
+            <button id="stop-speaking" disabled="disabled">please chicken, be quiet</button>
+            <div id="chicken"></div>
+        </div>
+        <div id="background-pasture"></div>
+        <div id="background-cow-3" class="cow"></div>
+        <div id="background-cow-2" class="cow"></div>
+        <div id="background-cow-1" class="cow"></div>
+        <div id="background-tree"></div>
+        <div id="background-lucy-teh-chicken"></div>
+        <script src="chickentalk.js"></script>
+    </body>
+</html>

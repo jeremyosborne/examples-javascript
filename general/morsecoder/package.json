@@ -1,0 +1,38 @@
+{
+    "name": "morsecoder",
+    "description": "Encode string to Morse Code, decode Morse Code to a string.",
+    "version": "0.2.0",
+    "homepage": "https://github.com/jeremyosborne/public/tree/master/javascript/MorseCoder",
+    "keywords": ["Morse", "Code"],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jeremyosborne/public.git"
+    },
+    "author": {
+        "name": "Jeremy Osborne",
+        "email": "jeremywosborne@gmail.com",
+        "url": "http://jeremyosborne.com/"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/jeremyosborne/public/blob/master/javascript/morsecoder/LICENSE.txt"
+        }
+    ],
+    "engines": {
+        "node": ">= 0.8.x"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "grunt": "~0.4.0",
+        "grunt-contrib-jshint": "~0.1.1",
+        "grunt-contrib-uglify": "~0.1.2",
+        "grunt-contrib-qunit": "~0.2.0",
+        "grunt-contrib-concat": "~0.1.3",
+        "jsdoc-toolkit": "*"
+    },
+    "private": true,
+    "scripts": {
+        "gendoc": "node node_modules/jsdoc-toolkit/app/run.js -v -d=docs -t=node_modules/jsdoc-toolkit/templates/codeview/ src/"
+    }
+}

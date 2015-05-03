@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Software Alignment</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="css/alignment.css">
+    </head>
+
+    <body>
+        <h1 class="banner">Software Alignment</h1>
+        <table id="software-alignment">
+            <tr>
+                <td class="lawful-xaxis good-yaxis">
+                    <div class="organization-level">formal</div>
+                    with
+                    <div class="activity-level">enhancements + bug fixes</div>
+                </td>
+                <td class="neutral-xaxis good-yaxis">
+                    <div class="organization-level">semiformal</div>
+                    with
+                    <div class="activity-level">enhancements + bug fixes</div>
+                </td>
+                <td class="chaotic-xaxis good-yaxis">
+                    <div class="organization-level">informal</div>
+                    with
+                    <div class="activity-level">enhancements + bug fixes</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="lawful-xaxis neutral-yaxis">
+                    <div class="organization-level">formal</div>
+                    with
+                    <div class="activity-level">tweaks or adjustments</div>
+                </td>
+                <td class="neutral-xaxis neutral-yaxis">
+                    <div class="organization-level">semiformal</div>
+                    with
+                    <div class="activity-level">tweaks or adjustments</div>
+                </td>
+                <td class="chaotic-xaxis neutral-yaxis">
+                    <div class="organization-level">informal</div>
+                    with
+                    <div class="activity-level">tweaks or adjustments</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="lawful-xaxis evil-yaxis">
+                    <div class="organization-level">formal</div>
+                    with
+                    <div class="activity-level">no regular development</div>
+                </td>
+                <td class="neutral-xaxis evil-yaxis">
+                    <div class="organization-level">semiformal</div>
+                    with
+                    <div class="activity-level">no regular development</div>
+                </td>
+                <td class="chaotic-xaxis evil-yaxis">
+                    <div class="organization-level">informal</div>
+                    with
+                    <div class="activity-level">no regular development</div>
+                </td>
+            </tr>
+        </table>
+        <div id="click-for-details-message">click table cell for details about the specific software alignment</div>
+        <div id="software-alignment-details"></div>
+    </body>
+
+    <script src="lib/jquery.js"></script>
+    <script src="lib/handlebars.1.0.0.beta.3.js"></script>
+    <script id="software-alignment-details-template" type="text/x-handlebars-template">
+        <h2>Details for</h2>
+        <h2>Organization Level: <span class="organization-level-heading">{{organization-level}}</span></h2>
+        <h2>Activity Level: <span class="activity-level-heading">{{activity-level}}</span></h2>
+        <div class="summary">{{summary}}</div>
+        <h3>Your project monster mascot is the: <span class="project-monster-mascot">{{monster-mascot}}</span></h3>
+    </script>
+    <script src="data/softwarealignment.json"></script>
+    <script src="src/alignment.js"></script>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>objectmanipulation test</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="lib/qunit.css" type="text/css" media="screen" />
+        <script src="lib/qunit.js"></script>
+        <script src="../src/objectmanipulation.js"></script>
+    </head>
+    <body>
+        <h1 id="qunit-header">objectmanipulation test</h1>
+
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        <!-- objects in qunit-fixture are automatically reset after each test() -->
+        <div id="qunit-fixture">
+        </div>
+        <script>
+test("compare sanity tests.", function() {
+    var o1 = {
+        "hello": "world",
+        "dog": "cat"
+    };
+    var o2 = {
+        "hello": "world",
+        "dog": "cat"
+    };
+    if (Object.defineProperty) {
+        Object.defineProperty(o2, "chicken", {"value": "rooster"});
+    }
+
+    strictEqual(compare(o1, o1),
+        true,
+        "Comparison true with same objects.");
+
+    strictEqual(compare(o1, o2),
+        true,
+        "Comparison true when comparing enumerable properties are all equal.");
+    
+    strictEqual(compare(o1, {}), 
+        false,
+        "Comparison of different objects is false.");
+});
+
+
+
+test("transpose sanity tests.", function() {
+
+    var original = {
+        "1": undefined,
+        "hello": "world"
+    };
+    var expectedInverse = {
+        "undefined": "1",
+        "world": "hello"
+    };
+    var transposed = transpose(original);
+    strictEqual(compare(transposed, expectedInverse),
+        true,
+        "Transposing works.");
+
+
+
+    transposed = transpose(undefined);
+    strictEqual(compare(transposed, {}),
+        true,
+        "Transposing undefined returns an empty object.");
+        
+    
+    throws(function() {
+            var nonCommutative = {
+                "a": "b",
+                "b": "b"
+            };
+            transpose(nonCommutative, true);
+        },
+        Error,
+        "A strict transpose will throw an error on a non-commutative object.");
+});
+
+
+
+test("shallowCopy sanity tests.", function() {
+
+    var testObj = {
+        "hello": "world",
+        1: 2
+    };
+    
+    var copy = shallowCopy(testObj);
+    strictEqual(compare(copy, testObj),
+        true,
+        "Copying correctly references primitives.");
+});
+        </script>
+    </body>
+</html>

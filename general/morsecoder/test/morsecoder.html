@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <title>MorseCoder test</title>
+        <link href="lib/qunit.css" rel="stylesheet" />
+        <script src="lib/qunit.js"></script>
+        <script src="../src/morsecoder.js"></script>
+    </head>
+    <body>
+        <h1 id="qunit-header">MorseCoder test</h1>
+
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        <!-- objects in qunit-fixture are automatically reset after each test() -->
+        <div id="qunit-fixture">
+        </div>
+        <script>
+test("Testing default behavior of MorseCoder.", function() {
+    var m = MorseCoder();
+    var testString = "Hello, world!";
+    var encoded = m.encode(testString);
+    var decoded = m.decode(encoded);
+
+    ok(decoded.length === testString.length, "Same length input and decoded.");
+    ok(decoded === testString.toLowerCase(), "Loss of capitalization.");
+    // console.log("Diagnostic:");
+    // console.log("Test string: '%s'", testString);
+    // console.log("Encoded: '%s'", encoded);
+    // console.log("Decoded: '%s'", decoded);
+});
+
+
+
+test("Testing gap overrides of MorseCoder.", function() {
+    var m = MorseCoder({
+        gapOverrides: {
+            "letter": " YEEEPPP ",
+            "word": " BRRRING ",
+        }
+    });
+    var testString = "Hello, world!";
+    var encoded = m.encode(testString);
+    var decoded = m.decode(encoded);
+
+    ok(decoded.length === testString.length, "Same length input and decoded.");
+    ok(decoded === testString.toLowerCase(), "Loss of capitalization.");
+    // console.log("Diagnostic:");
+    // console.log("Test string: '%s'", testString);
+    // console.log("Encoded: '%s'", encoded);
+    // console.log("Decoded: '%s'", decoded);
+});
+
+
+
+test("Testing encoding overrides of MorseCoder.", function() {
+    var m = MorseCoder({
+        encodingOverrides: {
+            "-": "YEP",
+            ".": "NOPE",
+            // Leaving out the element gap.
+        }
+    });
+    var testString = "Hello, world!";
+    var encoded = m.encode(testString);
+    var decoded = m.decode(encoded);
+
+    ok(decoded.length === testString.length, "Same length input and decoded.");
+    ok(decoded === testString, "Lossless encoding.");
+    // console.log("Diagnostic:");
+    // console.log("Test string: '%s'", testString);
+    // console.log("Encoded: '%s'", encoded);
+    // console.log("Decoded: '%s'", decoded);
+});
+
+
+test("Testing encoding and gap overrides of MorseCoder.", function() {
+    var m = MorseCoder({
+        encodingOverrides: {
+            "-": "YEP",
+            ".": "NOPE",
+            // Leaving out the element gap.
+        },
+        gapOverrides: {
+            "letter": " YEEEPPP ",
+            "word": " BRRRING ",
+        },
+    });
+    var testString = "Hello, world!";
+    var encoded = m.encode(testString);
+    var decoded = m.decode(encoded);
+
+    ok(decoded.length === testString.length, "Same length input and decoded.");
+    ok(decoded === testString, "Lossless encoding.");
+    // console.log("Diagnostic:");
+    // console.log("Test string: '%s'", testString);
+    // console.log("Encoded: '%s'", encoded);
+    // console.log("Decoded: '%s'", decoded);
+});
+        </script>
+    </body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>makeBindable test</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="lib/qunit.css" type="text/css" media="screen" />
+        <script src="lib/qunit.js"></script>
+        <script src="../src/makebindable.js"></script>
+    </head>
+    <body>
+        <h1 id="qunit-header">makeBindable tests</h1>
+        
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        <div id="qunit-fixture">test markup, will be hidden</div>
+        <script>
+// Our test function that we will bind things to.
+// Ultimately this function returns a string.
+// It returns a string in the following way:
+// functionCallerContext.name + [", " + eachArgument]
+function tester() {
+    var out = [];
+
+    // We will always include this.name
+    out[0] = this.name+"";
+    if (arguments.length) {
+        out = out.concat(Array.prototype.slice.call(arguments, 0))
+    }
+    return out.join(", ");
+}
+// Implement bind
+makeBindable(tester);
+
+test("Empty object bound to the tester function.", function() {
+    var tester1 = tester.bind({});
+
+    equal(tester1(), 'undefined', "Results should be 'undefined'");
+    equal(tester1("hello"), 'undefined, hello', "results should be 'undefined, hello'");
+});
+
+test("Bind non-empty object to the tester function.", function() {
+    var tester2 = tester.bind({name: "hello"});
+
+    equal(tester2(), 'hello', "should be 'hello'");
+    equal(tester2("world"), 'hello, world', "should be 'hello, world'");
+});
+
+test("Bind non-empty object and a default argument to the tester function.", function() {
+    var tester3 = tester.bind({name: "hello"}, "world");
+
+    equal(tester3(), 'hello, world', "should be 'hello, world'");
+    equal(tester3("and universe!"), 'hello, world, and universe!', "should be 'hello, world, and universe!'");
+});
+
+test("Add the bind method to the Function.prototype.", function() {
+    var f;
+
+    // Extend Function
+    makeBindable(Function.prototype);
+    f = function() {};
+
+    // Sanity test
+    ok(f.bind, "Bind inherited from Prototype.")
+});
+        </script>
+    </body>
+</html>

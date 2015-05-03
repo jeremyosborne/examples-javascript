@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>simpledom manual test</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="../src/simpledom.js"></script>
+        <style>
+div {
+    width: 10em;
+    height: 10em;
+    border: 1px solid black;
+    margin: 2em;
+    padding: 2em;
+}
+        </style>
+    </head>
+    <body>
+        <div id="test-element1">
+            test-element1: I have a click event. Click me to see an alert.
+        </div>
+        <div id="test-element2">
+            test-element2: I had a click event added and then removed from me.
+            Click me to make sure you don't see an alert.
+        </div>
+        <script>
+a$$("#test-element1")
+    .eventAdd("click", function() {
+        alert("you clicked me: " + this.id);
+    });
+
+a$$("#test-element2")
+    .eventAdd("click", function() {
+        alert("you clicked me: " + this.id);
+    })
+    .eventRemove("click");
+        </script>
+    </body>
+</html>

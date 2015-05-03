@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>cookie test</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="lib/qunit.css" type="text/css" media="screen" />
+        <script src="lib/qunit.js"></script>
+        <script src="../src/cookie.js"></script>
+    </head>
+    <body>
+        <h1 id="qunit-header">cookies test</h1>
+
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        <div id="qunit-fixture">test markup, will be hidden</div>
+        <script>
+test("Sanity test.", function() {
+    var key1 = "hello",
+        val1 = "world",
+        key2 = "universe",
+        val2 = 42;
+
+    // Test setup
+    cookie.erase(key1);
+
+    // Test writing
+    cookie.write(key1, val1);
+    strictEqual(cookie.read(key1), val1, "Value of written cookie should be returned.");
+    cookie.erase(key1);
+    strictEqual(cookie.read(key1), undefined, "Value of erased cookie should be undefined.");
+
+    // Should be able to write more than one cookie
+    cookie.write(key1, val1);
+    cookie.write(key2, val2);
+    strictEqual(cookie.read(key2), val2+"", "Returned values are always strings.");
+    strictEqual(cookie.read(key1), val1, "More than one cookie can be written.");
+
+    // cleanup
+    cookie.erase(key1);
+    cookie.erase(key2);
+});
+
+test("Can handle special characters in the cookie value.", function() {
+    var key = "blah";
+    var value = "goober=blah";
+    
+    cookie.write(key, value);
+    strictEqual(cookie.read(key), value, "The equals sign is an okay value in the cookie value.");
+});
+        </script>
+    </body>
+</html>

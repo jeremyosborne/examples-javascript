@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>simpletimer manual test</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="../src/makepublisher.js"></script>
+        <script src="../src/simpletimer.js"></script>
+        <script>
+function beginTest() {
+    var t = SimpleTimer();
+    t.subscribe("tick", function(t) {
+        console.log(t.zfahours()+":"+t.zfminutes()+":"+t.zfseconds());
+    });
+    t.start();
+
+    setTimeout(function() {
+        console.log("stopping");
+        t.stop();
+    }, 10000);
+}
+
+window.onload = beginTest;
+        </script>
+    </head>
+    <body>
+
+    </body>
+</html>

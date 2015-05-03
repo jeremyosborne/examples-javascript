@@ -1,0 +1,43 @@
+{
+    "name": "mymoms",
+    "version": "0.1.0",
+    "description": "Random JavaScript code snippets.",
+    "homepage": "https://github.com/jeremyosborne/mymoms",
+    "keywords": [
+        "code", 
+        "dump", 
+        "random",
+        "mom",
+        "yourmom"
+    ],
+    "author": {
+        "name": "Jeremy Osborne",
+        "email": "jeremywosborne@gmail.com",
+        "url": "http://jeremyosborne.com/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jeremyosborne/mymoms.git"
+    },
+    "engines": {
+        "node": ">= 0.6.0",
+        "npm": ">= 1.0.0"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "phantomjs": ">1.8.x",
+        "jsdoc-toolkit": "*"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://github.com/jeremyosborne/mymoms/blob/master/LICENSE.txt"
+        }
+    ],
+    "scripts": {
+        "test": "grunt test",
+        "gendoc": "node node_modules/jsdoc-toolkit/app/run.js -v -d=docs -t=node_modules/jsdoc-toolkit/templates/codeview/ src/"
+    },
+
+    "private": true
+}
