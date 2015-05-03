@@ -348,9 +348,11 @@ Play.prototype.update = function() {
     //this.hitText.visible = false;
     // As we don't need to exchange any velocities or motion we can the 'overlap'
     // check instead of 'collide'
-    // arguments to callback are swapped from input:
-    // first is pig colliding with group, and second is sprite collided with
-    // from flak.
+    // Note from Docs which is important: The two objects will be passed to
+    // [the callback] in the same order in which you specified them, unless you
+    // are checking Group vs. Sprite, in which case Sprite will always be the
+    // first parameter. So good practice is to pass the sprites first to make
+    // callback order make more sense.
     game.physics.arcade.overlap(this.flak, this.pig, function(pig) {
         //this.hitText.visible = true;
 
