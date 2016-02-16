@@ -1,0 +1,16 @@
+{
+  "name": "cs-ish",
+  "version": "0.0.0",
+  "description": "like roguelike, but for computer science... cslike.",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Jeremy Osborne <jeremywosborne@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^2.4.5"
+  }
+}
