@@ -24,41 +24,11 @@ var LargeInt = function(num) {
 };
 // Adds in place.
 LargeInt.prototype.add = function(num) {
-    var rh = LargeInt.toDigits(num);
-    var lh = this.data;
-    var updated = [];
-    var len = lh.length > rh.length ? lh.length : rh.length;
-    var remainder = 0;
-    for (var i = 0; i < len; i++) {
-        var u = (lh[i] || 0) + (rh[i] || 0) + remainder;
-        updated.push(u % 10);
-        remainder = Math.floor(u / 10);
-    }
-    if (remainder) {
-        updated.push(remainder);
-    }
-    this.data = updated;
-
+    this.data = LargeInt.add(this.data, LargeInt.toDigits(num));
     return this;
 };
 LargeInt.prototype.sub = function(num) {
-    var rh = LargeInt.toDigits(num);
-    var lh = this.data;
-    var updated = [];
-    var len = lh.length > rh.length ? lh.length : rh.length;
-    var remainder = 0;
-    for (var i = 0; i < len; i++) {
-        // Remainder should only ever be -1 or 0.
-        var u = (lh[i] || 0) - (rh[i] || 0) - remainder;
-        remainder = u >= 0 ? 0 : 1;
-        updated.push(u >= 0 ? u : u + 10);
-    }
-    // trim zeroes
-    while (!updated[updated.length - 1]) {
-        updated.pop();
-    }
-    this.data = updated;
-
+    this.data = LargeInt.sub(this.data, LargeInt.toDigits(num));
     return this;
 };
 // Best approximation of the numeric value.
@@ -91,6 +61,36 @@ LargeInt.toDigits = function(num) {
         data.unshift(parseInt(numstr[i]));
     }
     return data;
+};
+LargeInt.sub = function(lh, rh) {
+    var result = [];
+    var len = lh.length > rh.length ? lh.length : rh.length;
+    var remainder = 0;
+    for (var i = 0; i < len; i++) {
+        // Remainder should only ever be -1 or 0.
+        var u = (lh[i] || 0) - (rh[i] || 0) - remainder;
+        remainder = u >= 0 ? 0 : 1;
+        result.push(u >= 0 ? u : u + 10);
+    }
+    // trim zeroes
+    while (!result[result.length - 1]) {
+        result.pop();
+    }
+    return result;
+};
+LargeInt.add = function(lh, rh) {
+    var result = [];
+    var len = lh.length > rh.length ? lh.length : rh.length;
+    var remainder = 0;
+    for (var i = 0; i < len; i++) {
+        var u = (lh[i] || 0) + (rh[i] || 0) + remainder;
+        result.push(u % 10);
+        remainder = Math.floor(u / 10);
+    }
+    if (remainder) {
+        result.push(remainder);
+    }
+    return result;
 };
 LargeInt.create = function(num) {
     if (!Array.isArray(num)) {
