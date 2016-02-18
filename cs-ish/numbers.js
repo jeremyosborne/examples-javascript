@@ -24,11 +24,18 @@ var LargeInt = function(num) {
 };
 // Adds in place.
 LargeInt.prototype.add = function(num) {
-    this.data = LargeInt.add(this.data, LargeInt.toDigits(num));
+    var rh = LargeInt.toDigits(num);
+    this.data = LargeInt.add(this.data, rh);
     return this;
 };
 LargeInt.prototype.sub = function(num) {
-    this.data = LargeInt.sub(this.data, LargeInt.toDigits(num));
+    var rh = LargeInt.toDigits(num);
+    this.data = LargeInt.sub(this.data, rh);
+    return this;
+};
+LargeInt.prototype.mul = function(num) {
+    var rh = LargeInt.toDigits(num);
+    this.data = LargeInt.mul(this.data, rh);
     return this;
 };
 // Best approximation of the numeric value.
@@ -62,6 +69,20 @@ LargeInt.toDigits = function(num) {
     }
     return data;
 };
+LargeInt.add = function(lh, rh) {
+    var result = [];
+    var len = lh.length > rh.length ? lh.length : rh.length;
+    var remainder = 0;
+    for (var i = 0; i < len; i++) {
+        var u = (lh[i] || 0) + (rh[i] || 0) + remainder;
+        result.push(u % 10);
+        remainder = Math.floor(u / 10);
+    }
+    if (remainder) {
+        result.push(remainder);
+    }
+    return result;
+};
 LargeInt.sub = function(lh, rh) {
     var result = [];
     var len = lh.length > rh.length ? lh.length : rh.length;
@@ -78,17 +99,25 @@ LargeInt.sub = function(lh, rh) {
     }
     return result;
 };
-LargeInt.add = function(lh, rh) {
-    var result = [];
-    var len = lh.length > rh.length ? lh.length : rh.length;
-    var remainder = 0;
-    for (var i = 0; i < len; i++) {
-        var u = (lh[i] || 0) + (rh[i] || 0) + remainder;
-        result.push(u % 10);
-        remainder = Math.floor(u / 10);
-    }
-    if (remainder) {
-        result.push(remainder);
+LargeInt.mul = function(lh, rh) {
+    var result = [0];
+    var lh_length = lh.length;
+    var rh_length = rh.length;
+    for (var i = 0; i < rh_length; i++) {
+        var intermediateResult = [];
+        var remainder = 0;
+        for (var j = 0; j < lh_length; j++) {
+            var u = (lh[j] || 0) * (rh[i] || 0) + remainder;
+            intermediateResult.push(u % 10);
+            remainder = Math.floor(u / 10);
+        }
+        if (remainder) {
+            intermediateResult.push(remainder);
+        }
+        for (var k = 0; k < i; k++) {
+            intermediateResult.unshift(0);
+        }
+        result = LargeInt.add(result, intermediateResult);
     }
     return result;
 };

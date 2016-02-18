@@ -31,4 +31,9 @@ describe("largeInt works", function() {
         assert(out === 998);
     });
 
+    it("can multiply", function() {
+        var i = LargeInt.create(99);
+        var out = i.mul(99).val();
+        assert(out === 9801);
+    });
 });
