@@ -23,4 +23,16 @@ describe("Pyramid of doom", function() {
 
         assert(doom(data) === 1074);
     });
+
+    it("Doesn't blow up", function() {
+        var pyr = [];
+        for (var row = 0; row < 100; row++) {
+            var r = [];
+            for (var col = 0; col < row + 1; col++) {
+                r.push(Math.random());
+            }
+            pyr.push(r);
+        }
+        assert(doom(pyr), "We get something back and my code doesn't blow up.");
+    });
 });

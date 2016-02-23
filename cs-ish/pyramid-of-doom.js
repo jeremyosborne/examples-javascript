@@ -24,32 +24,52 @@ the top of a triangle.  Each node can either go down left or right.
 (like a simple tree.)  The answer for the above triangle is 1074.
  */
 
-var doom = function(pyramid){
-    var highestValue = 0;
-    var prev = [
-        {
-            val: pyramid[0][0],
-            pathingIndex: 0,
-        }
-    ];
-    for (var i = 1; i < pyramid.length; i++) {
-        var row = pyramid[i];
-        var prevLength = prev.length;
-        var next = [];
-        for (var j = 0; j < prevLength; j++) {
-            var item = prev[j];
-            var val = item.val + row[item.pathingIndex];
-            highestValue = Math.max(highestValue, val);
-            next.push({val: val, pathingIndex: item.pathingIndex});
-
-            val = item.val + row[item.pathingIndex + 1];
-            highestValue = Math.max(highestValue, val);
-            next.push({val: val, pathingIndex: item.pathingIndex + 1});
-        }
-        prev = next;
-    }
-    return highestValue;
+ var doom = function(pyramid) {
+     for (var i = pyramid.length - 2; i >= 0; i--) {
+         var cur = pyramid[i];
+         var next = pyramid[i + 1];
+         for (var j = 0; j < cur.length; j++) {
+             cur[j] = Math.max(cur[j] + next[j], cur[j] + next[j + 1]);
+         }
+     }
+     return pyramid[0][0];
 };
+
+// This causes the heat death of the universe. Leaving this here as my
+// badge of shame. Being nicer to myself, leaving this here to remind me
+// that the arrogance of simple testing needs to be expanded sometimes (I didn't
+// originally test for large scale pyramids).
+//
+// var doom = function(pyramid){
+//     var highestValue = 0;
+//     var prev = [
+//         {
+//             val: pyramid[0][0],
+//             pathingIndex: 0,
+//         }
+//     ];
+//     for (var i = 1; i < pyramid.length; i++) {
+//         var row = pyramid[i];
+//         var prevLength = prev.length;
+//         var next = [];
+//         for (var j = 0; j < prevLength; j++) {
+//             var item = prev[j];
+//             var val = item.val + row[item.pathingIndex];
+//             if (val >= highestValue) {
+//                 highestValue = val;
+//                 next.push({val: val, pathingIndex: item.pathingIndex});
+//             }
+//
+//             val = item.val + row[item.pathingIndex + 1];
+//             if (val >= highestValue) {
+//                 highestValue = val;
+//                 next.push({val: val, pathingIndex: item.pathingIndex + 1});
+//             }
+//         }
+//         prev = next;
+//     }
+//     return highestValue;
+// };
 
 // console.log(doom([
 //         [75],
