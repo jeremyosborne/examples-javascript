@@ -1,0 +1,21 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body, #page {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.world {
+    position: relative;
+    height: 100%;
+}
+
+.particle {
+    position: absolute;
+    height: 5px;
+    width: 5px;
+    background-color: black;
+}

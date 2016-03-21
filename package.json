@@ -1,0 +1,26 @@
+{
+  "name": "javascript",
+  "version": "0.0.0",
+  "description": "ramblings",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremyosborne/javascript.git"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "Jeremy Osborne <jeremywosborne@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jeremyosborne/javascript/issues"
+  },
+  "homepage": "https://github.com/jeremyosborne/javascript#readme",
+  "devDependencies": {
+    "eslint": "^2.4.0",
+    "eslint-plugin-react": "^4.2.3"
+  }
+}

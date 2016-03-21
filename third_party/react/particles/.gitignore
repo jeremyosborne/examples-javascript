@@ -1,1 +1,10 @@
-public/app.js
+# Node
+node_modules
+npm-debug.log
+
+# Mac
+.DS_Store
+
+# Built application code.
+public/*.*
+!public/index.html
