@@ -1,27 +1,33 @@
 var React = require("react");
 var particles = require("../particles.jsx");
 
-var particleStore = particles.store;
-var explosionAction = particles.explosionAction;
 var Particle = particles.Particle;
 
+var store = require("../store");
+
+var explosion = function(x, y) {
+    for (var i = 0; i < 9; i++) {
+        // x, y, dx, dy
+        store.dispatch({
+            type: "PARTICLE_ADD",
+            x: x,
+            y: y,
+            dx: (i % 3 - 1) * 5,
+            dy: (Math.floor(i / 3 % 3) - 1) * 5,
+        });
+    }
+};
+
+
 var World = React.createClass({
-    getInitialState: function() {
-        particleStore.on("particles:change", this.updateParticles);
-        return {
-            particles: [],
-        };
+    propTypes: {
+        particles: React.PropTypes.array.isRequired,
     },
     click: function(ev) {
-        explosionAction.add(ev.pageX, ev.pageY);
-    },
-    updateParticles: function(particles) {
-        this.setState({
-            "particles": particles,
-        });
+        explosion(ev.pageX, ev.pageY);
     },
     render: function() {
-        var particles = this.state.particles.map(function(p) {
+        var particles = this.props.particles.map(function(p) {
             return (
                 <Particle x={p.x} y={p.y} key={p.id}></Particle>
             );
