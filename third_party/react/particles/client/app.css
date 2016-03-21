@@ -8,11 +8,6 @@ html, body, #page {
     padding: 0;
 }
 
-.world {
-    position: relative;
-    height: 100%;
-}
-
 .particle {
     position: absolute;
     height: 5px;

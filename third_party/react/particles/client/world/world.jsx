@@ -1,5 +1,5 @@
 var React = require("react");
-var particles = require("./particles.jsx");
+var particles = require("../particles.jsx");
 
 var particleStore = particles.store;
 var explosionAction = particles.explosionAction;

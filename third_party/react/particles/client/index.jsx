@@ -3,7 +3,7 @@ require("./app.css");
 var dispatcher = require("./dispatcher");
 var React = require("react");
 var ReactDOM = require("react-dom");
-var World = require("./world.jsx");
+var World = require("./world");
 
 // Should be called on screen size changes.
 var screenSizeAction = {
