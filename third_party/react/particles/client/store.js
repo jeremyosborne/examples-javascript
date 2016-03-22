@@ -53,10 +53,25 @@ var entities = function(state, action) {
     }
 };
 
-
+// Example of middleware for template code.
+var entityCounter = function(store) {
+    var lastTime = Date.now();
+    var threshold = 10000;
+    return function(next) {
+        return function(action) {
+            var now = Date.now();
+            if (now > lastTime + threshold) {
+                console.log("Entitiies in play:", store.getState().entities.length);  // eslint-disable-line no-console
+                lastTime = now;
+            }
+            var result = next(action);
+            return result;
+        };
+    };
+};
 
 var reducers = Redux.combineReducers({
     entities: entities,
 });
 
-module.exports = Redux.createStore(reducers);
+module.exports = Redux.createStore(reducers, Redux.applyMiddleware(entityCounter));
