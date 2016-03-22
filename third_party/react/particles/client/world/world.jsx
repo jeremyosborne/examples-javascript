@@ -1,8 +1,6 @@
+var Entity = require("../entity");
+var objectAssign = require("object-assign");
 var React = require("react");
-var particles = require("../particles.jsx");
-
-var Particle = particles.Particle;
-
 var store = require("../store");
 
 var explosion = function(x, y) {
@@ -27,14 +25,19 @@ var World = React.createClass({
         explosion(ev.pageX, ev.pageY);
     },
     render: function() {
-        var particles = this.props.particles.map(function(p) {
+        var entities = this.props.particles.map(function(p) {
+            var props = objectAssign({}, {
+                x: p.x,
+                y: p.y,
+                classNames: p.classNames,
+            });
             return (
-                <Particle x={p.x} y={p.y} key={p.id}></Particle>
+                <Entity {...props} key={p.id}/>
             );
         });
         return (
             <div className="world" onClick={this.click}>
-                {particles}
+                {entities}
             </div>
         );
     },

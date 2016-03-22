@@ -3,18 +3,15 @@ var React = require("react");
 
 
 
-var Particle = React.createClass({
+var Entity = React.createClass({
     propTypes: {
         x: React.PropTypes.number.isRequired,
         y: React.PropTypes.number.isRequired,
+        classNames: React.PropTypes.string.isRequired,
     },
     render:  function() {
-        var classes = classNames({
-            particle: true,
-        });
+        var classes = classNames.apply(classNames, this.props.classNames.split(" "));
         var position = {
-            // top: this.state.y + "px",
-            // left: this.state.x + "px",
             top: this.props.y + "px",
             left: this.props.x + "px",
         };
@@ -24,4 +21,4 @@ var Particle = React.createClass({
         );
     },
 });
-module.exports.Particle = Particle;
+module.exports = Entity;

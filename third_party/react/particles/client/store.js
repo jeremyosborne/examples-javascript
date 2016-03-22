@@ -1,5 +1,6 @@
 var objectAssign = require("object-assign");
 var Redux = require("redux");
+require("./particle");  // for the css and nothing more at the moment.
 
 var particleId = 1;
 // state is particle
@@ -8,6 +9,7 @@ var particle = function(state, action) {
         case "PARTICLE_ADD":
             return {
                 id: particleId++,
+                classNames: "particle",
                 x: action.x || 0,
                 y: action.y || 0,
                 dx: action.dx || 0,

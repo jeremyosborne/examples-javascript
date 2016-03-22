@@ -7,10 +7,3 @@ html, body, #page {
     margin: 0;
     padding: 0;
 }
-
-.particle {
-    position: absolute;
-    height: 5px;
-    width: 5px;
-    background-color: black;
-}
