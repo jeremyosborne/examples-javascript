@@ -7,7 +7,7 @@
     "build": "echo 'building assets' && eslint server && webpack --config .webpack.config.js",
     "prestart": "npm run build",
     "start": "node server",
-    "start-dev": "echo 'starting dev server' && npm run build && supervisor -e css,js,jsx -w server,client,views server"
+    "start-dev": "echo 'starting dev server' && supervisor -e css,js,jsx -w server,client server"
   },
   "author": "Jeremy Osborne <jeremywosborne@gmail.com>",
   "license": "MIT",

@@ -1,20 +1,22 @@
 var objectAssign = require("object-assign");
 var Redux = require("redux");
-require("./particle");  // for the css and nothing more at the moment.
+var particle = require("./particle");  // for the css and nothing more at the moment.
 
-var particleId = 1;
-// state is particle
-var particle = function(state, action) {
+var entityCreators = {
+    particle: particle,
+};
+
+var entityId = (function() {
+    var id = 1;
+    return function() {
+        return id++;
+    };
+})();
+
+var entity = function(state, action) {
     switch (action.type) {
-        case "PARTICLE_ADD":
-            return {
-                id: particleId++,
-                classNames: "particle",
-                x: action.x || 0,
-                y: action.y || 0,
-                dx: action.dx || 0,
-                dy: action.dy || 0,
-            };
+        case "ENTITY_ADD":
+            return entityCreators[action.entity].create(entityId(), action);
         case "TICK":
             return objectAssign({}, state, {
                 // Change velocity (fake gravity).
@@ -30,20 +32,21 @@ var particle = function(state, action) {
 
 var initialParticles = [];
 // state is array of particles
-var particles = function(state, action) {
+var entities = function(state, action) {
     state = state || initialParticles;
     switch (action.type) {
-        case "PARTICLE_ADD":
-            return state.concat([particle(null, action)]);
+        case "ENTITY_ADD":
+            return state.concat([entity(null, action)]);
 
         case "TICK":
-            return state.map(function(p) {
-                return particle(p, action);
+            return state.map(function(ent) {
+                return entity(ent, action);
             });
-        // case "DELETE_PARTICLE":
-        //     return state.filter(function(p) {
-        //         return p.id !== action.id;
-        //     });
+
+        case "ENTITY_BOUNDS_KILL":
+            return state.filter(function(ent) {
+                return (ent.x > 0 && ent.x < action.x) && (ent.y > 0 && ent.y < action.y);
+            });
 
         default:
             return state;
@@ -53,7 +56,7 @@ var particles = function(state, action) {
 
 
 var reducers = Redux.combineReducers({
-    particles: particles,
+    entities: entities,
 });
 
 module.exports = Redux.createStore(reducers);

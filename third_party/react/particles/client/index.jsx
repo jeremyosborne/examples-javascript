@@ -4,6 +4,7 @@ var React = require("react");
 var ReactDOM = require("react-dom");
 var store = require("./store");
 var World = require("./world");
+var heartbeat = require("./heartbeat");
 
 // TODO: Call on screen size changes.
 // var screenSizeAction = {
@@ -18,26 +19,25 @@ var World = require("./world");
 // // Initialize
 // screenSizeAction.set();
 
-// Ticks for animation.
-(function() {
-    var prevTime = Date.now();
-
-    setInterval(function() {
-        var currentTime = Date.now();
-
+var explosion = function(ev) {
+    for (var i = 0; i < 9; i++) {
+        // x, y, dx, dy
         store.dispatch({
-            type: "TICK",
-            delta: currentTime - prevTime,
+            type: "ENTITY_ADD",
+            entity: "particle",
+            x: ev.pageX,
+            y: ev.pageY,
+            dx: (i % 3 - 1) * 5,
+            dy: (Math.floor(i / 3 % 3) - 1) * 5,
         });
+    }
+};
 
-        prevTime = currentTime;
-
-    }, 20);
-})();
+heartbeat.start(store);
 
 var render = function() {
     ReactDOM.render(
-        <World particles={store.getState().particles}/>,
+        <World entities={store.getState().entities} click={explosion}/>,
         document.getElementById("page")
     );
 };
