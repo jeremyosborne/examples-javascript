@@ -74,4 +74,6 @@ var reducers = Redux.combineReducers({
     entities: entities,
 });
 
-module.exports = Redux.createStore(reducers, Redux.applyMiddleware(entityCounter));
+module.exports = Redux.createStore(reducers, {
+    entities: [],
+}, Redux.applyMiddleware(entityCounter));
