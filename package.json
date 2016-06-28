@@ -1,0 +1,14 @@
+{
+  "name": "javascript",
+  "version": "0.0.0",
+  "description": "Random JavaScript snippets I collect and use.",
+  "keywords": [
+    "javascript"
+  ],
+  "author": {
+    "name": "Jeremy Osborne",
+    "email": "jeremywosborne@gmail.com"
+  },
+  "repository": "https://github.com/jeremyosborne/javascript.git",
+  "license": "MIT"
+}
