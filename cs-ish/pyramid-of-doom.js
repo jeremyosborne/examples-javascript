@@ -24,16 +24,16 @@ the top of a triangle.  Each node can either go down left or right.
 (like a simple tree.)  The answer for the above triangle is 1074.
  */
 
- var doom = function(pyramid) {
-     for (var i = pyramid.length - 2; i >= 0; i--) {
-         var cur = pyramid[i];
-         var next = pyramid[i + 1];
-         for (var j = 0; j < cur.length; j++) {
-             cur[j] = Math.max(cur[j] + next[j], cur[j] + next[j + 1]);
-         }
-     }
-     return pyramid[0][0];
-};
+var doom = function (pyramid) {
+  for (var i = pyramid.length - 2; i >= 0; i--) {
+    var cur = pyramid[i]
+    var next = pyramid[i + 1]
+    for (var j = 0; j < cur.length; j++) {
+      cur[j] = Math.max(cur[j] + next[j], cur[j] + next[j + 1])
+    }
+  }
+  return pyramid[0][0]
+}
 
 // This causes the heat death of the universe. Leaving this here as my
 // badge of shame. Being nicer to myself, leaving this here to remind me
@@ -41,35 +41,35 @@ the top of a triangle.  Each node can either go down left or right.
 // originally test for large scale pyramids).
 //
 // var doom = function(pyramid){
-//     var highestValue = 0;
+//     var highestValue = 0
 //     var prev = [
 //         {
 //             val: pyramid[0][0],
 //             pathingIndex: 0,
 //         }
-//     ];
+//     ]
 //     for (var i = 1; i < pyramid.length; i++) {
-//         var row = pyramid[i];
-//         var prevLength = prev.length;
-//         var next = [];
+//         var row = pyramid[i]
+//         var prevLength = prev.length
+//         var next = []
 //         for (var j = 0; j < prevLength; j++) {
-//             var item = prev[j];
-//             var val = item.val + row[item.pathingIndex];
+//             var item = prev[j]
+//             var val = item.val + row[item.pathingIndex]
 //             if (val >= highestValue) {
-//                 highestValue = val;
-//                 next.push({val: val, pathingIndex: item.pathingIndex});
+//                 highestValue = val
+//                 next.push({val: val, pathingIndex: item.pathingIndex})
 //             }
 //
-//             val = item.val + row[item.pathingIndex + 1];
+//             val = item.val + row[item.pathingIndex + 1]
 //             if (val >= highestValue) {
-//                 highestValue = val;
-//                 next.push({val: val, pathingIndex: item.pathingIndex + 1});
+//                 highestValue = val
+//                 next.push({val: val, pathingIndex: item.pathingIndex + 1})
 //             }
 //         }
-//         prev = next;
+//         prev = next
 //     }
-//     return highestValue;
-// };
+//     return highestValue
+// }
 
 // console.log(doom([
 //         [75],
@@ -88,6 +88,6 @@ the top of a triangle.  Each node can either go down left or right.
 //         [63, 66, 04, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31],
 //         [04, 62, 98, 27, 23, 09, 70, 98, 73, 93, 38, 53, 60, 04, 23]
 //     ]
-// ));
+// ))
 
-module.exports = doom;
+module.exports = doom

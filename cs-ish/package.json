@@ -1,12 +1,12 @@
 {
   "name": "cs-ish",
   "version": "0.0.0",
-  "description": "like roguelike, but for computer science... cslike.",
+  "description": "you know, like cs, like totally tubular.",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --recursive *.test.js"
   },
   "author": "Jeremy Osborne <jeremywosborne@gmail.com>",
   "license": "MIT",
