@@ -4,6 +4,6 @@ var solution = require('./2')
 
 describe('Project Euler Problem 2: Even Fibonacci numbers', function () {
   it('returns the correct value for values <= 4,000,000', function () {
-    assert(solution(4000000) === 4613732, 'Value is expected.')
+    assert.strictEqual(solution(4000000), 4613732)
   })
 })
