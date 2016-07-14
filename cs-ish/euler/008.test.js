@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 var assert = require('assert')
-var solution = require('./8')
+var solution = require('./008')
 
 describe('Project Euler Problem 8: Largest product in a series', function () {
   it('returns the correct number', function () {

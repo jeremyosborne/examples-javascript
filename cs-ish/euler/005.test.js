@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 var assert = require('assert')
-var solution = require('./5')
+var solution = require('./005')
 
 describe('Project Euler Problem 5: Smallest multiple', function () {
   it('returns the smallest multiple divided by all numbers 1 through 20', function () {
