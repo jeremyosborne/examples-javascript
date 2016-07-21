@@ -55,8 +55,7 @@ LargeInt.prototype.toString = function () {
   }, '')
 }
 LargeInt.toDigits = function (num) {
-  num = parseInt(num)
-  if (Number.isNaN(num)) {
+  if (Number.isNaN(parseInt(num))) {
     throw new Error('Must pass a number.')
   }
   var data = []
@@ -64,7 +63,7 @@ LargeInt.toDigits = function (num) {
   var numstr = num.toString()
   // little endian
   for (var i = 0; i < numstr.length; i++) {
-    data.unshift(parseInt(numstr[i]))
+    data.unshift(parseInt(numstr[i], 10))
   }
   return data
 }
