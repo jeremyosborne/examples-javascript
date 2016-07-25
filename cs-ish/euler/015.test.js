@@ -6,6 +6,6 @@ describe('Project Euler Problem 15: Lattice Paths', function () {
   it('returns the correct number', function () {
     assert.strictEqual(solution(2), 6)
 
-    // assert.strictEqual(solution(20), 137846528820)
+    assert.strictEqual(solution(20), 137846528820)
   })
 })
