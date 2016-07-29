@@ -37,6 +37,10 @@ LargeInt.prototype.mul = function (num) {
   this.data = LargeInt.mul(this.data, rh)
   return this
 }
+LargeInt.prototype.gt = function (num) {
+  var rh = LargeInt.toDigits(num)
+  return LargeInt.gt(this.data, rh)
+}
 // Best approximation of the numeric value.
 LargeInt.prototype.val = function () {
   return this.data.reduce(function (p, c, i) {
@@ -118,6 +122,23 @@ LargeInt.mul = function (lh, rh) {
     result = LargeInt.add(result, intermediateResult)
   }
   return result
+}
+LargeInt.gt = function (lh, rh) {
+  if (lh.length > rh.length) {
+    return true
+  } else if (rh.length > lh.length) {
+    return false
+  } else {
+    for (var i = rh.length; i >= 0; i--) {
+      if (lh[i] === rh[i]) {
+        continue
+      } else if (lh[i] > rh[i]) {
+        return true
+      } else {
+        return false
+      }
+    }
+  }
 }
 LargeInt.create = function (num) {
   if (!Array.isArray(num)) {

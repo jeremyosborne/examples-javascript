@@ -36,4 +36,11 @@ describe('largeInt works', function () {
     var out = i.mul(99).val()
     assert(out === 9801)
   })
+
+  it('can greater than', function () {
+    var i = LargeInt.create(99)
+    assert(i.gt(98))
+    assert(!i.gt(99))
+    assert(!i.gt(100))
+  })
 })
