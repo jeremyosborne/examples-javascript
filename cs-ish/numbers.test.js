@@ -43,4 +43,11 @@ describe('largeInt works', function () {
     assert(!i.gt(99))
     assert(!i.gt(100))
   })
+
+  it('can less than', function () {
+    var i = LargeInt.create(99)
+    assert(!i.lt(98))
+    assert(!i.lt(99))
+    assert(i.lt(100))
+  })
 })
