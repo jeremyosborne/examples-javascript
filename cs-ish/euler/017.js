@@ -74,5 +74,3 @@ module.exports = function (size) {
   }
   return count
 }
-
-console.log(numberToLetters(1000))
