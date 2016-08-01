@@ -37,6 +37,10 @@ LargeInt.prototype.mul = function (num) {
   this.data = LargeInt.mul(this.data, rh)
   return this
 }
+LargeInt.prototype.eq = function (num) {
+  var rh = LargeInt.toDigits(num)
+  return LargeInt.eq(this.data, rh)
+}
 LargeInt.prototype.gt = function (num) {
   var rh = LargeInt.toDigits(num)
   return LargeInt.gt(this.data, rh)
@@ -126,6 +130,17 @@ LargeInt.mul = function (lh, rh) {
     result = LargeInt.add(result, intermediateResult)
   }
   return result
+}
+LargeInt.eq = function (lh, rh) {
+  if (lh.length !== rh.length) {
+    return false
+  }
+  for (var i = 0; i < lh.length; i++) {
+    if (lh[i] !== rh[i]) {
+      return false
+    }
+  }
+  return true
 }
 LargeInt.gt = function (lh, rh) {
   if (lh.length > rh.length) {

@@ -37,6 +37,13 @@ describe('largeInt works', function () {
     assert(out === 9801)
   })
 
+  it('can equal (even though it can\'t even)', function () {
+    var i = LargeInt.create(99)
+    assert(!i.eq(98))
+    assert(i.eq(99))
+    assert(!i.eq(100))
+  })
+
   it('can greater than', function () {
     var i = LargeInt.create(99)
     assert(i.gt(98))
