@@ -1,0 +1,8 @@
+{
+  "name": "simulacrum",
+  "version": "0.0.1",
+  "description": "a simulator",
+  "main": "main.js",
+  "author": "Jeremy Osborne <jeremywosborne@gmail.com>",
+  "license": "MIT"
+}
