@@ -6,7 +6,7 @@
 // Find the sum of all the primes below two million.
 //
 
-var isPrime = require('./is-prime')
+var isPrime = require('../is-prime')
 
 module.exports = function (limit) {
   var total = 0

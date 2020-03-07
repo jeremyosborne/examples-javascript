@@ -5,7 +5,7 @@
 // What is the 10,001st prime number?
 //
 
-var isPrime = require('./is-prime')
+var isPrime = require('../is-prime')
 
 module.exports = function (limit) {
   var counter = 2
